@@ -11,6 +11,7 @@ Importer les composants de la route
 Définition des routes
 */
     router.get('/me', ensureLoggedIn, (req, res) => {
+        console.log(req.user)
       res.render('profile', { user: req.user });
     });
 

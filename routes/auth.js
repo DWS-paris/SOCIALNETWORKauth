@@ -119,7 +119,8 @@ Définition des routes
     router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
     // Validation de la connexion Facebbook
-    router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/connexion' }), (req, res) =>{
+    router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }), (req, res) =>{
+        console.log(res.body)
         res.redirect('/user/me');
     });
 //

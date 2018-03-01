@@ -10,12 +10,12 @@ Définition des routes
 */
     router.get( '/', (req, res) => {
         // Envoyer la vue index
-        res.render('index', { user: req.user });
+        res.render('index');
     });
 
     router.get( '/login', (req, res) => {
         // Envoyer la vue index
-        res.render('index', { user: req.user });
+        res.render('index');
     });
 //
 
