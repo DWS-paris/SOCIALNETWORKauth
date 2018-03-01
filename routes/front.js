@@ -10,7 +10,6 @@ Définition des routes
 */
     router.get( '/', (req, res) => {
         // Envoyer la vue index
-        console.log(`INDEX user : `, req.user)
         res.render('index', { user: req.user });
     });
 

@@ -27,18 +27,13 @@ Configuration du serveur
   const port = process.env.PORT;
   const dbHost = process.env.MONGO_HOST;
 
-
   // Définition du dossier static
   server.set( 'views', __dirname + '/www-ejs' );
   server.use( express.static(path.join(__dirname, 'www-ejs')) );
 
   // Définition du moteur de rendu
   // server.engine('html', require('ejs').renderFile);
-  server.set('view engine', 'ejs');
-
-  // Connexion à MongoDB
-  // Base de données
-  
+  server.set('view engine', 'ejs');  
 
   // Configuration des middleware
   server.use(cookieParser());
@@ -46,7 +41,6 @@ Configuration du serveur
   server.use(expressSession({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
   server.use(passport.initialize());
   server.use(passport.session());
-
 
   // Définition des routes
   server.use('/', frontRoute);

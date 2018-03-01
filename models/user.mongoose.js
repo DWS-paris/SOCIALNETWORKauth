@@ -2,6 +2,7 @@
 Import du composant Mongoose
 */
 const mongoose = require('mongoose');  
+
 // 
 
 /*
@@ -13,7 +14,7 @@ Création du model
     lastName: String,
     email: String,
     password: String,
-    description: String,
+    gender: String,
     type: String
   });
 
