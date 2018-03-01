@@ -19,9 +19,7 @@ Configuration Passport
             clientSecret: process.env.CLIENT_SECRET,
             callbackURL: process.env.CLIENT_CB_URL,
             // profileFields: ['id', 'displayName', 'photos', 'email']
-            profileFields: [
-                'email','gender','hometown','about','languages','location','work','website','religion','sports','inspirational_people','name','relationship_status','interested_in','public_key'
-            ]
+            profileFields: [ 'email','name', 'gender' ]
 
         }, (accessToken, refreshToken, profile, cb) => {
             console.log(`User FB Token`, accessToken)
