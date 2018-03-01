@@ -6,6 +6,7 @@ Import des composants du serveur
   const passport = require('passport');
   const path = require('path');
   const dotenv = require('dotenv').config();
+  const mongoose = require('mongoose');
 
   // Modules
   const frontRoute = require('./routes/front');
@@ -24,6 +25,8 @@ Configuration du serveur
   // Création du serveur Express
   const server = express();
   const port = process.env.PORT;
+  const dbHost = process.env.MONGO_HOST;
+
 
   // Définition du dossier static
   server.set( 'views', __dirname + '/www-ejs' );
@@ -32,6 +35,10 @@ Configuration du serveur
   // Définition du moteur de rendu
   // server.engine('html', require('ejs').renderFile);
   server.set('view engine', 'ejs');
+
+  // Connexion à MongoDB
+  // Base de données
+  
 
   // Configuration des middleware
   server.use(cookieParser());
@@ -50,7 +57,14 @@ Configuration du serveur
 
 
 /*
-Lancer le serveur
+Activer le serveur
 */ 
-  server.listen( port, () => console.log(`Le serveur est lancé sur le port ${port}`) );
+  // Connecter la base MongoDB
+  mongoose.connect(dbHost, () => {
+    console.log(`MongoDB connecté à l'adresse ${dbHost}`)
+
+    // Lancer le serveur
+    server.listen( port, () => console.log(`Serveur lancé sur le port ${port}`) );
+  });
+  
 //
