@@ -1,12 +1,14 @@
 # Mac OS X
 .DS_Store
 
-# Node.js
+# Node
 node_modules/
-npm-debug.log
+.log
 .env
 
-# For Angular
-ANGclient
+# Angular
+ANGclient/
 www
+
+# MongoDB
 data

@@ -1,7 +1,7 @@
-<p>
-ID: <%= user.id %><br/>
-Username: <%= user.displayName %><br/>
-<% if (user.emails) { %>
-Email: <%= user.emails[0].value %><br/>
-<% } %>
-</p>
+<ul>
+    <li><b>Prénom : </b> <%= user._json.first_name %></li>
+    <li><b>Nom : </b> <%= user._json.last_name %></li>
+    <li><b>Genre : </b> <%= user._json.gender %></li>
+    <li><b>Email :</b> <a href="mailto:<%= user._json.email %>"><%= user._json.email %></a></li>
+    <li><b>Facebook ID : </b> <a href="https://www.facebook.com/<%= user._json.id %>" target="_blank"><%= user._json.id %></a></li>
+</ul>
