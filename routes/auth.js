@@ -31,19 +31,9 @@ Configuration Passport
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
             callbackURL: process.env.CLIENT_CB_URL,
-            // profileFields: ['id', 'displayName', 'photos', 'email']
             profileFields: [ 'email','name', 'gender' ]
 
-        }, (accessToken, refreshToken, profile, cb) => {
-            console.log(`User FB Token`, accessToken)
-            console.log(`User FB profil`, profile)
-            console.log(profile._json.email)
-            // In this example, the user's Facebook profile is supplied as the user
-            // record.  In a production-quality application, the Facebook profile should
-            // be associated with a user record in the application's database, which
-            // allows for account linking and authentication with other identity
-            // providers.
-            
+        }, (facbookAccessToken, refreshToken, profile, cb) => {
 
             // Recherche de l'utilisateur
             MongooseUser.findOne({ email: profile._json.email },  (err, mongodbUser) => {
@@ -58,7 +48,7 @@ Configuration Passport
                     // Message d'erreur
                     if (!passwordIsValid){
                         console.log('bad pass')
-                        return cb(null, profile);
+                        return cb(null, mongodbUser);
                     }
 
                     // Création du token
@@ -67,8 +57,7 @@ Configuration Passport
                     });
 
                     // Envoie de la réponse
-                    console.log('user app Token : ', userToken)
-                    return cb(null, profile);
+                    return cb(null, mongodbUser);
 
                 } 
                 
@@ -85,22 +74,23 @@ Configuration Passport
                         email : profile._json.email,
                         password : hashedPassword,
                         gender : profile._json.gender,
-                        type : "USERfb"
+                        type : "USERfb",
+                        tokenFb : facbookAccessToken,
+                        facebookId: profile._json.id
                     },
 
                     // Fonction de callback
-                    (err, user) => {
+                    (err, mongodbUser) => {
                         // Message d'erreur
                         if (err) { console.log(`Problème de requête`) }
                         
                         // Création du token
-                        const userToken = jwt.sign({ id: user._id }, secretTokenCode, {
+                        const userToken = jwt.sign({ id: mongodbUser._id }, secretTokenCode, {
                             expiresIn: 86400 // expires in 24 hours
                         });
 
                         // Envoie de la réponse
-                        console.log('user app Token : ', userToken)
-                        return cb(null, profile);
+                        return cb(null, mongodbUser);
                     });
                     
                 }

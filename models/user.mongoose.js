@@ -15,7 +15,9 @@ Création du model
     email: String,
     password: String,
     gender: String,
-    type: String
+    type: String,
+    tokenFb: String,
+    facebookId: Number
   });
 
   // Création du model Mongoose
