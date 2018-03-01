@@ -6,7 +6,6 @@ Import des composants du serveur
   const passport = require('passport');
   const path = require('path');
   const dotenv = require('dotenv').config();
-  const cors = require('cors')
 
   // Modules
   const frontRoute = require('./routes/front');
@@ -22,16 +21,6 @@ Configuration du serveur
   // Création du serveur Express
   var app = express();
   const port = process.env.PORT;
-
-  // Configuration des CORS
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
 
   // Définition du dossier static
   app.set( 'views', __dirname + '/www-ejs' );

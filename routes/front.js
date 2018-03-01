@@ -14,9 +14,9 @@ Définition des routes
         res.render('index', { user: req.user });
     });
 
-    router.get( '/connexion', (req, res) => {
+    router.get( '/login', (req, res) => {
         // Envoyer la vue index
-        res.render('login', { user: req.user });
+        res.render('index', { user: req.user });
     });
 //
 
