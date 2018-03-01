@@ -12,7 +12,7 @@ Définition des routes
 */
     router.get('/me', ensureLoggedIn, (req, res) => {
         console.log(req.user)
-      res.render('profile', { user: req.user });
+      res.render('index', { user: req.user });
     });
 
     router.get('/logout', (req, res) => {
