@@ -17,7 +17,7 @@ Création du model
     gender: String,
     type: String,
     tokenFb: String,
-    facebookId: Number
+    facebookId: String
   });
 
   // Création du model Mongoose

@@ -35,15 +35,20 @@ Configuration Passport
 
         }, (facbookAccessToken, refreshToken, profile, cb) => {
 
+            // Récupération de l'ID Facebook
+            const userFacebookId = profile._json.id;
+
+            // Récupération de l'email Facebook
+            const userFacebookEmail = profile._json.email;
+
             // Recherche de l'utilisateur
-            MongooseUser.findOne({ email: profile._json.email },  (err, mongodbUser) => {
+            MongooseUser.findOne({ email: userFacebookEmail },  (err, mongodbUser) => {
 
                 // Vérification de la présence d'un utilisateur
                 if (mongodbUser){
-                    console.log('Login USER');
 
                     // Hashage du mot de passe
-                    const passwordIsValid = bcrypt.compareSync( profile._json.id, mongodbUser.password);
+                    const passwordIsValid = bcrypt.compareSync( userFacebookId, mongodbUser.password);
                     
                     // Message d'erreur
                     if (!passwordIsValid){
@@ -52,7 +57,7 @@ Configuration Passport
                     }
 
                     // Création du token
-                    const userToken = jwt.sign({ id: 'user._id' }, secretTokenCode, {
+                    const userToken = jwt.sign({ id: userFacebookId }, secretTokenCode, {
                         expiresIn: 86400 // expires in 24 hours
                     });
 
@@ -65,22 +70,23 @@ Configuration Passport
                     console.log('Register USER');
 
                     // Hashage du mot de passe
-                    const hashedPassword = bcrypt.hashSync(profile._json.id, 8);
+                    const hashedPassword = bcrypt.hashSync(userFacebookId, 8);
 
                     // Création de l'utilisateur
                     MongooseUser.create({
                         firstName : profile._json.first_name,
                         lastName : profile._json.last_name,
-                        email : profile._json.email,
+                        email : userFacebookEmail,
                         password : hashedPassword,
                         gender : profile._json.gender,
                         type : "USERfb",
                         tokenFb : facbookAccessToken,
-                        facebookId: profile._json.id
+                        facebookId: userFacebookId
                     },
 
                     // Fonction de callback
                     (err, mongodbUser) => {
+                        console.log(userFacebookId)
                         // Message d'erreur
                         if (err) { console.log(`Problème de requête`) }
                         
