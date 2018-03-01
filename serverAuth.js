@@ -28,12 +28,12 @@ Configuration du serveur
   const dbHost = process.env.MONGO_HOST;
 
   // Définition du dossier static
-  server.set( 'views', __dirname + '/www-ejs' );
-  server.use( express.static(path.join(__dirname, 'www-ejs')) );
+  server.set( 'views', __dirname + '/www' );
+  server.use( express.static(path.join(__dirname, 'www')) );
 
   // Définition du moteur de rendu
-  // server.engine('html', require('ejs').renderFile);
-  server.set('view engine', 'ejs');  
+  server.engine('html', require('ejs').renderFile);
+  server.set('view engine', 'html');  
 
   // Configuration des middleware
   server.use(cookieParser());

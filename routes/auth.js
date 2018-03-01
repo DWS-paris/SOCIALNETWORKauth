@@ -55,7 +55,7 @@ Configuration Passport
                         console.log('bad pass')
                         return cb(null, mongodbUser);
                     }
-
+                    console.log('User connected')
                     // Création du token
                     const userToken = jwt.sign({ id: userFacebookId }, secretTokenCode, {
                         expiresIn: 86400 // expires in 24 hours
@@ -120,7 +120,7 @@ Définition des routes
 
     // Validation de la connexion Facebbook
     router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/connexion' }), (req, res) =>{
-        res.redirect('/');
+        res.redirect('/user/me');
     });
 //
 
