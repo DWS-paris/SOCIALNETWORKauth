@@ -11,6 +11,9 @@ Import des composants du serveur
   const frontRoute = require('./routes/front');
   const authRoute = require('./routes/auth');
   const userRoute = require('./routes/user');
+  const bodyParser = require('body-parser');
+  const cookieParser = require('cookie-parser');
+  const expressSession = require('express-session');
 //
 
 
@@ -19,29 +22,29 @@ Import des composants du serveur
 Configuration du serveur
 */
   // Création du serveur Express
-  var app = express();
+  const server = express();
   const port = process.env.PORT;
 
   // Définition du dossier static
-  app.set( 'views', __dirname + '/www-ejs' );
-  app.use( express.static(path.join(__dirname, 'www-ejs')) );
+  server.set( 'views', __dirname + '/www-ejs' );
+  server.use( express.static(path.join(__dirname, 'www-ejs')) );
 
   // Définition du moteur de rendu
-  // app.engine('html', require('ejs').renderFile);
-  app.set('view engine', 'ejs');
+  // server.engine('html', require('ejs').renderFile);
+  server.set('view engine', 'ejs');
 
   // Configuration des middleware
-  app.use(require('cookie-parser')());
-  // app.use(require('body-parser').urlencoded({ extended: true }));
-  app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
-  app.use(passport.initialize());
-  app.use(passport.session());
+  server.use(cookieParser());
+  server.use(bodyParser.urlencoded({ extended: true }));
+  server.use(expressSession({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+  server.use(passport.initialize());
+  server.use(passport.session());
 
 
   // Définition des routes
-  app.use('/', frontRoute);
-  app.use('/auth', authRoute);
-  app.use('/user', userRoute);
+  server.use('/', frontRoute);
+  server.use('/auth', authRoute);
+  server.use('/user', userRoute);
 // 
 
 
@@ -49,5 +52,5 @@ Configuration du serveur
 /*
 Lancer le serveur
 */ 
-    app.listen( port, () => console.log(`Le serveur est lancé sur le port ${port}`) );
+  server.listen( port, () => console.log(`Le serveur est lancé sur le port ${port}`) );
 //
