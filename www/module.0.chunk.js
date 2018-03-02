@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -34,6 +34,7 @@ var DashboardComponent = /** @class */ (function () {
     function DashboardComponent(userService) {
         this.userService = userService;
         // Loader
+        this.hideLoader = false;
         this.loaderIsClose = true;
         this.loaderIsRight = false;
         this.sendUserData = new core_1.EventEmitter;
@@ -45,23 +46,15 @@ var DashboardComponent = /** @class */ (function () {
         // Récupération des données utilisateur
         this.userService.getUserInfo(userToken)
             .then(function (data) {
-            // Introduction
-            window.setTimeout(function () {
-                _this.loaderIsRight = true;
-                window.setTimeout(function () {
-                    _this.loaderIsClose = false;
-                    _this.loaderIsRight = false;
-                }, 300);
-            }, 300);
+            // Masquer le loader
+            _this.hideLoader = true;
             // Définition de l'objet singleUser
             _this.singleUser = data;
             _this.sendUserData.emit(_this.singleUser);
         })
             .catch(function (err) {
             // Introduction
-            window.setTimeout(function () {
-                _this.loaderIsRight = true;
-            }, 300);
+            _this.hideLoader = false;
             console.error(err);
         });
     };
@@ -111,6 +104,7 @@ var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
 var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
+var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
 // 
 /*
@@ -124,7 +118,7 @@ var DashboardModule = /** @class */ (function () {
     DashboardModule = __decorate([
         core_1.NgModule({
             declarations: [dashboard_component_1.DashboardComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule]
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
         })
         // Export
     ], DashboardModule);

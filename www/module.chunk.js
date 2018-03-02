@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n        <fieldset>\n            <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n            <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n        \n            <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n            <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n        \n            <button type=\"submit\">Connexion</button>\n            <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n        </fieldset>\n    \n    </form>\n</section>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
+module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n\n<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n        <fieldset>\n            <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n            <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n        \n            <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n            <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n        \n            <button type=\"submit\">Connexion</button>\n            <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n        </fieldset>\n    \n    </form>\n</section>"
 
 /***/ }),
 
@@ -39,6 +39,7 @@ var HomepageComponent = /** @class */ (function () {
         this.facebookService = facebookService;
         this.router = router;
         // Variables : Loader
+        this.hideLoader = false;
         this.loaderIsClose = true;
         this.loaderIsRight = false;
         // Variables : Login
@@ -85,7 +86,7 @@ var HomepageComponent = /** @class */ (function () {
                     _this.userObject.password = _this.userObject.facebook.id;
                     _this.userObject.type = "userFB";
                     // Afficher le loader
-                    _this.loaderIsClose = true;
+                    _this.hideLoader = false;
                     // Appeler la fonction du service pour connecter l'utilisateur
                     _this.userService.userFacebooConnect(_this.userObject)
                         .then(function (data) {
@@ -126,7 +127,7 @@ var HomepageComponent = /** @class */ (function () {
             if (_this.errorMsg.errors === 0) {
                 // => Formulaire validé
                 // Afficher le loader
-                _this.loaderIsClose = true;
+                _this.hideLoader = false;
                 _this.userService.userLogin(_this.userLoginObject).then(function (user) {
                     // Enregistrement du token
                     localStorage.setItem('MEANSOCIALtoken', user.token);
@@ -156,7 +157,7 @@ var HomepageComponent = /** @class */ (function () {
             _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
                 .then(function (data) {
                 // Afficher le loader
-                _this.loaderIsClose = true;
+                _this.hideLoader = false;
                 window.setTimeout(function () {
                     // Rédiriger l'utilisateur
                     _this.router.navigateByUrl("/dashboard");
@@ -176,16 +177,13 @@ var HomepageComponent = /** @class */ (function () {
     }
     HomepageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // Introduction
+        // Masquer le loader
         window.setTimeout(function () {
-            _this.loaderIsRight = true;
+            _this.hideLoader = true;
             window.setTimeout(function () {
-                _this.loaderIsClose = false;
-                _this.loaderIsRight = false;
-                // Vérifier si l'utilisateur est connecté
                 _this.checkUser();
-            }, 300);
-        }, 1000);
+            }, 600);
+        }, 600);
     };
     HomepageComponent = __decorate([
         core_1.Component({
@@ -231,6 +229,7 @@ var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
 var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
+var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/homepage/route.ts");
 // 
 /*
@@ -244,7 +243,7 @@ var HomepageModule = /** @class */ (function () {
     HomepageModule = __decorate([
         core_1.NgModule({
             declarations: [homepage_component_1.HomepageComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule]
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
         })
         // Export
     ], HomepageModule);

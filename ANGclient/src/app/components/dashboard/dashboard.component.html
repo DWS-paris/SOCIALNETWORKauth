@@ -1,4 +1,4 @@
-<aside id="loader" [ngClass]="{  open: loaderIsClose, right: loaderIsRight }"></aside>
+<app-loader [hideLoader]="hideLoader"></app-loader>
 
 <section *ngIf="singleUser" id="userHeader">
     <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>

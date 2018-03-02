@@ -24,6 +24,7 @@ Export du composant
   export class DashboardComponent implements OnInit {
 
     // Loader
+    public hideLoader: boolean = false;
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
 
@@ -42,14 +43,8 @@ Export du composant
       this.userService.getUserInfo(userToken)
       .then( data => { // Success getUserInfo()
 
-        // Introduction
-        window.setTimeout(()=>{
-          this.loaderIsRight = true;
-          window.setTimeout(()=>{
-            this.loaderIsClose = false;
-            this.loaderIsRight = false;
-          }, 300);
-        }, 300);
+        // Masquer le loader
+        this.hideLoader = true;
 
         // Définition de l'objet singleUser
         this.singleUser = data;
@@ -58,9 +53,7 @@ Export du composant
       
       .catch( err  => { // Error getUserInfo()
         // Introduction
-        window.setTimeout(()=>{
-          this.loaderIsRight = true;
-        }, 300);
+        this.hideLoader = false;
         
         console.error(err)
       })
