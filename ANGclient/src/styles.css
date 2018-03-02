@@ -32,6 +32,12 @@ Reset
         font-size: 1.5rem;
     }
 
+    main{
+        max-width: 90rem;
+        margin: auto;
+        padding: 1.5rem 2rem;
+    }
+
     a{
         text-decoration: none;
         color: inherit;
@@ -149,6 +155,19 @@ Style Header
 
     header section nav li{
         padding-left: 1rem;
+    }
+
+    #userHeader {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        color: var(--color-orange-light);
+        border-bottom: .1rem dotted var(--color-orange-light);
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    #userHeader strong{
+        color: black;
     }
 /**/
 

@@ -3,7 +3,10 @@ Configuration du composants
 */
   // Import des interfaces
   import { Component, OnInit } from '@angular/core';
+
+  // Modules
   import { UserService } from '../../services/user/user.service';
+  import { UserModel } from '../../models/user.model';
 
   // Définition du composant
   @Component({
@@ -24,14 +27,19 @@ Export du composant
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
 
+    // VAriables
+    public singleUSer: UserModel;
+
     constructor(private userService: UserService) { }
 
     ngOnInit() {
 
-      // Récuopération des données utilisateur
+      // Récupération du token utilisateur
       const userToken = localStorage.getItem('MEANSOCIALtoken');
+
+      // Récupération des données utilisateur
       this.userService.getUserInfo(userToken)
-      .then( data => {
+      .then( data => { // Success getUserInfo()
 
         // Introduction
         window.setTimeout(()=>{
@@ -42,10 +50,11 @@ Export du composant
           }, 300);
         }, 300);
 
-        console.log(data)
+        // Définition de l'objet singleUSer
+        this.singleUSer = data;
       })
-      // Error : problème serveur
-      .catch( err  => {
+      
+      .catch( err  => { // Error getUserInfo()
         // Introduction
         window.setTimeout(()=>{
           this.loaderIsRight = true;

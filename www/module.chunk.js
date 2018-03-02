@@ -114,7 +114,7 @@ var HomepageComponent = /** @class */ (function () {
                 _this.loaderIsClose = false;
                 _this.loaderIsRight = false;
             }, 300);
-        }, 300);
+        }, 1000);
     };
     HomepageComponent = __decorate([
         core_1.Component({

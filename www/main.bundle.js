@@ -187,7 +187,7 @@ exports.FooterComponent = FooterComponent;
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n        <nav>\n            <ul>\n                <li><a href=\"#\">Dashboard</a></li>\n            </ul>\n        </nav>\n    </section>\n</header>"
+module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n        <nav>\n            <ul>\n                <li><a routerLink=\"/dashboard\"><i class=\"fas fa-home\"></i></a></li>\n            </ul>\n        </nav>\n    </section>\n</header>"
 
 /***/ }),
 

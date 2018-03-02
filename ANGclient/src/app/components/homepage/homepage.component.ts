@@ -121,7 +121,7 @@ Export du composant
           this.loaderIsClose = false;
           this.loaderIsRight = false;
         }, 300);
-      }, 300);
+      }, 1000);
     }
 
   }

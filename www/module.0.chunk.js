@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
+module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>\n\n<section *ngIf=\"singleUSer\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUSer.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -27,6 +27,7 @@ Configuration du composants
 */
 // Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+// Modules
 var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
 // Définition du composant
 var DashboardComponent = /** @class */ (function () {
@@ -38,8 +39,9 @@ var DashboardComponent = /** @class */ (function () {
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // Récuopération des données utilisateur
+        // Récupération du token utilisateur
         var userToken = localStorage.getItem('MEANSOCIALtoken');
+        // Récupération des données utilisateur
         this.userService.getUserInfo(userToken)
             .then(function (data) {
             // Introduction
@@ -50,7 +52,8 @@ var DashboardComponent = /** @class */ (function () {
                     _this.loaderIsRight = false;
                 }, 300);
             }, 300);
-            console.log(data);
+            // Définition de l'objet singleUSer
+            _this.singleUSer = data;
         })
             .catch(function (err) {
             // Introduction
