@@ -1,4 +1,7 @@
 <app-loader [hideLoader]="hideLoader"></app-loader>
+<header>
+    <app-header></app-header>
+</header>
 
 <section *ngIf="singleUser" id="userHeader">
     <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>

@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n<header>\n    <app-header></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -104,7 +104,8 @@ var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
 var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
-var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
+var module_1 = __webpack_require__("../../../../../src/app/partials/header/module.ts");
+var module_2 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
 // 
 /*
@@ -118,7 +119,7 @@ var DashboardModule = /** @class */ (function () {
     DashboardModule = __decorate([
         core_1.NgModule({
             declarations: [dashboard_component_1.DashboardComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.HeaderModule, module_2.LoaderModule]
         })
         // Export
     ], DashboardModule);
@@ -149,6 +150,91 @@ var appRoutes = [
 ];
 // Exporter une autre constante pour utiliser les routes
 exports.Routing = router_1.RouterModule.forChild(appRoutes);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/header.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section>\n    <h1>HeyU</h1>\n</section>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/header.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var HeaderComponent = /** @class */ (function () {
+    function HeaderComponent() {
+    }
+    HeaderComponent.prototype.ngOnInit = function () {
+    };
+    HeaderComponent = __decorate([
+        core_1.Component({
+            selector: 'app-header',
+            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html"),
+            styles: []
+        }),
+        __metadata("design:paramtypes", [])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+exports.HeaderComponent = HeaderComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/module.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
+// 
+/*
+Définition et export du module
+*/
+// Définition
+var HeaderModule = /** @class */ (function () {
+    // Export
+    function HeaderModule() {
+    }
+    HeaderModule = __decorate([
+        core_1.NgModule({
+            declarations: [header_component_1.HeaderComponent],
+            exports: [header_component_1.HeaderComponent]
+        })
+        // Export
+    ], HeaderModule);
+    return HeaderModule;
+}());
+exports.HeaderModule = HeaderModule;
+;
+//  
 
 
 /***/ })

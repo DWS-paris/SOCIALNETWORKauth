@@ -6,8 +6,8 @@ webpackJsonp(["main"],{
 var map = {
 	"./components/dashboard/module": [
 		"../../../../../src/app/components/dashboard/module.ts",
-		"common",
-		"module.0"
+		"module.0",
+		"common"
 	],
 	"./components/homepage/module": [
 		"../../../../../src/app/components/homepage/module.ts",
@@ -46,21 +46,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.isOpen = false;
     }
-    AppComponent.prototype.onDeactivate = function (evt) {
-        console.log('onActivate', evt);
-    };
-    AppComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        window.setTimeout(function () {
-            _this.isOpen = true;
-        }, 500);
-    };
+    AppComponent.prototype.ngOnInit = function () { };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    <app-header [ngClass]=\"{open: isOpen}\"></app-header>\n    <main class=\"container\">\n      <router-outlet (sendUserData)='onDeactivate($event)'></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
+            template: "\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
         })
     ], AppComponent);
     return AppComponent;
@@ -88,7 +79,6 @@ var http_1 = __webpack_require__("../../../http/esm5/http.js");
 var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
 var app_component_1 = __webpack_require__("../../../../../src/app/app.component.ts");
 var app_routes_1 = __webpack_require__("../../../../../src/app/app.routes.ts");
-var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
 var footer_component_1 = __webpack_require__("../../../../../src/app/partials/footer/footer.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -97,8 +87,7 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                footer_component_1.FooterComponent,
-                header_component_1.HeaderComponent
+                footer_component_1.FooterComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -183,49 +172,6 @@ var FooterComponent = /** @class */ (function () {
     return FooterComponent;
 }());
 exports.FooterComponent = FooterComponent;
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/header/header.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n    </section>\n</header>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/header/header.component.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
-    }
-    HeaderComponent.prototype.ngOnInit = function () {
-    };
-    HeaderComponent = __decorate([
-        core_1.Component({
-            selector: 'app-header',
-            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html"),
-            styles: []
-        }),
-        __metadata("design:paramtypes", [])
-    ], HeaderComponent);
-    return HeaderComponent;
-}());
-exports.HeaderComponent = HeaderComponent;
 
 
 /***/ }),

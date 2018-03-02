@@ -2,18 +2,23 @@
 Configuration du composants
 */
   import { NgModule } from '@angular/core';
-  import { HeaderComponent } from './header.component'
-// 
+  import { CommonModule } from '@angular/common';
+  import { HeaderComponent } from './header.component';
+
+  // Configuration du module
+  @NgModule({
+    declarations: [
+      HeaderComponent,
+    ],
+    imports: [ CommonModule ],
+    exports: [
+      HeaderComponent
+    ]
+  })
+//
 
 /*
-Définition et export du module
+Export de la class du module
 */
-  // Définition
-  @NgModule({
-    declarations: [ HeaderComponent ],
-    exports: [ HeaderComponent ]
-  })
-
-  // Export
-  export class HeaderModule { };
-// 
+  export class HeaderModule {}
+//

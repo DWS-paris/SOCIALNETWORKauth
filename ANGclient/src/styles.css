@@ -75,6 +75,7 @@ Style Loader
 */
     #loader{
         position: fixed;
+        z-index: 1000;
         top: 0;
         left: 0;
         width: 0vw;
@@ -165,21 +166,18 @@ Style Formulaire
 /* 
 Style Header
 */
-    app-header header{
+    header{
         position: fixed;
-        top: -10rem;
+        top: 0;
         left: 0;
         width: 100%;
+        z-index: 100;
 
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
         background: var(--color-orange-dark); /* Old browsers */
         background: -moz-linear-gradient(top, var(--color-orange-dark) 0%, var(--color-orange-middle) 44%, var(--color-orange-light) 100%); /* FF3.6-15 */
         background: -webkit-linear-gradient(top, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* Chrome10-25,Safari5.1-6 */
         background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    }
-
-    app-header.open header{
-        top: 0;
     }
 
     header section, header section nav ul{

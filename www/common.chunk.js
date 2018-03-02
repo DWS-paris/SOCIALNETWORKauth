@@ -75,10 +75,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var loader_component_1 = __webpack_require__("../../../../../src/app/partials/loader/loader.component.ts");
+// Configuration du module
 var LoaderModule = /** @class */ (function () {
+    //
+    /*
+    Export de la class du module
+    */
     function LoaderModule() {
     }
     LoaderModule = __decorate([
@@ -91,10 +99,15 @@ var LoaderModule = /** @class */ (function () {
                 loader_component_1.LoaderComponent
             ]
         })
+        //
+        /*
+        Export de la class du module
+        */
     ], LoaderModule);
     return LoaderModule;
 }());
 exports.LoaderModule = LoaderModule;
+// 
 
 
 /***/ }),
