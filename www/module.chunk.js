@@ -27,29 +27,55 @@ Configuration du composants
 */
 // Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
 // Import des modules
 var auth_service_1 = __webpack_require__("../../../../../src/app/services/auth/auth.service.ts");
-var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
 // Définition du composant
 var HomepageComponent = /** @class */ (function () {
     function HomepageComponent(myService, fb) {
         var _this = this;
         this.myService = myService;
         this.fb = fb;
+        // Initialisation de l'objet utilisateur
+        this.userObject = {
+            name: null,
+            email: null,
+            password: null,
+            gender: null,
+            type: null,
+            facebook: {
+                token: null,
+                id: null
+            }
+        };
         // Connecter l'utilisateur à Facebook
         this.submitFacebookConnect = function () {
+            // Connecter l'utilisateur à Facebook
             _this.fb.login()
-                .then(function (response) {
-                console.log(response);
-                _this.fb.api('me?fields=id,name,birthday,email')
-                    .then(function (reponse) {
-                    console.log(reponse);
-                })
-                    .catch(function (err) {
-                    console.error(err);
-                });
+                .catch(function (error) {
+                console.error(error);
             })
-                .catch(function (error) { return console.error(error); });
+                .then(function (response) {
+                // Définition des données Facebook utilisateur
+                _this.userObject.facebook.token = response.authResponse.accessToken;
+                _this.userObject.facebook.id = response.authResponse.userID;
+                // Récupérer les information utilisateur 
+                _this.fb.api('me?fields=id,name,birthday,email, gender')
+                    .catch(function (error) {
+                    console.error(error);
+                })
+                    .then(function (response) {
+                    // Définition des données Personnelles utilisateur
+                    _this.userObject.name = response.name;
+                    _this.userObject.email = response.email;
+                    _this.userObject.gender = response.gender;
+                    _this.userObject.password = _this.userObject.facebook.id;
+                    _this.userObject.type = "userFB";
+                })
+                    .then(function () {
+                    console.log(_this.userObject);
+                });
+            });
         };
         // Cnfiguration du module Facebook
         var initParams = {
@@ -60,8 +86,7 @@ var HomepageComponent = /** @class */ (function () {
         // Initialisation du module Facebook
         fb.init(initParams);
     }
-    HomepageComponent.prototype.ngOnInit = function () {
-    };
+    HomepageComponent.prototype.ngOnInit = function () { };
     HomepageComponent = __decorate([
         core_1.Component({
             selector: 'app-homepage',

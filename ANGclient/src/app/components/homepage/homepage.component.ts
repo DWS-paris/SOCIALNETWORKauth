@@ -3,11 +3,11 @@ Configuration du composants
 */
   // Import des interfaces
   import { Component, OnInit } from '@angular/core';
+  import { FacebookService, LoginOptions, AuthResponse, LoginResponse, InitParams } from 'ngx-facebook';
+  
   // Import des modules
   import { AuthService } from '../../services/auth/auth.service';
-
-  import { FacebookService, LoginOptions, AuthResponse, LoginResponse, InitParams } from 'ngx-facebook';
-
+  import { UserModel } from '../../models/user.model';
 
   // Définition du composant
   @Component({
@@ -24,7 +24,20 @@ Export du composant
 */
   export class HomepageComponent implements OnInit {
 
-    constructor( private myService: AuthService, private fb: FacebookService ) {
+    // Initialisation de l'objet utilisateur
+    private userObject : UserModel = {
+      name: null,
+      email: null,
+      password: null,
+      gender: null,
+      type: null,
+      facebook: {
+        token: null,
+        id: null
+      }
+    }
+
+    constructor( private myService: AuthService, private fb: FacebookService) {
       // Cnfiguration du module Facebook
       const initParams: InitParams = {
         appId: '183483015710927',
@@ -33,30 +46,48 @@ Export du composant
       };
       
       // Initialisation du module Facebook
-      fb.init(initParams);
+      fb.init(initParams);       
     }
 
     // Connecter l'utilisateur à Facebook
     public submitFacebookConnect = () => {
       
+      // Connecter l'utilisateur à Facebook
       this.fb.login()
-      .then((response: LoginResponse) =>{
-         console.log(response)
-         this.fb.api('me?fields=id,name,birthday,email')
-         .then( reponse => {
-           console.log(reponse)
-         })
-         .catch( err => {
-          console.error(err)
-        })
-
+      // Tester le requête
+      .catch((error: any) => {
+        console.error(error)
       })
-      .catch((error: any) => console.error(error));
+
+      // Traitement du success
+      .then((response: LoginResponse) =>{
+        // Définition des données Facebook utilisateur
+        this.userObject.facebook.token = response.authResponse.accessToken;
+        this.userObject.facebook.id = response.authResponse.userID;
+
+        // Récupérer les information utilisateur 
+        this.fb.api('me?fields=id,name,birthday,email, gender')
+        // Tester le requête
+        .catch((error: any) => {
+          console.error(error)
+        })
+        // Traitement du success
+        .then( response => {
+          // Définition des données Personnelles utilisateur
+          this.userObject.name = response.name
+          this.userObject.email = response.email
+          this.userObject.gender = response.gender
+          this.userObject.password = this.userObject.facebook.id
+          this.userObject.type = `userFB`
+        })
+        // Vérification des données utilisateur
+        .then( () => {
+          console.log(this.userObject)
+        } )
+      })
     }
 
-    ngOnInit() {
-      
-    }
+    ngOnInit() {}
 
   }
 //

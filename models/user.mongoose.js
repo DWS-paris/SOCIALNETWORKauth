@@ -10,14 +10,15 @@ Création du model
 */
   // Création du Schema
   const UserSchema = new mongoose.Schema({  
-    firstName: String,
-    lastName: String,
+    name: String,
     email: String,
     password: String,
     gender: String,
     type: String,
-    tokenFb: String,
-    facebookId: String
+    facebook: {
+      token: String,
+      id: String
+    }
   });
 
   // Création du model Mongoose
