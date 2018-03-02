@@ -51,7 +51,7 @@ var AppComponent = /** @class */ (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n  ",
+            template: "\n    <app-header></app-header>\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
         })
     ], AppComponent);
     return AppComponent;
@@ -79,13 +79,17 @@ var http_1 = __webpack_require__("../../../http/esm5/http.js");
 var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
 var app_component_1 = __webpack_require__("../../../../../src/app/app.component.ts");
 var app_routes_1 = __webpack_require__("../../../../../src/app/app.routes.ts");
+var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
+var footer_component_1 = __webpack_require__("../../../../../src/app/partials/footer/footer.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             declarations: [
-                app_component_1.AppComponent
+                app_component_1.AppComponent,
+                header_component_1.HeaderComponent,
+                footer_component_1.FooterComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule, http_1.HttpModule, ngx_facebook_1.FacebookModule.forRoot(), app_routes_1.Routing
@@ -124,6 +128,92 @@ var appRoutes = [
 ];
 // Exporter une autre constante pour utiliser les routes
 exports.Routing = router_1.RouterModule.forRoot(appRoutes);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/footer/footer.component.html":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/footer/footer.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var FooterComponent = /** @class */ (function () {
+    function FooterComponent() {
+    }
+    FooterComponent.prototype.ngOnInit = function () {
+    };
+    FooterComponent = __decorate([
+        core_1.Component({
+            selector: 'app-footer',
+            template: __webpack_require__("../../../../../src/app/partials/footer/footer.component.html"),
+            styles: []
+        }),
+        __metadata("design:paramtypes", [])
+    ], FooterComponent);
+    return FooterComponent;
+}());
+exports.FooterComponent = FooterComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/header.component.html":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/header.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var HeaderComponent = /** @class */ (function () {
+    function HeaderComponent() {
+    }
+    HeaderComponent.prototype.ngOnInit = function () {
+    };
+    HeaderComponent = __decorate([
+        core_1.Component({
+            selector: 'app-header',
+            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html"),
+            styles: []
+        }),
+        __metadata("design:paramtypes", [])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+exports.HeaderComponent = HeaderComponent;
 
 
 /***/ }),

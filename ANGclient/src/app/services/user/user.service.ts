@@ -22,14 +22,14 @@ Définition et export du service
     private apiUrl: string = '/user'
 
     // Créer une fonction pour connecter l'utilistateur
-    public userRegister(userData: UserModel): Promise<any>{
+    public userFacebooConnect(userData: UserModel): Promise<any>{
       // Définition du header de la requête
       let myHeader = new Headers();
       myHeader.append('Content-Type', 'application/json');
 
       console.log(userData)
 
-      return this.http.post(`${this.apiUrl}/connect`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+      return this.http.post(`${this.apiUrl}/login`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
 
 

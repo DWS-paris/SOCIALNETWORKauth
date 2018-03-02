@@ -17,7 +17,8 @@ Création du model
     type: String,
     facebook: {
       token: String,
-      id: String
+      id: String,
+      avatar: String
     }
   });
 

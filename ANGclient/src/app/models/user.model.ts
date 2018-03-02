@@ -7,6 +7,7 @@ export interface UserModel {
     type: string,
     facebook: {
         token: string,
-        id: string
+        id: string,
+        avatar: string
     }
 };

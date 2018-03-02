@@ -33,13 +33,12 @@ Export du composant
       type: null,
       facebook: {
         token: null,
-        id: null
+        id: null,
+        avatar: null
       }
     }
 
-    constructor( 
-      private userService: UserService, 
-      private facebookService: FacebookService) {
+    constructor( private userService: UserService, private facebookService: FacebookService) {
       // Configuration du module Facebook
       const initParams: InitParams = {
         appId: '183483015710927',
@@ -54,45 +53,48 @@ Export du composant
     // Connecter l'utilisateur à Facebook
     public submitFacebookConnect = () => {
       
-      // Connecter l'utilisateur à Facebook
+      // Connecter l'utilisateur sur Facebook
       this.facebookService.login()
-      // Tester le requête
-      .catch((error: any) => {
-        console.error(error)
+
+        // Capter le success de la requête : Facebook Login
+        .then((response: LoginResponse) =>{
+          // Définition des données Facebook utilisateur
+          this.userObject.facebook.token = response.authResponse.accessToken;
+          this.userObject.facebook.id = response.authResponse.userID;
+
+          // Récupérer les informations utilisateur sur Facebook
+          this.facebookService.api('me?fields=id,name,birthday,email, gender, picture')
+            // Capter le success de la requête : Facebook API
+            .then( response => {
+              // Définition des données Personnelles utilisateur
+              this.userObject.facebook.avatar = response.picture.data.url;
+              this.userObject.name = response.name
+              this.userObject.email = response.email
+              this.userObject.gender = response.gender
+              this.userObject.password = this.userObject.facebook.id
+              this.userObject.type = `userFB`
+
+              // Appeler la fonction du service pour connecter l'utilisateur
+              this.userService.userFacebooConnect(this.userObject)
+              // Success : utilisateur connecté
+              .then( data => {
+                console.log(data)
+              })
+              // Error : problème serveur
+              .catch( err  => {
+                console.error(err)
+              })
+            } )
+
+            // Capter les érreurs de requête : Facebook API
+            .catch((error: any) => {
+              console.error(error)
+            })
       })
 
-      // Traitement du success
-      .then((response: LoginResponse) =>{
-        // Définition des données Facebook utilisateur
-        this.userObject.facebook.token = response.authResponse.accessToken;
-        this.userObject.facebook.id = response.authResponse.userID;
-
-        // Récupérer les information utilisateur 
-        this.facebookService.api('me?fields=id,name,birthday,email, gender')
-        // Tester le requête
-        .catch((error: any) => {
-          console.error(error)
-        })
-        // Traitement du success
-        .then( response => {
-          // Définition des données Personnelles utilisateur
-          this.userObject.name = response.name
-          this.userObject.email = response.email
-          this.userObject.gender = response.gender
-          this.userObject.password = this.userObject.facebook.id
-          this.userObject.type = `userFB`
-        })
-        // Vérification des données utilisateur
-        .then( () => {
-          console.log(this.userObject)
-          this.userService.userRegister(this.userObject)
-          .catch( err  => {
-            console.error(err)
-          })
-          .then( data => {
-            console.log(data)
-          })
-        } )
+      // Capter les érreurs de requête : Facebook Login
+      .catch((error: any) => {
+        console.error(error)
       })
     }
 

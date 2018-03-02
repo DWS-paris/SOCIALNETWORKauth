@@ -1,1 +1,99 @@
-/* You can add global styles to this file, and also import other style files */
+/* 
+Déclaration des variables
+*/
+    :root{
+        --color-orange-dark: #c12c48;
+        --color-orange-middle: #c93341;
+        --color-orange-light: #d24b36;
+    }
+/**/
+/* 
+Reset
+*/
+    *{
+        margin: 0;
+        padding: 0;
+
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    :focus{
+        outline: none;
+    }
+
+    html{
+        font-size: 62.5%;
+    }
+
+    body{
+        font-family: sans-serif;
+        font-size: 1.5rem;
+        min-height: 80vh;
+        
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
+        background: var(--color-orange-dark); /* Old browsers */
+        background: -moz-linear-gradient(top, var(--color-orange-dark) 0%, var(--color-orange-middle) 44%, var(--color-orange-light) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+    button{
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--color-orange-dark);
+        padding: 1rem;
+        background-color: white;
+        border: none;
+
+        -moz-transition: all .3s;
+        -webkit-transition: all .3s;
+        transition: all .3s;
+    }
+
+    button:hover{
+        background-color: black;
+    }
+/**/
+
+/* 
+Style Header
+*/
+    h1 {
+        font-size: 6rem;
+        color: white;
+        display: inline;
+    }
+
+    h1 span {
+        display: block;
+        font-size: 1.7rem;
+        font-weight: 100;
+        opacity: .5;
+        padding-left: .3rem;
+    }
+/**/
+
+
+/* 
+Style Homepage
+*/
+    #loginSection{
+        max-width: 30rem;
+        margin: 10rem auto;
+    }
+
+    #loginSection button {
+        width: 100%;
+        margin-bottom: .5rem;
+    }
+
+    #loginSection em {
+        font-size: 1rem;
+        font-style: normal;
+        text-transform: uppercase;
+        color: white;
+        opacity: .5;
+    }
+/**/

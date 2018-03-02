@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<button (click)=\"submitFacebookConnect()\" >Facebbook Connect</button>"
+module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n    <p><em>Cliquez vous connecter au créer un compte</em></p>\n</section>"
 
 /***/ }),
 
@@ -45,43 +45,43 @@ var HomepageComponent = /** @class */ (function () {
             type: null,
             facebook: {
                 token: null,
-                id: null
+                id: null,
+                avatar: null
             }
         };
         // Connecter l'utilisateur à Facebook
         this.submitFacebookConnect = function () {
-            // Connecter l'utilisateur à Facebook
+            // Connecter l'utilisateur sur Facebook
             _this.facebookService.login()
-                .catch(function (error) {
-                console.error(error);
-            })
                 .then(function (response) {
                 // Définition des données Facebook utilisateur
                 _this.userObject.facebook.token = response.authResponse.accessToken;
                 _this.userObject.facebook.id = response.authResponse.userID;
-                // Récupérer les information utilisateur 
-                _this.facebookService.api('me?fields=id,name,birthday,email, gender')
-                    .catch(function (error) {
-                    console.error(error);
-                })
+                // Récupérer les informations utilisateur sur Facebook
+                _this.facebookService.api('me?fields=id,name,birthday,email, gender, picture')
                     .then(function (response) {
                     // Définition des données Personnelles utilisateur
+                    _this.userObject.facebook.avatar = response.picture.data.url;
                     _this.userObject.name = response.name;
                     _this.userObject.email = response.email;
                     _this.userObject.gender = response.gender;
                     _this.userObject.password = _this.userObject.facebook.id;
                     _this.userObject.type = "userFB";
-                })
-                    .then(function () {
-                    console.log(_this.userObject);
-                    _this.userService.userRegister(_this.userObject)
-                        .catch(function (err) {
-                        console.error(err);
-                    })
+                    // Appeler la fonction du service pour connecter l'utilisateur
+                    _this.userService.userFacebooConnect(_this.userObject)
                         .then(function (data) {
                         console.log(data);
+                    })
+                        .catch(function (err) {
+                        console.error(err);
                     });
+                })
+                    .catch(function (error) {
+                    console.error(error);
                 });
+            })
+                .catch(function (error) {
+                console.error(error);
             });
         };
         // Configuration du module Facebook
@@ -105,8 +105,7 @@ var HomepageComponent = /** @class */ (function () {
         Export du composant
         */
         ,
-        __metadata("design:paramtypes", [user_service_1.UserService,
-            ngx_facebook_1.FacebookService])
+        __metadata("design:paramtypes", [user_service_1.UserService, ngx_facebook_1.FacebookService])
     ], HomepageComponent);
     return HomepageComponent;
 }());
@@ -219,12 +218,12 @@ var UserService = /** @class */ (function () {
     }
     ;
     // Créer une fonction pour connecter l'utilistateur
-    UserService.prototype.userRegister = function (userData) {
+    UserService.prototype.userFacebooConnect = function (userData) {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('Content-Type', 'application/json');
         console.log(userData);
-        return this.http.post(this.apiUrl + "/connect", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        return this.http.post(this.apiUrl + "/login", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*
