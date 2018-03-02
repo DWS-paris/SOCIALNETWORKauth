@@ -27,7 +27,7 @@ Définition et export du service
       let myHeader = new Headers();
       myHeader.append('Content-Type', 'application/json');
 
-      return this.http.post(`${this.apiUrl}/login`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+      return this.http.post(`${this.apiUrl}/facebbook-connect`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
 
     // Créer une fonction pour connecter l'utilistateur

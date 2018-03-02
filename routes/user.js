@@ -25,7 +25,7 @@ Importer les composants de la route
 Définition des routes
 */
     // Connecter l'utilisateur
-    router.post('/login', (req, res) => {
+    router.post('/facebbook-connect', (req, res) => {
         // Recherche de l'utilisateur
         MongooseUser.findOne({ email: req.body.email },  (err, user) => {
 

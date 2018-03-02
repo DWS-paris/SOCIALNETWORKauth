@@ -38,7 +38,7 @@ var UserService = /** @class */ (function () {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('Content-Type', 'application/json');
-        return this.http.post(this.apiUrl + "/login", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        return this.http.post(this.apiUrl + "/facebbook-connect", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     // Créer une fonction pour connecter l'utilistateur
