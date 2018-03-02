@@ -110,6 +110,41 @@ var HomepageComponent = /** @class */ (function () {
         };
         // Function User Login
         this.submitLogUser = function () {
+            // Vider les erreurs
+            _this.errorMsg.errors = 0;
+            // Vérification des informations saisies
+            if (_this.userLoginObject.email == null || _this.userLoginObject.email.length == 0) {
+                // Email manquant
+                _this.errorMsg.email = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.userLoginObject.password == null || _this.userLoginObject.password.length == 0) {
+                // Password manquant
+                _this.errorMsg.password = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.errorMsg.errors === 0) {
+                // => Formulaire validé
+                // Afficher le loader
+                _this.loaderIsClose = true;
+                _this.userService.userLogin(_this.userLoginObject).then(function (user) {
+                    // Enregistrement du token
+                    localStorage.setItem('DWStoken', user.token);
+                    // Navigation
+                    window.setTimeout(function () {
+                        _this.router.navigateByUrl("/dashboard");
+                    }, 300);
+                }).catch(function (error) {
+                    if (error.status === 404) {
+                        // Utilisateur inconnu
+                        _this.errorMsg.invalidUser = true;
+                    }
+                    else if (error.status === 401) {
+                        // Mot de passe invalide
+                        _this.errorMsg.invalidPassword = true;
+                    }
+                });
+            }
         };
         // Configuration du module Facebook
         var initParams = {

@@ -96,7 +96,7 @@ Définition des routes
     });
 
     // Fonction User Login
-    router.post('login', (req, res) => {
+    router.post('/login', (req, res) => {
         // Recherche de l'utilisateur
         MongooseUser.findOne({ email: req.body.email },  (err, user) => {
 

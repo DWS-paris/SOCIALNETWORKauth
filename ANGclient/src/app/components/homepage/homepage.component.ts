@@ -136,7 +136,48 @@ Export du composant
 
     // Function User Login
     public submitLogUser = () => {
+      // Vider les erreurs
+      this.errorMsg.errors = 0;
 
+      // Vérification des informations saisies
+      if( this.userLoginObject.email == null || this.userLoginObject.email.length == 0){
+        // Email manquant
+        this.errorMsg.email = true;
+        this.errorMsg.errors++;
+      }
+      
+      if( this.userLoginObject.password == null || this.userLoginObject.password.length == 0){
+        // Password manquant
+        this.errorMsg.password = true;
+        this.errorMsg.errors++;
+      }
+      
+      if(this.errorMsg.errors === 0){ 
+        // => Formulaire validé
+        // Afficher le loader
+        this.loaderIsClose = true;
+
+        this.userService.userLogin(this.userLoginObject).then(user => {
+          // Enregistrement du token
+          localStorage.setItem('DWStoken', user.token);
+
+          // Navigation
+          window.setTimeout(()=>{
+            this.router.navigateByUrl(`/dashboard`);
+          }, 300);
+          
+        }).catch(error => {
+          if(error.status === 404){
+            // Utilisateur inconnu
+            this.errorMsg.invalidUser = true;
+
+          } else if(error.status === 401){
+            // Mot de passe invalide
+            this.errorMsg.invalidPassword = true;
+
+          }
+        })
+      }
     }
 
     ngOnInit() {
