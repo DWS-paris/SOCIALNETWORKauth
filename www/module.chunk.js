@@ -129,7 +129,7 @@ var HomepageComponent = /** @class */ (function () {
                 _this.loaderIsClose = true;
                 _this.userService.userLogin(_this.userLoginObject).then(function (user) {
                     // Enregistrement du token
-                    localStorage.setItem('DWStoken', user.token);
+                    localStorage.setItem('MEANSOCIALtoken', user.token);
                     // Navigation
                     window.setTimeout(function () {
                         _this.router.navigateByUrl("/dashboard");

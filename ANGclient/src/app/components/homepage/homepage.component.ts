@@ -159,7 +159,7 @@ Export du composant
 
         this.userService.userLogin(this.userLoginObject).then(user => {
           // Enregistrement du token
-          localStorage.setItem('DWStoken', user.token);
+          localStorage.setItem('MEANSOCIALtoken', user.token);
 
           // Navigation
           window.setTimeout(()=>{
