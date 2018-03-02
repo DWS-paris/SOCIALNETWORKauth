@@ -8,6 +8,7 @@ Configuration du composants
 
   // Importer les composants
   import { HomepageComponent } from './homepage.component';
+  import { LoaderModule } from '../../partials/loader/module';
   import { Routing } from './route';
 // 
 /*
@@ -16,7 +17,7 @@ Définition et export du module
   // Définition
   @NgModule({
     declarations: [ HomepageComponent ],
-    imports: [ Routing, CommonModule, FormsModule ]
+    imports: [ Routing, CommonModule, FormsModule, LoaderModule ]
   })
 
   // Export

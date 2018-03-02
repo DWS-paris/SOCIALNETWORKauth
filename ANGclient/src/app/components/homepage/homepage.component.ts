@@ -28,6 +28,7 @@ Export du composant
   export class HomepageComponent implements OnInit {
 
     // Variables : Loader
+    public hideLoader: boolean = false;
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
 
@@ -101,7 +102,7 @@ Export du composant
               this.userObject.type = `userFB`;
 
               // Afficher le loader
-              this.loaderIsClose = true;
+              this.hideLoader = false;
 
               // Appeler la fonction du service pour connecter l'utilisateur
               this.userService.userFacebooConnect(this.userObject)
@@ -155,7 +156,7 @@ Export du composant
       if(this.errorMsg.errors === 0){ 
         // => Formulaire validé
         // Afficher le loader
-        this.loaderIsClose = true;
+        this.hideLoader = false;
 
         this.userService.userLogin(this.userLoginObject).then(user => {
           // Enregistrement du token
@@ -192,7 +193,7 @@ Export du composant
       this.userService.getUserInfo( localStorage.getItem('MEANSOCIALtoken') )
       .then( data => { // User Connecté
         // Afficher le loader
-        this.loaderIsClose = true;
+        this.hideLoader = false;
         window.setTimeout(()=>{
           // Rédiriger l'utilisateur
           this.router.navigateByUrl(`/dashboard`);
@@ -205,17 +206,13 @@ Export du composant
     }
 
     ngOnInit() {
-      // Introduction
+      // Masquer le loader
       window.setTimeout(()=>{
-        this.loaderIsRight = true;
+        this.hideLoader = true;
         window.setTimeout(()=>{
-          this.loaderIsClose = false;
-          this.loaderIsRight = false;
-          
-          // Vérifier si l'utilisateur est connecté
-          this.checkUser()
-        }, 300);
-      }, 1000);
+          this.checkUser();
+        }, 600);
+      }, 600);
     }
 
   }

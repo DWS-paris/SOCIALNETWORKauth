@@ -2,7 +2,7 @@
 Configuration du composants
 */
   // Import des interfaces
-  import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
   // Modules
   import { UserService } from '../../services/user/user.service';
@@ -12,7 +12,7 @@ Configuration du composants
   @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    providers: [ UserService ]
+    providers: [ UserService ],
   })
 // 
 
@@ -24,11 +24,13 @@ Export du composant
   export class DashboardComponent implements OnInit {
 
     // Loader
+    public hideLoader: boolean = false;
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
 
-    // VAriables
-    public singleUSer: UserModel;
+    // Variables
+    public singleUser: UserModel;
+    @Output() sendUserData = new EventEmitter;
 
     constructor(private userService: UserService) { }
 
@@ -41,24 +43,17 @@ Export du composant
       this.userService.getUserInfo(userToken)
       .then( data => { // Success getUserInfo()
 
-        // Introduction
-        window.setTimeout(()=>{
-          this.loaderIsRight = true;
-          window.setTimeout(()=>{
-            this.loaderIsClose = false;
-            this.loaderIsRight = false;
-          }, 300);
-        }, 300);
+        // Masquer le loader
+        this.hideLoader = true;
 
-        // Définition de l'objet singleUSer
-        this.singleUSer = data;
+        // Définition de l'objet singleUser
+        this.singleUser = data;
+        this.sendUserData.emit(this.singleUser)
       })
       
       .catch( err  => { // Error getUserInfo()
         // Introduction
-        window.setTimeout(()=>{
-          this.loaderIsRight = true;
-        }, 300);
+        this.hideLoader = false;
         
         console.error(err)
       })

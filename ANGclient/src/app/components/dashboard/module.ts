@@ -8,6 +8,7 @@ Configuration du composants
 
   // Importer les composants
   import { DashboardComponent } from './dashboard.component';
+  import { LoaderModule } from '../../partials/loader/module';
   import { Routing } from './route';
 // 
 /*
@@ -16,7 +17,7 @@ Définition et export du module
   // Définition
   @NgModule({
     declarations: [ DashboardComponent ],
-    imports: [ Routing, CommonModule, FormsModule ]
+    imports: [ Routing, CommonModule, FormsModule, LoaderModule ]
   })
 
   // Export
