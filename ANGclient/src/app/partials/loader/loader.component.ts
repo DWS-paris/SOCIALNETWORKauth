@@ -55,7 +55,7 @@ Export de la class du composant
             if(this.loaderState.isClose === true){
               this.loaderIsOpen = false 
             }
-          }, 300);
+          }, 150);
         
         }
       // 

@@ -44,7 +44,7 @@ Export du composant
         // Changer la vue
         this.router.navigateByUrl(path);
 
-      }, 300);
+      }, 100);
     }
 
     ngOnInit() {

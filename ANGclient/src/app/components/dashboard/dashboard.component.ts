@@ -2,7 +2,7 @@
 Configuration du composants
 */
   // Import des interfaces
-  import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
   // Modules
   import { UserService } from '../../services/user/user.service';
@@ -30,7 +30,6 @@ Export du composant
     // Variables
     public singleUser: UserModel;
     public activeView: string = `/dashboard`;
-    @Output() sendUserData = new EventEmitter;
 
     constructor(private userService: UserService) { }
 
@@ -54,7 +53,6 @@ Export du composant
 
         // Définition de l'objet singleUser
         this.singleUser = data;
-        this.sendUserData.emit(this.singleUser)
       })
       
       .catch( err  => { // Error getUserInfo()

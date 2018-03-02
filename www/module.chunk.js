@@ -147,10 +147,6 @@ var HomepageComponent = /** @class */ (function () {
                 .then(function (data) {
                 // Afficher le loader
                 _this.loaderState = { path: "/dashboard", isClose: true };
-                // window.setTimeout(()=>{
-                //   // Rédiriger l'utilisateur
-                //   this.router.navigateByUrl(`/dashboard`);
-                // }, 300);
             })
                 .catch(function (err) {
             });
@@ -170,8 +166,8 @@ var HomepageComponent = /** @class */ (function () {
         window.setTimeout(function () {
             window.setTimeout(function () {
                 _this.checkUser();
-            }, 600);
-        }, 600);
+            }, 500);
+        }, 500);
     };
     HomepageComponent = __decorate([
         core_1.Component({

@@ -51,7 +51,7 @@ var HeaderComponent = /** @class */ (function () {
                 }
                 // Changer la vue
                 _this.router.navigateByUrl(path);
-            }, 300);
+            }, 100);
         };
     }
     HeaderComponent.prototype.ngOnInit = function () {
@@ -191,7 +191,7 @@ var LoaderComponent = /** @class */ (function () {
                     if (_this.loaderState.isClose === true) {
                         _this.loaderIsOpen = false;
                     }
-                }, 300);
+                }, 150);
             }
             // 
         };

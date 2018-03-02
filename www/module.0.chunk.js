@@ -37,7 +37,6 @@ var DashboardComponent = /** @class */ (function () {
         // Loader
         this.loaderState = { path: "/dashboard", isClose: true };
         this.activeView = "/dashboard";
-        this.sendUserData = new core_1.EventEmitter;
         // Fonction Change View
         this.changeView = function (evt) {
             console.log('changeView', evt);
@@ -55,7 +54,6 @@ var DashboardComponent = /** @class */ (function () {
             _this.loaderState.isClose = true;
             // Définition de l'objet singleUser
             _this.singleUser = data;
-            _this.sendUserData.emit(_this.singleUser);
         })
             .catch(function (err) {
             // Introduction
@@ -63,10 +61,6 @@ var DashboardComponent = /** @class */ (function () {
             console.error(err);
         });
     };
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], DashboardComponent.prototype, "sendUserData", void 0);
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'app-dashboard',

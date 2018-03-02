@@ -182,11 +182,6 @@ Export du composant
       .then( data => { // User Connecté
         // Afficher le loader
         this.loaderState = { path: `/dashboard`, isClose: true };
-        
-        // window.setTimeout(()=>{
-        //   // Rédiriger l'utilisateur
-        //   this.router.navigateByUrl(`/dashboard`);
-        // }, 300);
       })
 
       .catch( err => { // User non connecté
@@ -199,8 +194,8 @@ Export du composant
       window.setTimeout(()=>{
         window.setTimeout(()=>{
           this.checkUser();
-        }, 600);
-      }, 600);
+        }, 500);
+      }, 500);
     }
 
   }
