@@ -1,5 +1,90 @@
 webpackJsonp(["common"],{
 
+/***/ "../../../../../src/app/services/user/user.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Import des composants du service
+*/
+// Import des interfaces
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var http_1 = __webpack_require__("../../../http/esm5/http.js");
+var http_2 = __webpack_require__("../../../http/esm5/http.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+// 
+/*
+Définition et export du service
+*/
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+        this.apiUrl = '/user';
+    }
+    ;
+    // Créer une fonction pour connecter l'utilistateur
+    UserService.prototype.userFacebooConnect = function (userData) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('Content-Type', 'application/json');
+        return this.http.post(this.apiUrl + "/login", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    // Créer une fonction pour connecter l'utilistateur
+    UserService.prototype.getUserInfo = function (token) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('x-access-token', token);
+        return this.http.get(this.apiUrl + "/me", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    /*
+    Fonctions de traitement de Promises
+    */
+    // Traiter le retour de l'API
+    UserService.prototype.getData = function (res) {
+        return res.json() || {};
+    };
+    ;
+    // Traiter les erreurs de requête
+    UserService.prototype.handleError = function (err) {
+        return Promise.reject(err);
+    };
+    ;
+    UserService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], UserService);
+    return UserService;
+}());
+exports.UserService = UserService;
+;
+//  
+
+
+/***/ }),
+
+/***/ "../../../../rxjs/_esm5/add/operator/toPromise.js":
+/***/ (function(module, exports) {
+
+// HACK: does nothing, because `toPromise` now lives on the `Observable` itself.
+// leaving this module here to prevent breakage.
+//# sourceMappingURL=toPromise.js.map 
+
+
+/***/ }),
+
 /***/ "../../../../rxjs/_esm5/observable/ForkJoinObservable.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

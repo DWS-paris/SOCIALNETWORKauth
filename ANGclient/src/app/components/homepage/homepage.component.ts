@@ -3,6 +3,7 @@ Configuration du composants
 */
   // Import des interfaces
   import { Component, OnInit } from '@angular/core';
+  import { Router } from '@angular/router';
   import { FacebookService, LoginOptions, AuthResponse, LoginResponse, InitParams } from 'ngx-facebook';
   
   // Import des modules
@@ -38,7 +39,7 @@ Export du composant
       }
     }
 
-    constructor( private userService: UserService, private facebookService: FacebookService) {
+    constructor( private userService: UserService, private facebookService: FacebookService, private router: Router) {
       // Configuration du module Facebook
       const initParams: InitParams = {
         appId: '183483015710927',
@@ -79,6 +80,8 @@ Export du composant
               // Success : utilisateur connecté
               .then( data => {
                 console.log(data)
+                localStorage.setItem('MEANSOCIALtoken', data.content.token);
+                this.router.navigateByUrl(`/dashboard`);
               })
               // Error : problème serveur
               .catch( err  => {

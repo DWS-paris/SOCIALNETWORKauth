@@ -6,13 +6,13 @@ webpackJsonp(["main"],{
 var map = {
 	"./components/dashboard/module": [
 		"../../../../../src/app/components/dashboard/module.ts",
-		"module.0",
-		"common"
+		"common",
+		"module.0"
 	],
 	"./components/homepage/module": [
 		"../../../../../src/app/components/homepage/module.ts",
-		"module",
-		"common"
+		"common",
+		"module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -46,7 +46,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'app';
     }
     AppComponent = __decorate([
         core_1.Component({

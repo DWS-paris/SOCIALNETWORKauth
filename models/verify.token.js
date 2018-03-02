@@ -2,8 +2,7 @@
 Import des composants
 */
     const jwt = require('jsonwebtoken');
-    const dotenv = require('dotenv').config();
-    const secretTokenCode = process.env.TOKEN_MY_SECRET
+    const config = require('../config/token');
 // 
 
 
@@ -22,7 +21,7 @@ Fonction du model
     });
 
     // Vérification du token
-    jwt.verify(token, secretTokenCode, (err, decoded) => {
+    jwt.verify(token, config.secret, (err, decoded) => {
         // Message d'erreur
         if (err) return res.status(403).send({
         response: false,

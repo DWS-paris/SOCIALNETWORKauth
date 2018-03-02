@@ -3,6 +3,7 @@ Importer les composants de la route
 */
     const express = require('express');
     const router = express.Router();
+    const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 //
 
 /*
@@ -13,9 +14,14 @@ Définition des routes
         res.render('index');
     });
 
-    router.get( '/login', (req, res) => {
+    router.get( '/dashboard', ensureLoggedIn, (req, res) => {
         // Envoyer la vue index
         res.render('index');
+    });
+
+    router.get( '/login', (req, res) => {
+        // Envoyer la vue index
+        res.redirect('/');
     });
 //
 

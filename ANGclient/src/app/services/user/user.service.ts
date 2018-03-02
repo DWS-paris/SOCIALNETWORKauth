@@ -27,9 +27,16 @@ Définition et export du service
       let myHeader = new Headers();
       myHeader.append('Content-Type', 'application/json');
 
-      console.log(userData)
-
       return this.http.post(`${this.apiUrl}/login`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+
+    // Créer une fonction pour connecter l'utilistateur
+    public getUserInfo( token: string ): Promise<any>{
+      // Définition du header de la requête
+      let myHeader = new Headers();
+      myHeader.append('x-access-token', token);
+
+      return this.http.get(`${this.apiUrl}/me`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
 
 

@@ -23,18 +23,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
 var DashboardComponent = /** @class */ (function () {
-    function DashboardComponent() {
+    function DashboardComponent(userService) {
+        this.userService = userService;
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
+            .then(function (data) {
+            console.log(data);
+        })
+            .catch(function (err) {
+            console.error(err);
+        });
     };
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'app-dashboard',
             template: __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.html"),
-            styles: []
+            providers: [user_service_1.UserService]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [user_service_1.UserService])
     ], DashboardComponent);
     return DashboardComponent;
 }());
