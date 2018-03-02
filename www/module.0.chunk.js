@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>\n\n<section *ngIf=\"singleUSer\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUSer.name}}</strong></p>\n</section>"
+module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -36,6 +36,7 @@ var DashboardComponent = /** @class */ (function () {
         // Loader
         this.loaderIsClose = true;
         this.loaderIsRight = false;
+        this.sendUserData = new core_1.EventEmitter;
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -52,8 +53,9 @@ var DashboardComponent = /** @class */ (function () {
                     _this.loaderIsRight = false;
                 }, 300);
             }, 300);
-            // Définition de l'objet singleUSer
-            _this.singleUSer = data;
+            // Définition de l'objet singleUser
+            _this.singleUser = data;
+            _this.sendUserData.emit(_this.singleUser);
         })
             .catch(function (err) {
             // Introduction
@@ -63,11 +65,15 @@ var DashboardComponent = /** @class */ (function () {
             console.error(err);
         });
     };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], DashboardComponent.prototype, "sendUserData", void 0);
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'app-dashboard',
             template: __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.html"),
-            providers: [user_service_1.UserService]
+            providers: [user_service_1.UserService],
         })
         // 
         /*

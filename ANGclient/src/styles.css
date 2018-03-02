@@ -35,7 +35,7 @@ Reset
     main{
         max-width: 90rem;
         margin: auto;
-        padding: 1.5rem 2rem;
+        padding: 7.5rem 2rem 1.5rem 2rem;
     }
 
     a{
@@ -166,7 +166,10 @@ Style Formulaire
 Style Header
 */
     app-header header{
-        margin-top: -100rem;
+        position: fixed;
+        top: -10rem;
+        left: 0;
+        width: 100%;
 
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
         background: var(--color-orange-dark); /* Old browsers */
@@ -176,7 +179,7 @@ Style Header
     }
 
     app-header.open header{
-        margin-top: 0;
+        top: 0;
     }
 
     header section, header section nav ul{

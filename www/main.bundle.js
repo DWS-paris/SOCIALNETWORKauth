@@ -48,6 +48,9 @@ var AppComponent = /** @class */ (function () {
     function AppComponent() {
         this.isOpen = false;
     }
+    AppComponent.prototype.onDeactivate = function (evt) {
+        console.log('onActivate', evt);
+    };
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
         window.setTimeout(function () {
@@ -57,7 +60,7 @@ var AppComponent = /** @class */ (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    <app-header [ngClass]=\"{open: isOpen}\"></app-header>\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
+            template: "\n    <app-header [ngClass]=\"{open: isOpen}\"></app-header>\n    <main class=\"container\">\n      <router-outlet (sendUserData)='onDeactivate($event)'></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
         })
     ], AppComponent);
     return AppComponent;
@@ -94,14 +97,14 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                header_component_1.HeaderComponent,
-                footer_component_1.FooterComponent
+                footer_component_1.FooterComponent,
+                header_component_1.HeaderComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
                 http_1.HttpModule,
                 ngx_facebook_1.FacebookModule.forRoot(),
-                app_routes_1.Routing,
+                app_routes_1.Routing
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]
@@ -187,7 +190,7 @@ exports.FooterComponent = FooterComponent;
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n        <nav>\n            <ul>\n                <li><a routerLink=\"/dashboard\"><i class=\"fas fa-home\"></i></a></li>\n            </ul>\n        </nav>\n    </section>\n</header>"
+module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n    </section>\n</header>"
 
 /***/ }),
 

@@ -13,14 +13,14 @@ import { FooterComponent } from './partials/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule, 
     HttpModule,
     FacebookModule.forRoot(), 
-    Routing,
+    Routing
   ],
   providers: [],
   bootstrap: [ AppComponent ]

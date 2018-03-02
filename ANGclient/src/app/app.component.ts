@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <app-header [ngClass]="{open: isOpen}"></app-header>
     <main class="container">
-      <router-outlet></router-outlet>
+      <router-outlet (sendUserData)='onDeactivate($event)'></router-outlet>
     </main>
     <app-footer></app-footer>
   `,
@@ -13,6 +13,10 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit { 
   
   public isOpen:boolean = false
+
+  onDeactivate(evt){
+    console.log('onActivate', evt)
+  }
 
   ngOnInit(): void {
     window.setTimeout(()=>{
