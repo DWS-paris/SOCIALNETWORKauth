@@ -21,7 +21,7 @@ Définition et export du service
 
     private apiUrl: string = '/user'
 
-    // Créer une fonction pour connecter l'utilistateur
+    // Fonction User Facebook Connect
     public userFacebooConnect(userData: UserModel): Promise<any>{
       // Définition du header de la requête
       let myHeader = new Headers();
@@ -30,7 +30,16 @@ Définition et export du service
       return this.http.post(`${this.apiUrl}/facebbook-connect`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
 
-    // Créer une fonction pour connecter l'utilistateur
+    // Fonction User Login
+    public userLogin(userData: any): Promise<any>{
+      // Définition du header de la requête
+      let myHeader = new Headers();
+      myHeader.append('Content-Type', 'application/json');
+
+      return this.http.post(`${this.apiUrl}/login`, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+
+    // Fonction User Me
     public getUserInfo( token: string ): Promise<any>{
       // Définition du header de la requête
       let myHeader = new Headers();

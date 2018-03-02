@@ -24,7 +24,7 @@ Importer les composants de la route
 /*
 Définition des routes
 */
-    // Connecter l'utilisateur
+    // Fonction User Facebook Connect
     router.post('/facebbook-connect', (req, res) => {
         // Recherche de l'utilisateur
         MongooseUser.findOne({ email: req.body.email },  (err, user) => {
@@ -95,7 +95,32 @@ Définition des routes
         });
     });
 
-    // Informations utilisateurs
+    // Fonction User Login
+    router.post('login', (req, res) => {
+        // Recherche de l'utilisateur
+        MongooseUser.findOne({ email: req.body.email },  (err, user) => {
+
+            // Message d'erreur
+            if (err) return res.status(500).send('Error on the server.');
+            if (!user) return res.status(404).send('No user found.');
+
+            // Hashage du mot de passe
+            const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+            
+            // Message d'erreur
+            if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+
+            // Création du token
+            const token = jwt.sign({ id: user._id }, config.secret, {
+                expiresIn: 86400 // expires in 24 hours
+            });
+
+            // Envoie de la réponse
+            res.status(200).send({ auth: true, token: token });
+        });
+    })
+
+    // Fonction User Me
     router.get('/me', VerifyToken, (req, res, next) => {
         console.log(req.userId)
         // Recherche de l'utilisateur

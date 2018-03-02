@@ -33,7 +33,7 @@ var UserService = /** @class */ (function () {
         this.apiUrl = '/user';
     }
     ;
-    // Créer une fonction pour connecter l'utilistateur
+    // Fonction User Facebook Connect
     UserService.prototype.userFacebooConnect = function (userData) {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
@@ -41,7 +41,15 @@ var UserService = /** @class */ (function () {
         return this.http.post(this.apiUrl + "/facebbook-connect", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
-    // Créer une fonction pour connecter l'utilistateur
+    // Fonction User Login
+    UserService.prototype.userLogin = function (userData) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('Content-Type', 'application/json');
+        return this.http.post(this.apiUrl + "/login", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    // Fonction User Me
     UserService.prototype.getUserInfo = function (token) {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
