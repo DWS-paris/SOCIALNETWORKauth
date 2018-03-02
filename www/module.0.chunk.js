@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n<header>\n    <app-header></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n<header>\n    <app-header (changeView)=\"changeView($event)\"></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -32,12 +32,17 @@ var user_service_1 = __webpack_require__("../../../../../src/app/services/user/u
 // Définition du composant
 var DashboardComponent = /** @class */ (function () {
     function DashboardComponent(userService) {
+        var _this = this;
         this.userService = userService;
         // Loader
         this.hideLoader = false;
         this.loaderIsClose = true;
         this.loaderIsRight = false;
         this.sendUserData = new core_1.EventEmitter;
+        // Fonction Change View
+        this.changeView = function (evt) {
+            _this.hideLoader = evt;
+        };
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -157,7 +162,7 @@ exports.Routing = router_1.RouterModule.forChild(appRoutes);
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n    <h1>HeyU</h1>\n</section>"
+module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li><button (click)=\"navTransition('/dashboard')\"><i class=\"fas fa-tachometer-alt\"></i></button></li>\n            <li><button (click)=\"navTransition('/dashboard')\"><i class=\"fas fa-user\"></i></button></li>\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
 
 /***/ }),
 
@@ -176,23 +181,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+// Définition du composant
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
+    function HeaderComponent(router) {
+        var _this = this;
+        this.router = router;
+        // Evenement Change View
+        this.changeView = new core_1.EventEmitter;
+        // Fonction Navigation transition
+        this.navTransition = function (path) {
+            // Emettre l'événement
+            _this.changeView.emit(false);
+            window.setTimeout(function () {
+                // Deconnexion
+                if (path === "/") {
+                    localStorage.removeItem("MEANSOCIALtoken");
+                }
+                ;
+                // Changer la vue
+                _this.router.navigateByUrl(path);
+            }, 300);
+        };
     }
     HeaderComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], HeaderComponent.prototype, "changeView", void 0);
     HeaderComponent = __decorate([
         core_1.Component({
             selector: 'app-header',
-            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html"),
-            styles: []
-        }),
-        __metadata("design:paramtypes", [])
+            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html")
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
+        __metadata("design:paramtypes", [router_1.Router])
     ], HeaderComponent);
     return HeaderComponent;
 }());
 exports.HeaderComponent = HeaderComponent;
+//  
 
 
 /***/ }),

@@ -241,6 +241,11 @@ Style Header
     #userHeader strong{
         color: black;
     }
+
+    nav button {
+        padding: .7rem;
+        font-size: 1.2rem;
+    }
 /**/
 
 

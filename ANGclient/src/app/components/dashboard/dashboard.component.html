@@ -1,6 +1,6 @@
 <app-loader [hideLoader]="hideLoader"></app-loader>
 <header>
-    <app-header></app-header>
+    <app-header (changeView)="changeView($event)"></app-header>
 </header>
 
 <section *ngIf="singleUser" id="userHeader">

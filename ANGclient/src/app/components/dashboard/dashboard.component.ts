@@ -34,6 +34,11 @@ Export du composant
 
     constructor(private userService: UserService) { }
 
+    // Fonction Change View
+    public changeView = (evt: boolean) => {
+      this.hideLoader = evt;
+    }
+
     ngOnInit() {
 
       // Récupération du token utilisateur
