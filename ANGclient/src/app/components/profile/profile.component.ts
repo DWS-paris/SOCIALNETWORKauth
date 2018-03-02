@@ -9,13 +9,13 @@ import { LoaderStateModel } from '../../models/loader.state.model';
 export class ProfileComponent implements OnInit {
 
   // Loader
-  public loaderState: LoaderStateModel = { path: null, isClose: false }
+  public loaderState: LoaderStateModel = { path: `/profile`, isClose: true }
 
   constructor() { }
 
   ngOnInit() {
     // Introduction
-    this.loaderState.isClose = false;
+    // this.loaderState.isClose = false;
   }
 
   // Fonction Change View

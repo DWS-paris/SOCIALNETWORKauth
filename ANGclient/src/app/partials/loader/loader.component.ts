@@ -39,7 +39,7 @@ Export de la class du composant
         }, 300)
       }
 
-      if( this.loaderState.path === `/dashboard`){
+      if( this.loaderState.path === `/dashboard` || this.loaderState.path === `/profile`){
         window.setTimeout(()=>{
           this.router.navigateByUrl(this.loaderState.path)
 

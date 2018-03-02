@@ -153,7 +153,7 @@ var LoaderComponent = /** @class */ (function () {
                     _this.loaderIsOpen = false;
                 }, 300);
             }
-            if (_this.loaderState.path === "/dashboard") {
+            if (_this.loaderState.path === "/dashboard" || _this.loaderState.path === "/profile") {
                 window.setTimeout(function () {
                     _this.router.navigateByUrl(_this.loaderState.path);
                     if (_this.loaderState.isClose === true) {

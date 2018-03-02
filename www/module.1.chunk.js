@@ -76,7 +76,7 @@ var ProfileComponent = /** @class */ (function () {
     function ProfileComponent() {
         var _this = this;
         // Loader
-        this.loaderState = { path: null, isClose: false };
+        this.loaderState = { path: "/profile", isClose: true };
         // Fonction Change View
         this.changeView = function (evt) {
             console.log('changeView', evt);
@@ -85,7 +85,7 @@ var ProfileComponent = /** @class */ (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         // Introduction
-        this.loaderState.isClose = false;
+        // this.loaderState.isClose = false;
     };
     ProfileComponent = __decorate([
         core_1.Component({
