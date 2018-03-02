@@ -30,13 +30,11 @@ Reset
     body{
         font-family: sans-serif;
         font-size: 1.5rem;
-        min-height: 80vh;
-        
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
-        background: var(--color-orange-dark); /* Old browsers */
-        background: -moz-linear-gradient(top, var(--color-orange-dark) 0%, var(--color-orange-middle) 44%, var(--color-orange-light) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+    a{
+        text-decoration: none;
+        color: inherit;
     }
 
     button{
@@ -54,6 +52,10 @@ Reset
 
     button:hover{
         background-color: black;
+    }
+
+    ul{
+        list-style: none;
     }
 /**/
 
@@ -86,6 +88,34 @@ Style Loader
 /* 
 Style Header
 */
+    app-header header{
+        margin-top: -100rem;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
+        background: var(--color-orange-dark); /* Old browsers */
+        background: -moz-linear-gradient(top, var(--color-orange-dark) 0%, var(--color-orange-middle) 44%, var(--color-orange-light) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+    app-header.open header{
+        margin-top: 0;
+    }
+
+    header section, header section nav ul{
+        padding: 2rem;
+        max-width: 90rem;
+        margin: auto;
+
+        display: -ms-flex;
+        display: -webkit-flex;
+        display: flex;
+
+        -moz-align-items: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
     h1 {
         font-size: 6rem;
         color: white;
@@ -99,12 +129,49 @@ Style Header
         opacity: .5;
         padding-left: .3rem;
     }
+
+    header section h1{
+        font-size: 2rem;
+        width: 10%;
+    }
+
+    header section nav{
+        width: 90%;
+    }
+
+    header section nav ul{
+        padding: 0;
+
+        -moz-justify-content: flex-end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+    }
+
+    header section nav li{
+        padding-left: 1rem;
+    }
 /**/
 
 
 /* 
 Style Homepage
 */
+    app-homepage {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c12c48+0,c93341+44,d24b36+100 */
+        background: var(--color-orange-dark); /* Old browsers */
+        background: -moz-linear-gradient(top, var(--color-orange-dark) 0%, var(--color-orange-middle) 44%, var(--color-orange-light) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
     #loginSection{
         max-width: 30rem;
         margin: 10rem auto;

@@ -46,11 +46,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
+        this.isOpen = false;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        window.setTimeout(function () {
+            _this.isOpen = true;
+        }, 500);
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    <app-header></app-header>\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
+            template: "\n    <app-header [ngClass]=\"{open: isOpen}\"></app-header>\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
         })
     ], AppComponent);
     return AppComponent;
@@ -180,7 +187,7 @@ exports.FooterComponent = FooterComponent;
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "<header>\n    <section>\n        <h1>HeyU</h1>\n        <nav>\n            <ul>\n                <li><a href=\"#\">Dashboard</a></li>\n            </ul>\n        </nav>\n    </section>\n</header>"
 
 /***/ }),
 

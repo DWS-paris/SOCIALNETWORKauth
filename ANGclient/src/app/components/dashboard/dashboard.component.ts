@@ -1,49 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user/user.service';
+/*
+Configuration du composants
+*/
+  // Import des interfaces
+  import { Component, OnInit } from '@angular/core';
+  import { UserService } from '../../services/user/user.service';
 
-@Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  providers: [ UserService ]
-})
-export class DashboardComponent implements OnInit {
+  // Définition du composant
+  @Component({
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    providers: [ UserService ]
+  })
+// 
 
-  // Loader
-  public loaderIsClose: boolean = true;
-  public loaderIsRight: boolean = false;
 
-  constructor(private userService: UserService) { }
 
-  ngOnInit() {
+/*
+Export du composant
+*/
+  export class DashboardComponent implements OnInit {
 
-    this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
-    .then( data => {
+    // Loader
+    public loaderIsClose: boolean = true;
+    public loaderIsRight: boolean = false;
 
-      // Introduction
-      window.setTimeout(()=>{
-        this.loaderIsRight = true;
+    constructor(private userService: UserService) { }
+
+    ngOnInit() {
+
+      // Récuopération des données utilisateur
+      const userToken = localStorage.getItem('MEANSOCIALtoken');
+      this.userService.getUserInfo(userToken)
+      .then( data => {
+
+        // Introduction
         window.setTimeout(()=>{
-          this.loaderIsClose = false;
-          this.loaderIsRight = false;
+          this.loaderIsRight = true;
+          window.setTimeout(()=>{
+            this.loaderIsClose = false;
+            this.loaderIsRight = false;
+          }, 300);
         }, 300);
-      }, 300);
 
-      console.log(data)
-    })
-    // Error : problème serveur
-    .catch( err  => {
-      // Introduction
-      window.setTimeout(()=>{
-        this.loaderIsRight = true;
+        console.log(data)
+      })
+      // Error : problème serveur
+      .catch( err  => {
+        // Introduction
         window.setTimeout(()=>{
-          this.loaderIsClose = false;
-          this.loaderIsRight = false;
+          this.loaderIsRight = true;
         }, 300);
-      }, 300);
-      
-      console.error(err)
-    })
+        
+        console.error(err)
+      })
+
+    }
 
   }
-
-}
+// 

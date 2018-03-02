@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  dashboard works!\n</p>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
+module.exports = "<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
 
 /***/ }),
 
@@ -22,8 +22,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
+// Définition du composant
 var DashboardComponent = /** @class */ (function () {
     function DashboardComponent(userService) {
         this.userService = userService;
@@ -33,7 +38,9 @@ var DashboardComponent = /** @class */ (function () {
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
+        // Récuopération des données utilisateur
+        var userToken = localStorage.getItem('MEANSOCIALtoken');
+        this.userService.getUserInfo(userToken)
             .then(function (data) {
             // Introduction
             window.setTimeout(function () {
@@ -49,10 +56,6 @@ var DashboardComponent = /** @class */ (function () {
             // Introduction
             window.setTimeout(function () {
                 _this.loaderIsRight = true;
-                window.setTimeout(function () {
-                    _this.loaderIsClose = false;
-                    _this.loaderIsRight = false;
-                }, 300);
             }, 300);
             console.error(err);
         });
@@ -62,12 +65,18 @@ var DashboardComponent = /** @class */ (function () {
             selector: 'app-dashboard',
             template: __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.html"),
             providers: [user_service_1.UserService]
-        }),
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
         __metadata("design:paramtypes", [user_service_1.UserService])
     ], DashboardComponent);
     return DashboardComponent;
 }());
 exports.DashboardComponent = DashboardComponent;
+//  
 
 
 /***/ }),
