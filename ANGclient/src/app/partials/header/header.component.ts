@@ -2,7 +2,7 @@
 Configuration du composants
 */
   // Import des interfaces
-  import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+  import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   import { Router } from '@angular/router';
 
   // Définition du composant
@@ -20,6 +20,13 @@ Export du composant
 
     // Evenement Change View
     @Output() changeView = new EventEmitter;
+    @Input() activeView;
+    
+    // Variables
+    public activeNav = {
+      dashboard: false,
+      profile: false
+    }
 
     constructor( private router: Router ) { }
 
@@ -29,8 +36,10 @@ Export du composant
       this.changeView.emit({viewPath: path, loderIsClose: false})
 
       window.setTimeout(()=>{
-        // Deconnexion
-        if(path === `/`) { localStorage.removeItem(`MEANSOCIALtoken`) };
+        // Vérification du path
+        if(path === `/`) { 
+          localStorage.removeItem(`MEANSOCIALtoken`) 
+        }
         
         // Changer la vue
         this.router.navigateByUrl(path);
@@ -39,6 +48,14 @@ Export du composant
     }
 
     ngOnInit() {
+      console.log(this.activeView)
+      // Vérification de la vue active
+      if( this.activeView === `/dashboard` ){
+        this.activeNav.dashboard = true;
+
+      } else if( this.activeView === `/profile` ){
+        this.activeNav.profile = true;
+      }
     }
 
   }

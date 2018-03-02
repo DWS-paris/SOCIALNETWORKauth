@@ -3,7 +3,7 @@ webpackJsonp(["common"],{
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li><button (click)=\"navTransition('/dashboard')\"><i class=\"fas fa-tachometer-alt\"></i></button></li>\n            <li><button (click)=\"navTransition('/profile')\"><i class=\"fas fa-user\"></i></button></li>\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
+module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li>\n                <button *ngIf=\"activeNav.dashboard\" class=\"active\"><i class=\"fas fa-tachometer-alt\"></i></button>\n                <button *ngIf=\"!activeNav.dashboard\" (click)=\"navTransition('/dashboard'); activeNav.profile = !activeNav.dashboard\"><i class=\"fas fa-tachometer-alt\"></i></button>\n            </li>\n\n            <li>\n                <button  *ngIf=\"activeNav.profile\" class=\"active\"><i class=\"fas fa-user\"></i></button>\n                <button  *ngIf=\"!activeNav.profile\" (click)=\"navTransition('/profile'); activeNav.dashboard = !activeNav.dashboard\"><i class=\"fas fa-user\"></i></button>\n            </li>\n\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
 
 /***/ }),
 
@@ -35,27 +35,43 @@ var HeaderComponent = /** @class */ (function () {
         this.router = router;
         // Evenement Change View
         this.changeView = new core_1.EventEmitter;
+        // Variables
+        this.activeNav = {
+            dashboard: false,
+            profile: false
+        };
         // Fonction Navigation transition
         this.navTransition = function (path) {
             // Emettre l'événement
             _this.changeView.emit({ viewPath: path, loderIsClose: false });
             window.setTimeout(function () {
-                // Deconnexion
+                // Vérification du path
                 if (path === "/") {
                     localStorage.removeItem("MEANSOCIALtoken");
                 }
-                ;
                 // Changer la vue
                 _this.router.navigateByUrl(path);
             }, 300);
         };
     }
     HeaderComponent.prototype.ngOnInit = function () {
+        console.log(this.activeView);
+        // Vérification de la vue active
+        if (this.activeView === "/dashboard") {
+            this.activeNav.dashboard = true;
+        }
+        else if (this.activeView === "/profile") {
+            this.activeNav.profile = true;
+        }
     };
     __decorate([
         core_1.Output(),
         __metadata("design:type", Object)
     ], HeaderComponent.prototype, "changeView", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], HeaderComponent.prototype, "activeView", void 0);
     HeaderComponent = __decorate([
         core_1.Component({
             selector: 'app-header',
@@ -92,28 +108,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Configuration du composants
 */
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
-// 
-/*
-Définition et export du module
-*/
-// Définition
+// Configuration du module
 var HeaderModule = /** @class */ (function () {
-    // Export
+    //
+    /*
+    Export de la class du module
+    */
     function HeaderModule() {
     }
     HeaderModule = __decorate([
         core_1.NgModule({
-            declarations: [header_component_1.HeaderComponent],
-            exports: [header_component_1.HeaderComponent]
+            declarations: [
+                header_component_1.HeaderComponent,
+            ],
+            imports: [common_1.CommonModule],
+            exports: [
+                header_component_1.HeaderComponent
+            ]
         })
-        // Export
+        //
+        /*
+        Export de la class du module
+        */
     ], HeaderModule);
     return HeaderModule;
 }());
 exports.HeaderModule = HeaderModule;
-;
-//  
+// 
 
 
 /***/ }),
@@ -145,39 +168,46 @@ var LoaderComponent = /** @class */ (function () {
     function LoaderComponent(router) {
         var _this = this;
         this.router = router;
+        // Fonction CHeck View State
         this.checkState = function () {
-            console.log(_this.loaderState);
+            // Afficher le loader
             _this.loaderIsOpen = true;
+            /*
+            Vérification des vues
+            */
+            // Path /
             if (_this.loaderState.path === "/") {
+                // Masquer le header
                 window.setTimeout(function () {
                     _this.loaderIsOpen = false;
                 }, 300);
             }
+            // Path dashboard || profile
             if (_this.loaderState.path === "/dashboard" || _this.loaderState.path === "/profile") {
+                // Changer de vue
                 window.setTimeout(function () {
                     _this.router.navigateByUrl(_this.loaderState.path);
+                    // Masquer le header à l'ouverure
                     if (_this.loaderState.isClose === true) {
                         _this.loaderIsOpen = false;
                     }
                 }, 300);
             }
+            // 
         };
+        // Fonction App Intro
         this.appIntro = function () {
+            // Afficher le loader
             _this.loaderIsOpen = true;
             window.setTimeout(function () {
+                // Masquer le loader
                 _this.loaderIsOpen = false;
             }, 300);
         };
-        this.viewTransition = function (path) {
-            window.setTimeout(function () {
-                _this.router.navigateByUrl(path);
-            }, 300);
-        };
     }
-    LoaderComponent.prototype.ngOnInit = function () {
-        // this.checkState()
-    };
+    LoaderComponent.prototype.ngOnInit = function () { };
     LoaderComponent.prototype.ngOnChanges = function (changes) {
+        // Vérifier l'état de la vue
         this.checkState();
     };
     __decorate([

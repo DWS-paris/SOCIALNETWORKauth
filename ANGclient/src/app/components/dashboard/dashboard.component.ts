@@ -29,6 +29,7 @@ Export du composant
 
     // Variables
     public singleUser: UserModel;
+    public activeView: string = `/dashboard`;
     @Output() sendUserData = new EventEmitter;
 
     constructor(private userService: UserService) { }
@@ -62,7 +63,6 @@ Export du composant
         
         console.error(err)
       })
-
     }
 
   }

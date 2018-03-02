@@ -29,46 +29,53 @@ Export de la class du composant
 
     constructor( private router: Router ) { }
 
+    // Fonction CHeck View State
     private checkState = () => {
-      console.log(this.loaderState)
+      // Afficher le loader
       this.loaderIsOpen = true; 
 
-      if( this.loaderState.path === `/` ){
-        window.setTimeout(()=>{
-          this.loaderIsOpen = false 
-        }, 300)
-      }
-
-      if( this.loaderState.path === `/dashboard` || this.loaderState.path === `/profile`){
-        window.setTimeout(()=>{
-          this.router.navigateByUrl(this.loaderState.path)
-
-          if(this.loaderState.isClose === true){
+      /*
+      Vérification des vues
+      */
+        // Path /
+        if( this.loaderState.path === `/` ){
+          // Masquer le header
+          window.setTimeout(() => {
             this.loaderIsOpen = false 
-          }
-        }, 300);
-       
-      }
+          }, 300)
+        }
+
+        // Path dashboard || profile
+        if( this.loaderState.path === `/dashboard` || this.loaderState.path === `/profile`){
+          // Changer de vue
+          window.setTimeout(()=>{
+            this.router.navigateByUrl(this.loaderState.path)
+
+            // Masquer le header à l'ouverure
+            if(this.loaderState.isClose === true){
+              this.loaderIsOpen = false 
+            }
+          }, 300);
+        
+        }
+      // 
     }
 
+    // Fonction App Intro
     private appIntro = () => {
+      // Afficher le loader
       this.loaderIsOpen = true;
+
       window.setTimeout(()=>{
+        // Masquer le loader
         this.loaderIsOpen = false;
       }, 300)
     }
 
-    private viewTransition = ( path: string ) => {
-      window.setTimeout(()=>{
-        this.router.navigateByUrl(path);
-      }, 300)
-    }
-
-    ngOnInit() {
-      // this.checkState()
-    }
+    ngOnInit() { }
 
     ngOnChanges(changes: any): void {
+      // Vérifier l'état de la vue
       this.checkState()
     }
 

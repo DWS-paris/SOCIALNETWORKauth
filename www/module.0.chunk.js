@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header (changeView)=\"changeView($event)\"></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -36,6 +36,7 @@ var DashboardComponent = /** @class */ (function () {
         this.userService = userService;
         // Loader
         this.loaderState = { path: "/dashboard", isClose: true };
+        this.activeView = "/dashboard";
         this.sendUserData = new core_1.EventEmitter;
         // Fonction Change View
         this.changeView = function (evt) {

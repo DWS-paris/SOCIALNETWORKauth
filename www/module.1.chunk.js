@@ -52,7 +52,7 @@ exports.ProfileModule = ProfileModule;
 /***/ "../../../../../src/app/components/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header (changeView)=\"changeView($event)\"></app-header>\n</header>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>"
 
 /***/ }),
 
@@ -77,6 +77,7 @@ var ProfileComponent = /** @class */ (function () {
         var _this = this;
         // Loader
         this.loaderState = { path: "/profile", isClose: true };
+        this.activeView = "/profile";
         // Fonction Change View
         this.changeView = function (evt) {
             console.log('changeView', evt);
@@ -90,8 +91,7 @@ var ProfileComponent = /** @class */ (function () {
     ProfileComponent = __decorate([
         core_1.Component({
             selector: 'app-profile',
-            template: __webpack_require__("../../../../../src/app/components/profile/profile.component.html"),
-            styles: []
+            template: __webpack_require__("../../../../../src/app/components/profile/profile.component.html")
         }),
         __metadata("design:paramtypes", [])
     ], ProfileComponent);

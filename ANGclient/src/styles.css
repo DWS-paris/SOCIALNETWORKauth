@@ -56,9 +56,13 @@ Reset
         transition: all .3s;
     }
 
-    button:hover, #loginForm button[type="submit"]:hover{
+    button:hover, button.active, #loginForm button[type="submit"]:hover{
         color: var(--color-orange-dark);
         background-color: black;
+    }
+
+    button.active{
+        color: white;
     }
 
     ul{
@@ -85,6 +89,10 @@ Style Loader
         -moz-transition: all .3s;
         -webkit-transition: all .3s;
         transition: all .3s;
+    }
+
+    app-loader.top #loader{
+        top: 6.7rem;
     }
 
     #loader.open{

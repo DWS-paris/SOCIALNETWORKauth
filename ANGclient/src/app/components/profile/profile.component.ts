@@ -3,13 +3,13 @@ import { LoaderStateModel } from '../../models/loader.state.model';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styles: []
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
 
   // Loader
   public loaderState: LoaderStateModel = { path: `/profile`, isClose: true }
+  public activeView: string = `/profile`;
 
   constructor() { }
 
