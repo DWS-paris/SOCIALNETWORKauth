@@ -3,7 +3,7 @@
     <form id="loginForm" action="#" (submit)="submitLogUser()">
 
         <fieldset>
-            <label for="userEmail">Email <em><span>Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidUser}">Utilisateur inconnu</span></em></label>
+            <label for="userEmail">Email <em><span [ngClass]="{'open': errorMsg.email}">Champ obligatoire</span></em></label>
             <input type="text" id="userEmail" (focus)="errorMsg.email = false; errorMsg.invalidUser = false" [(ngModel)]="userLoginObject.email" name="email">
         
             <label for="userPassword">Mot de passe <em><span [ngClass]="{'open': errorMsg.password}">Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidPassword}">Mot de passe non valide</span></em></label>
