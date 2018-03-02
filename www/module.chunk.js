@@ -132,7 +132,12 @@ var HomepageComponent = /** @class */ (function () {
                     localStorage.setItem('MEANSOCIALtoken', user.token);
                     // Navigation
                     window.setTimeout(function () {
-                        _this.router.navigateByUrl("/dashboard");
+                        window.setTimeout(function () {
+                            _this.loaderIsClose = false;
+                            _this.loaderIsRight = false;
+                            // Rédiriger l'utilisateur
+                            _this.router.navigateByUrl("/dashboard");
+                        }, 300);
                     }, 300);
                 }).catch(function (error) {
                     if (error.status === 404) {
@@ -145,6 +150,20 @@ var HomepageComponent = /** @class */ (function () {
                     }
                 });
             }
+        };
+        // Fonction User Me
+        this.checkUser = function () {
+            _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
+                .then(function (data) {
+                // Afficher le loader
+                _this.loaderIsClose = true;
+                window.setTimeout(function () {
+                    // Rédiriger l'utilisateur
+                    _this.router.navigateByUrl("/dashboard");
+                }, 300);
+            })
+                .catch(function (err) {
+            });
         };
         // Configuration du module Facebook
         var initParams = {
@@ -163,6 +182,8 @@ var HomepageComponent = /** @class */ (function () {
             window.setTimeout(function () {
                 _this.loaderIsClose = false;
                 _this.loaderIsRight = false;
+                // Vérifier si l'utilisateur est connecté
+                _this.checkUser();
             }, 300);
         }, 1000);
     };

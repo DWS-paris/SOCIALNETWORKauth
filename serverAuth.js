@@ -7,14 +7,14 @@ Import des composants du serveur
   const path = require('path');
   const dotenv = require('dotenv').config();
   const mongoose = require('mongoose');
+  const bodyParser = require('body-parser');
+  const cookieParser = require('cookie-parser');
+  const expressSession = require('express-session');
 
   // Modules
   const frontRoute = require('./routes/front');
   const authRoute = require('./routes/auth');
   const userRoute = require('./routes/user');
-  const bodyParser = require('body-parser');
-  const cookieParser = require('cookie-parser');
-  const expressSession = require('express-session');
 //
 
 

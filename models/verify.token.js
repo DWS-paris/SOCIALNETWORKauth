@@ -24,9 +24,9 @@ Fonction du model
     jwt.verify(token, config.secret, (err, decoded) => {
         // Message d'erreur
         if (err) return res.status(403).send({
-        response: false,
-        status: 403,
-        content: `L'authentification est refusée pour ce token`
+            response: false,
+            status: 403,
+            content: `L'authentification est refusée pour ce token`
         });
 
         // Envoie de la réponse

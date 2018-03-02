@@ -163,7 +163,14 @@ Export du composant
 
           // Navigation
           window.setTimeout(()=>{
-            this.router.navigateByUrl(`/dashboard`);
+            
+            window.setTimeout(()=>{
+              this.loaderIsClose = false;
+              this.loaderIsRight = false;
+              
+              // Rédiriger l'utilisateur
+              this.router.navigateByUrl(`/dashboard`);
+            }, 300);
           }, 300);
           
         }).catch(error => {
@@ -180,6 +187,23 @@ Export du composant
       }
     }
 
+    // Fonction User Me
+    private checkUser = () => {
+      this.userService.getUserInfo( localStorage.getItem('MEANSOCIALtoken') )
+      .then( data => { // User Connecté
+        // Afficher le loader
+        this.loaderIsClose = true;
+        window.setTimeout(()=>{
+          // Rédiriger l'utilisateur
+          this.router.navigateByUrl(`/dashboard`);
+        }, 300);
+      })
+
+      .catch( err => { // User non connecté
+        
+      })
+    }
+
     ngOnInit() {
       // Introduction
       window.setTimeout(()=>{
@@ -187,6 +211,9 @@ Export du composant
         window.setTimeout(()=>{
           this.loaderIsClose = false;
           this.loaderIsRight = false;
+          
+          // Vérifier si l'utilisateur est connecté
+          this.checkUser()
         }, 300);
       }, 1000);
     }
