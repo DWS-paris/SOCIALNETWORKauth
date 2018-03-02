@@ -15,6 +15,10 @@ const appRoutes: Routes = [
     {
         path: 'dashboard',
         loadChildren: './components/dashboard/module#DashboardModule'
+    },
+    {
+        path: 'profile',
+        loadChildren: './components/profile/module#ProfileModule'
     }
 ]
 

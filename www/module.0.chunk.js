@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n<header>\n    <app-header (changeView)=\"changeView($event)\"></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header (changeView)=\"changeView($event)\"></app-header>\n</header>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
 
 /***/ }),
 
@@ -35,13 +35,12 @@ var DashboardComponent = /** @class */ (function () {
         var _this = this;
         this.userService = userService;
         // Loader
-        this.hideLoader = false;
-        this.loaderIsClose = true;
-        this.loaderIsRight = false;
+        this.loaderState = { path: "/dashboard", isClose: true };
         this.sendUserData = new core_1.EventEmitter;
         // Fonction Change View
         this.changeView = function (evt) {
-            _this.hideLoader = evt;
+            console.log('changeView', evt);
+            _this.loaderState = evt;
         };
     }
     DashboardComponent.prototype.ngOnInit = function () {
@@ -52,14 +51,14 @@ var DashboardComponent = /** @class */ (function () {
         this.userService.getUserInfo(userToken)
             .then(function (data) {
             // Masquer le loader
-            _this.hideLoader = true;
+            _this.loaderState.isClose = true;
             // Définition de l'objet singleUser
             _this.singleUser = data;
             _this.sendUserData.emit(_this.singleUser);
         })
             .catch(function (err) {
             // Introduction
-            _this.hideLoader = false;
+            _this.loaderState.isClose = false;
             console.error(err);
         });
     };
@@ -155,124 +154,6 @@ var appRoutes = [
 ];
 // Exporter une autre constante pour utiliser les routes
 exports.Routing = router_1.RouterModule.forChild(appRoutes);
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/header/header.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li><button (click)=\"navTransition('/dashboard')\"><i class=\"fas fa-tachometer-alt\"></i></button></li>\n            <li><button (click)=\"navTransition('/dashboard')\"><i class=\"fas fa-user\"></i></button></li>\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/header/header.component.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Configuration du composants
-*/
-// Import des interfaces
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var router_1 = __webpack_require__("../../../router/esm5/router.js");
-// Définition du composant
-var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(router) {
-        var _this = this;
-        this.router = router;
-        // Evenement Change View
-        this.changeView = new core_1.EventEmitter;
-        // Fonction Navigation transition
-        this.navTransition = function (path) {
-            // Emettre l'événement
-            _this.changeView.emit(false);
-            window.setTimeout(function () {
-                // Deconnexion
-                if (path === "/") {
-                    localStorage.removeItem("MEANSOCIALtoken");
-                }
-                ;
-                // Changer la vue
-                _this.router.navigateByUrl(path);
-            }, 300);
-        };
-    }
-    HeaderComponent.prototype.ngOnInit = function () {
-    };
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], HeaderComponent.prototype, "changeView", void 0);
-    HeaderComponent = __decorate([
-        core_1.Component({
-            selector: 'app-header',
-            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html")
-        })
-        // 
-        /*
-        Export du composant
-        */
-        ,
-        __metadata("design:paramtypes", [router_1.Router])
-    ], HeaderComponent);
-    return HeaderComponent;
-}());
-exports.HeaderComponent = HeaderComponent;
-//  
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/header/module.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Configuration du composants
-*/
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
-// 
-/*
-Définition et export du module
-*/
-// Définition
-var HeaderModule = /** @class */ (function () {
-    // Export
-    function HeaderModule() {
-    }
-    HeaderModule = __decorate([
-        core_1.NgModule({
-            declarations: [header_component_1.HeaderComponent],
-            exports: [header_component_1.HeaderComponent]
-        })
-        // Export
-    ], HeaderModule);
-    return HeaderModule;
-}());
-exports.HeaderModule = HeaderModule;
-;
-//  
 
 
 /***/ })

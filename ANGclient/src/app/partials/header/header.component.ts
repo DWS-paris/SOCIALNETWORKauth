@@ -26,7 +26,7 @@ Export du composant
     // Fonction Navigation transition
     public navTransition = (path: string) => {
       // Emettre l'événement
-      this.changeView.emit(false)
+      this.changeView.emit({viewPath: path, loderIsClose: false})
 
       window.setTimeout(()=>{
         // Deconnexion

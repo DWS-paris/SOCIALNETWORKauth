@@ -3,6 +3,7 @@ Import des composants
 */
   // Class
   import { Component, OnInit, OnChanges, Input } from '@angular/core';
+  import { Router } from '@angular/router';
 
   // Module
 
@@ -10,7 +11,7 @@ Import des composants
   @Component({
     selector: 'app-loader',
     template: `
-      <aside id="loader" [ngClass]="{ open: loaderIsClose, right: loaderIsRight }"></aside>
+      <aside id="loader" [ngClass]="{ open: loaderIsOpen, right: loaderIsRight }"></aside>
     `
   })
 // 
@@ -22,27 +23,53 @@ Export de la class du composant
 
     
     // Variables
-    public loaderIsClose: boolean;
+    public loaderIsOpen: boolean;
     public loaderIsRight: boolean;
-    @Input() hideLoader;
+    @Input() loaderState;
 
-    constructor() { }
+    constructor( private router: Router ) { }
+
+    private checkState = () => {
+      console.log(this.loaderState)
+      this.loaderIsOpen = true; 
+
+      if( this.loaderState.path === `/` ){
+        window.setTimeout(()=>{
+          this.loaderIsOpen = false 
+        }, 300)
+      }
+
+      if( this.loaderState.path === `/dashboard`){
+        window.setTimeout(()=>{
+          this.router.navigateByUrl(this.loaderState.path)
+
+          if(this.loaderState.isClose === true){
+            this.loaderIsOpen = false 
+          }
+        }, 300);
+       
+      }
+    }
+
+    private appIntro = () => {
+      this.loaderIsOpen = true;
+      window.setTimeout(()=>{
+        this.loaderIsOpen = false;
+      }, 300)
+    }
+
+    private viewTransition = ( path: string ) => {
+      window.setTimeout(()=>{
+        this.router.navigateByUrl(path);
+      }, 300)
+    }
 
     ngOnInit() {
-      this.loaderIsClose = true;
-      this.loaderIsRight = false;
+      // this.checkState()
     }
 
     ngOnChanges(changes: any): void {
-      
-      if(this.hideLoader){
-        this.loaderIsClose = false;
-        this.loaderIsRight = true;
-
-      } else{
-        this.loaderIsClose = true;
-        this.loaderIsRight = false;
-      }
+      this.checkState()
     }
 
   }

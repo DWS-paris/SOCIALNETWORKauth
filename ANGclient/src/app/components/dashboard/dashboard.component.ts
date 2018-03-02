@@ -7,6 +7,7 @@ Configuration du composants
   // Modules
   import { UserService } from '../../services/user/user.service';
   import { UserModel } from '../../models/user.model';
+  import { LoaderStateModel } from '../../models/loader.state.model';
 
   // Définition du composant
   @Component({
@@ -24,9 +25,7 @@ Export du composant
   export class DashboardComponent implements OnInit {
 
     // Loader
-    public hideLoader: boolean = false;
-    public loaderIsClose: boolean = true;
-    public loaderIsRight: boolean = false;
+    public loaderState: LoaderStateModel = { path: `/dashboard`, isClose: true };
 
     // Variables
     public singleUser: UserModel;
@@ -35,8 +34,9 @@ Export du composant
     constructor(private userService: UserService) { }
 
     // Fonction Change View
-    public changeView = (evt: boolean) => {
-      this.hideLoader = evt;
+    public changeView = (evt: any) => {
+      console.log('changeView', evt)
+      this.loaderState = evt;
     }
 
     ngOnInit() {
@@ -49,7 +49,7 @@ Export du composant
       .then( data => { // Success getUserInfo()
 
         // Masquer le loader
-        this.hideLoader = true;
+        this.loaderState.isClose = true;
 
         // Définition de l'objet singleUser
         this.singleUser = data;
@@ -58,7 +58,7 @@ Export du composant
       
       .catch( err  => { // Error getUserInfo()
         // Introduction
-        this.hideLoader = false;
+        this.loaderState.isClose = false;
         
         console.error(err)
       })

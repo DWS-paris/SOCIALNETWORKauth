@@ -9,6 +9,7 @@ Configuration du composants
   // Import des modules
   import { UserService } from '../../services/user/user.service';
   import { UserModel } from '../../models/user.model';
+  import { LoaderStateModel } from '../../models/loader.state.model';
   import { UserLoginModel } from '../../models/user.login';
   import { LoginFormModel } from '../../models/login.form';
 
@@ -28,7 +29,7 @@ Export du composant
   export class HomepageComponent implements OnInit {
 
     // Variables : Loader
-    public hideLoader: boolean = false;
+    public loaderState: LoaderStateModel = { path: `/`, isClose: false };
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
 
@@ -102,7 +103,7 @@ Export du composant
               this.userObject.type = `userFB`;
 
               // Afficher le loader
-              this.hideLoader = false;
+              this.loaderState = { path: `/facebook-connect`, isClose: false }
 
               // Appeler la fonction du service pour connecter l'utilisateur
               this.userService.userFacebooConnect(this.userObject)
@@ -111,10 +112,7 @@ Export du composant
                   // Enregistrement du token
                   localStorage.setItem('MEANSOCIALtoken', data.content.token);
 
-                  // Navigation
-                  window.setTimeout(()=>{
-                    this.router.navigateByUrl(`/dashboard`);
-                  }, 300);
+                  this.loaderState = { path: `/dashboard`, isClose: false };
 
                 })
                 // Error : problème serveur
@@ -156,23 +154,13 @@ Export du composant
       if(this.errorMsg.errors === 0){ 
         // => Formulaire validé
         // Afficher le loader
-        this.hideLoader = false;
+        this.loaderState.isClose = false;
 
         this.userService.userLogin(this.userLoginObject).then(user => {
           // Enregistrement du token
           localStorage.setItem('MEANSOCIALtoken', user.token);
 
-          // Navigation
-          window.setTimeout(()=>{
-            
-            window.setTimeout(()=>{
-              this.loaderIsClose = false;
-              this.loaderIsRight = false;
-              
-              // Rédiriger l'utilisateur
-              this.router.navigateByUrl(`/dashboard`);
-            }, 300);
-          }, 300);
+          this.loaderState = { path: `/dashboard`, isClose: false };
           
         }).catch(error => {
           if(error.status === 404){
@@ -193,11 +181,12 @@ Export du composant
       this.userService.getUserInfo( localStorage.getItem('MEANSOCIALtoken') )
       .then( data => { // User Connecté
         // Afficher le loader
-        this.hideLoader = false;
-        window.setTimeout(()=>{
-          // Rédiriger l'utilisateur
-          this.router.navigateByUrl(`/dashboard`);
-        }, 300);
+        this.loaderState = { path: `/dashboard`, isClose: true };
+        
+        // window.setTimeout(()=>{
+        //   // Rédiriger l'utilisateur
+        //   this.router.navigateByUrl(`/dashboard`);
+        // }, 300);
       })
 
       .catch( err => { // User non connecté
@@ -208,7 +197,6 @@ Export du composant
     ngOnInit() {
       // Masquer le loader
       window.setTimeout(()=>{
-        this.hideLoader = true;
         window.setTimeout(()=>{
           this.checkUser();
         }, 600);

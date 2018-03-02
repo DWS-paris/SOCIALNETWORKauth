@@ -6,13 +6,18 @@ webpackJsonp(["main"],{
 var map = {
 	"./components/dashboard/module": [
 		"../../../../../src/app/components/dashboard/module.ts",
-		"module.0",
-		"common"
+		"common",
+		"module.0"
 	],
 	"./components/homepage/module": [
 		"../../../../../src/app/components/homepage/module.ts",
 		"common",
 		"module"
+	],
+	"./components/profile/module": [
+		"../../../../../src/app/components/profile/module.ts",
+		"common",
+		"module.1"
 	]
 };
 function webpackAsyncContext(req) {
@@ -125,6 +130,10 @@ var appRoutes = [
     {
         path: 'dashboard',
         loadChildren: './components/dashboard/module#DashboardModule'
+    },
+    {
+        path: 'profile',
+        loadChildren: './components/profile/module#ProfileModule'
     }
 ];
 // Exporter une autre constante pour utiliser les routes

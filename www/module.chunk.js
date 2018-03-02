@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n\n<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n        <fieldset>\n            <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n            <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n        \n            <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n            <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n        \n            <button type=\"submit\">Connexion</button>\n            <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n        </fieldset>\n    \n    </form>\n</section>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n\n<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n        <fieldset>\n            <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n            <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n        \n            <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n            <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n        \n            <button type=\"submit\">Connexion</button>\n            <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n        </fieldset>\n    \n    </form>\n</section>"
 
 /***/ }),
 
@@ -39,7 +39,7 @@ var HomepageComponent = /** @class */ (function () {
         this.facebookService = facebookService;
         this.router = router;
         // Variables : Loader
-        this.hideLoader = false;
+        this.loaderState = { path: "/", isClose: false };
         this.loaderIsClose = true;
         this.loaderIsRight = false;
         // Variables : Login
@@ -86,16 +86,13 @@ var HomepageComponent = /** @class */ (function () {
                     _this.userObject.password = _this.userObject.facebook.id;
                     _this.userObject.type = "userFB";
                     // Afficher le loader
-                    _this.hideLoader = false;
+                    _this.loaderState = { path: "/facebook-connect", isClose: false };
                     // Appeler la fonction du service pour connecter l'utilisateur
                     _this.userService.userFacebooConnect(_this.userObject)
                         .then(function (data) {
                         // Enregistrement du token
                         localStorage.setItem('MEANSOCIALtoken', data.content.token);
-                        // Navigation
-                        window.setTimeout(function () {
-                            _this.router.navigateByUrl("/dashboard");
-                        }, 300);
+                        _this.loaderState = { path: "/dashboard", isClose: false };
                     })
                         .catch(function (err) {
                         console.error(err);
@@ -127,19 +124,11 @@ var HomepageComponent = /** @class */ (function () {
             if (_this.errorMsg.errors === 0) {
                 // => Formulaire validé
                 // Afficher le loader
-                _this.hideLoader = false;
+                _this.loaderState.isClose = false;
                 _this.userService.userLogin(_this.userLoginObject).then(function (user) {
                     // Enregistrement du token
                     localStorage.setItem('MEANSOCIALtoken', user.token);
-                    // Navigation
-                    window.setTimeout(function () {
-                        window.setTimeout(function () {
-                            _this.loaderIsClose = false;
-                            _this.loaderIsRight = false;
-                            // Rédiriger l'utilisateur
-                            _this.router.navigateByUrl("/dashboard");
-                        }, 300);
-                    }, 300);
+                    _this.loaderState = { path: "/dashboard", isClose: false };
                 }).catch(function (error) {
                     if (error.status === 404) {
                         // Utilisateur inconnu
@@ -157,11 +146,11 @@ var HomepageComponent = /** @class */ (function () {
             _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
                 .then(function (data) {
                 // Afficher le loader
-                _this.hideLoader = false;
-                window.setTimeout(function () {
-                    // Rédiriger l'utilisateur
-                    _this.router.navigateByUrl("/dashboard");
-                }, 300);
+                _this.loaderState = { path: "/dashboard", isClose: true };
+                // window.setTimeout(()=>{
+                //   // Rédiriger l'utilisateur
+                //   this.router.navigateByUrl(`/dashboard`);
+                // }, 300);
             })
                 .catch(function (err) {
             });
@@ -179,7 +168,6 @@ var HomepageComponent = /** @class */ (function () {
         var _this = this;
         // Masquer le loader
         window.setTimeout(function () {
-            _this.hideLoader = true;
             window.setTimeout(function () {
                 _this.checkUser();
             }, 600);
