@@ -52,7 +52,7 @@ exports.ProfileModule = ProfileModule;
 /***/ "../../../../../src/app/components/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p><strong><a href=\"\"><i class=\"fas fa-tachometer-alt\"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <section *ngIf=\"singleUser\">\n        <h2>Modifier vos informations</h2>\n\n        <form (submit)=\"userUpdate()\" id=\"editUserForm\">\n            <label for=\"pseudo\">Pseudo</label>\n            <input type=\"text\" name=\"pseudo\" [(ngModel)]=\"singleUser.name\">\n\n            <label for=\"email\">Email</label>\n            <input type=\"email\" name=\"email\" [(ngModel)]=\"singleUser.email\">\n\n            <label for=\"password\">Password</label>\n            <input type=\"text\" name=\"password\" disabled [(ngModel)]=\"singleUser.facebook.id\">\n\n            <button type=\"submit\">Modifier</button>\n        </form>\n    </section>\n</main>"
 
 /***/ }),
 
@@ -71,33 +71,68 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
+// Définition du composant
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent() {
+    function ProfileComponent(userService) {
         var _this = this;
-        // Loader
+        this.userService = userService;
+        // Variables
         this.loaderState = { path: "/profile", isClose: true };
         this.activeView = "/profile";
         // Fonction Change View
         this.changeView = function (evt) {
-            console.log('changeView', evt);
             _this.loaderState = evt;
+        };
+        // Fonction User Update
+        this.userUpdate = function () {
+            console.log(_this.singleUser);
+            _this.userService.updateUserInfo(_this.singleUser, _this.userToken)
+                .then(function (data) {
+                // Définition de l'objet singleUser
+                _this.singleUser = data;
+            })
+                .catch(function (err) {
+                console.error(err);
+            });
         };
     }
     ProfileComponent.prototype.ngOnInit = function () {
-        // Introduction
-        // this.loaderState.isClose = false;
+        var _this = this;
+        // Récupération du token utilisateur
+        this.userToken = localStorage.getItem('MEANSOCIALtoken');
+        // Récupération des données utilisateur
+        this.userService.getUserInfo(this.userToken)
+            .then(function (data) {
+            // Masquer le loader
+            _this.loaderState.isClose = true;
+            // Définition de l'objet singleUser
+            _this.singleUser = data;
+            console.log(_this.singleUser);
+        });
     };
     ProfileComponent = __decorate([
         core_1.Component({
             selector: 'app-profile',
-            template: __webpack_require__("../../../../../src/app/components/profile/profile.component.html")
-        }),
-        __metadata("design:paramtypes", [])
+            template: __webpack_require__("../../../../../src/app/components/profile/profile.component.html"),
+            providers: [user_service_1.UserService]
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
+        __metadata("design:paramtypes", [user_service_1.UserService])
     ], ProfileComponent);
     return ProfileComponent;
 }());
 exports.ProfileComponent = ProfileComponent;
+//  
 
 
 /***/ }),

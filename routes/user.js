@@ -133,6 +133,29 @@ Définition des routes
             res.status(200).send(user);
         });
     });
+
+    // Fonction IUser Update
+    router.put('/:id',  (req, res) => {
+        console.log(req.params.id)
+        console.log(req.body)
+        const userId = req.params.id;
+        // Rechercher et mettre à jour l'utilisateur
+        MongooseUser.findByIdAndUpdate(userId, req.body, {new: true},  (err, user) => {
+            // Message d'erreur
+            if (err) return res.status(500).send({
+                response: false,
+                status: 500,
+                content: `Problème de requête`
+            });
+
+            // Envoie de la réponse
+            res.status(200).send({
+                response: true,
+                status: 200,
+                content: user
+            });
+        });
+    });
 //
 
 /*

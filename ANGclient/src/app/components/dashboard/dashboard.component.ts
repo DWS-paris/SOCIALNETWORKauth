@@ -35,7 +35,6 @@ Export du composant
 
     // Fonction Change View
     public changeView = (evt: any) => {
-      console.log('changeView', evt)
       this.loaderState = evt;
     }
 
@@ -58,7 +57,6 @@ Export du composant
       .catch( err  => { // Error getUserInfo()
         // Introduction
         this.loaderState.isClose = false;
-        
         console.error(err)
       })
     }

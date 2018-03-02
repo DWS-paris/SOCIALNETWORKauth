@@ -48,6 +48,16 @@ Définition et export du service
       return this.http.get(`${this.apiUrl}/me`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
 
+    // Fonction User Update
+    public updateUserInfo( userData: UserModel, token: string ): Promise<any>{
+      console.log(userData._id)
+      // Définition du header de la requête
+      let myHeader = new Headers();
+      myHeader.append('x-access-token', token);
+      
+      return this.http.put(`${this.apiUrl}/${userData._id}`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+
 
     /*
     Fonctions de traitement de Promises

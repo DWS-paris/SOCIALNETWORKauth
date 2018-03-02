@@ -2,7 +2,8 @@
 <header>
     <app-header [activeView]="activeView" (changeView)="changeView($event)"></app-header>
 </header>
-
-<section *ngIf="singleUser" id="userHeader">
-    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>
-</section>
+<main class="container">
+    <section *ngIf="singleUser" id="userHeader">
+        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>
+    </section>
+</main>

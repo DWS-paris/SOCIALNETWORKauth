@@ -1,27 +1,70 @@
-import { Component, OnInit } from '@angular/core';
-import { LoaderStateModel } from '../../models/loader.state.model';
+/*
+Configuration du composants
+*/
+  // Import des interfaces
+  import { Component, OnInit } from '@angular/core';
 
-@Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html'
-})
-export class ProfileComponent implements OnInit {
+  // Modules
+  import { LoaderStateModel } from '../../models/loader.state.model';
+  import { UserService } from '../../services/user/user.service';
+  import { UserModel } from '../../models/user.model';
 
-  // Loader
-  public loaderState: LoaderStateModel = { path: `/profile`, isClose: true }
-  public activeView: string = `/profile`;
+  // Définition du composant
+  @Component({
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    providers: [ UserService ]
+  })
+// 
 
-  constructor() { }
 
-  ngOnInit() {
-    // Introduction
-    // this.loaderState.isClose = false;
+/*
+Export du composant
+*/
+  export class ProfileComponent implements OnInit {
+
+    // Variables
+    public loaderState: LoaderStateModel = { path: `/profile`, isClose: true }
+    public activeView: string = `/profile`;
+    public singleUser: UserModel;
+    private userToken: string;
+
+    constructor(private userService: UserService) { }
+
+    // Fonction Change View
+    public changeView = (evt: any) => {
+      this.loaderState = evt;
+    }
+
+    // Fonction User Update
+    public userUpdate = () => {
+      console.log(this.singleUser)
+      this.userService.updateUserInfo(this.singleUser, this.userToken)
+      .then( data => {
+        // Définition de l'objet singleUser
+        this.singleUser = data;
+      })
+      .catch( err => {
+        console.error( err )
+      } )
+    };
+
+    ngOnInit() {
+      // Récupération du token utilisateur
+      this.userToken = localStorage.getItem('MEANSOCIALtoken');
+
+      // Récupération des données utilisateur
+      this.userService.getUserInfo(this.userToken)
+      .then( data => { // Success getUserInfo()
+
+        // Masquer le loader
+        this.loaderState.isClose = true;
+
+        // Définition de l'objet singleUser
+        this.singleUser = data;
+
+        console.log(this.singleUser)
+      })
+    }
   }
-
-  // Fonction Change View
-  public changeView = (evt: any) => {
-    console.log('changeView', evt)
-    this.loaderState = evt;
-  }
-
-}
+// 

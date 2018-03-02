@@ -1,19 +1,20 @@
 <app-loader [loaderState]="loaderState"></app-loader>
+<main class="container">
+    <section id="loginSection">
+        <h1>HeyU <span>MEAN social App for fun</span></h1>
+        <form id="loginForm" action="#" (submit)="submitLogUser()">
 
-<section id="loginSection">
-    <h1>HeyU <span>MEAN social App for fun</span></h1>
-    <form id="loginForm" action="#" (submit)="submitLogUser()">
-
-        <fieldset>
-            <label for="userEmail">Email <em><span [ngClass]="{'open': errorMsg.email}">Champ obligatoire</span></em></label>
-            <input type="text" id="userEmail" (focus)="errorMsg.email = false; errorMsg.invalidUser = false" [(ngModel)]="userLoginObject.email" name="email">
+            <fieldset>
+                <label for="userEmail">Email <em><span [ngClass]="{'open': errorMsg.email}">Champ obligatoire</span></em></label>
+                <input type="text" id="userEmail" (focus)="errorMsg.email = false; errorMsg.invalidUser = false" [(ngModel)]="userLoginObject.email" name="email">
+            
+                <label for="userPassword">Mot de passe <em><span [ngClass]="{'open': errorMsg.password}">Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidPassword}">Mot de passe non valide</span></em></label>
+                <input type="password" id="userPassword" (focus)="errorMsg.password = false; errorMsg.invalidPassword = false" [(ngModel)]="userLoginObject.password" name="password">
+            
+                <button type="submit">Connexion</button>
+                <button (click)="submitFacebookConnect()" >Facebook connect</button>
+            </fieldset>
         
-            <label for="userPassword">Mot de passe <em><span [ngClass]="{'open': errorMsg.password}">Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidPassword}">Mot de passe non valide</span></em></label>
-            <input type="password" id="userPassword" (focus)="errorMsg.password = false; errorMsg.invalidPassword = false" [(ngModel)]="userLoginObject.password" name="password">
-        
-            <button type="submit">Connexion</button>
-            <button (click)="submitFacebookConnect()" >Facebook connect</button>
-        </fieldset>
-    
-    </form>
-</section>
+        </form>
+    </section>
+</main>

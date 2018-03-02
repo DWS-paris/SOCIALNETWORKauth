@@ -2,3 +2,25 @@
 <header>
     <app-header [activeView]="activeView" (changeView)="changeView($event)"></app-header>
 </header>
+<main class="container">
+    <section *ngIf="singleUser" id="userHeader">
+        <p><strong><a href=""><i class="fas fa-tachometer-alt"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>
+    </section>
+
+    <section *ngIf="singleUser">
+        <h2>Modifier vos informations</h2>
+
+        <form (submit)="userUpdate()" id="editUserForm">
+            <label for="pseudo">Pseudo</label>
+            <input type="text" name="pseudo" [(ngModel)]="singleUser.name">
+
+            <label for="email">Email</label>
+            <input type="email" name="email" [(ngModel)]="singleUser.email">
+
+            <label for="password">Password</label>
+            <input type="text" name="password" disabled [(ngModel)]="singleUser.facebook.id">
+
+            <button type="submit">Modifier</button>
+        </form>
+    </section>
+</main>

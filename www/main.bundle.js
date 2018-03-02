@@ -56,7 +56,7 @@ var AppComponent = /** @class */ (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    <main class=\"container\">\n      <router-outlet></router-outlet>\n    </main>\n    <app-footer></app-footer>\n  ",
+            template: "\n    \n    <router-outlet></router-outlet>\n    \n    <app-footer></app-footer>\n  ",
         })
     ], AppComponent);
     return AppComponent;
