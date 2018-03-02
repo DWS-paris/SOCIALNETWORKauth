@@ -6,14 +6,14 @@ Configuration du composants
   import { FacebookService, LoginOptions, AuthResponse, LoginResponse, InitParams } from 'ngx-facebook';
   
   // Import des modules
-  import { AuthService } from '../../services/auth/auth.service';
+  import { UserService } from '../../services/user/user.service';
   import { UserModel } from '../../models/user.model';
 
   // Définition du composant
   @Component({
     selector: 'app-homepage',
     templateUrl: './homepage.component.html',
-    providers: [ AuthService ]
+    providers: [ UserService ]
   })
 //
 
@@ -37,8 +37,10 @@ Export du composant
       }
     }
 
-    constructor( private myService: AuthService, private fb: FacebookService) {
-      // Cnfiguration du module Facebook
+    constructor( 
+      private userService: UserService, 
+      private facebookService: FacebookService) {
+      // Configuration du module Facebook
       const initParams: InitParams = {
         appId: '183483015710927',
         xfbml: true,
@@ -46,14 +48,14 @@ Export du composant
       };
       
       // Initialisation du module Facebook
-      fb.init(initParams);       
+      facebookService.init(initParams);       
     }
 
     // Connecter l'utilisateur à Facebook
     public submitFacebookConnect = () => {
       
       // Connecter l'utilisateur à Facebook
-      this.fb.login()
+      this.facebookService.login()
       // Tester le requête
       .catch((error: any) => {
         console.error(error)
@@ -66,7 +68,7 @@ Export du composant
         this.userObject.facebook.id = response.authResponse.userID;
 
         // Récupérer les information utilisateur 
-        this.fb.api('me?fields=id,name,birthday,email, gender')
+        this.facebookService.api('me?fields=id,name,birthday,email, gender')
         // Tester le requête
         .catch((error: any) => {
           console.error(error)
@@ -83,6 +85,13 @@ Export du composant
         // Vérification des données utilisateur
         .then( () => {
           console.log(this.userObject)
+          this.userService.userRegister(this.userObject)
+          .catch( err  => {
+            console.error(err)
+          })
+          .then( data => {
+            console.log(data)
+          })
         } )
       })
     }

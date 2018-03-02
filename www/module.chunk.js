@@ -29,13 +29,13 @@ Configuration du composants
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
 // Import des modules
-var auth_service_1 = __webpack_require__("../../../../../src/app/services/auth/auth.service.ts");
+var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
 // Définition du composant
 var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(myService, fb) {
+    function HomepageComponent(userService, facebookService) {
         var _this = this;
-        this.myService = myService;
-        this.fb = fb;
+        this.userService = userService;
+        this.facebookService = facebookService;
         // Initialisation de l'objet utilisateur
         this.userObject = {
             name: null,
@@ -51,7 +51,7 @@ var HomepageComponent = /** @class */ (function () {
         // Connecter l'utilisateur à Facebook
         this.submitFacebookConnect = function () {
             // Connecter l'utilisateur à Facebook
-            _this.fb.login()
+            _this.facebookService.login()
                 .catch(function (error) {
                 console.error(error);
             })
@@ -60,7 +60,7 @@ var HomepageComponent = /** @class */ (function () {
                 _this.userObject.facebook.token = response.authResponse.accessToken;
                 _this.userObject.facebook.id = response.authResponse.userID;
                 // Récupérer les information utilisateur 
-                _this.fb.api('me?fields=id,name,birthday,email, gender')
+                _this.facebookService.api('me?fields=id,name,birthday,email, gender')
                     .catch(function (error) {
                     console.error(error);
                 })
@@ -74,31 +74,39 @@ var HomepageComponent = /** @class */ (function () {
                 })
                     .then(function () {
                     console.log(_this.userObject);
+                    _this.userService.userRegister(_this.userObject)
+                        .catch(function (err) {
+                        console.error(err);
+                    })
+                        .then(function (data) {
+                        console.log(data);
+                    });
                 });
             });
         };
-        // Cnfiguration du module Facebook
+        // Configuration du module Facebook
         var initParams = {
             appId: '183483015710927',
             xfbml: true,
             version: 'v2.8'
         };
         // Initialisation du module Facebook
-        fb.init(initParams);
+        facebookService.init(initParams);
     }
     HomepageComponent.prototype.ngOnInit = function () { };
     HomepageComponent = __decorate([
         core_1.Component({
             selector: 'app-homepage',
             template: __webpack_require__("../../../../../src/app/components/homepage/homepage.component.html"),
-            providers: [auth_service_1.AuthService]
+            providers: [user_service_1.UserService]
         })
         //
         /*
         Export du composant
         */
         ,
-        __metadata("design:paramtypes", [auth_service_1.AuthService, ngx_facebook_1.FacebookService])
+        __metadata("design:paramtypes", [user_service_1.UserService,
+            ngx_facebook_1.FacebookService])
     ], HomepageComponent);
     return HomepageComponent;
 }());
@@ -177,7 +185,7 @@ exports.Routing = router_1.RouterModule.forChild(appRoutes);
 
 /***/ }),
 
-/***/ "../../../../../src/app/services/auth/auth.service.ts":
+/***/ "../../../../../src/app/services/user/user.service.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -204,42 +212,41 @@ __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
 /*
 Définition et export du service
 */
-var AuthService = /** @class */ (function () {
-    function AuthService(
-        // Injecter une variable de type Http dans le service
-        http) {
+var UserService = /** @class */ (function () {
+    function UserService(http) {
         this.http = http;
-        // Créer une variable pour l'adresse de l'API
-        this.apiUrl = '/auth';
+        this.apiUrl = '/user';
     }
     ;
-    // Fonction Facebook Connect
-    AuthService.prototype.facebookConnect = function () {
+    // Créer une fonction pour connecter l'utilistateur
+    UserService.prototype.userRegister = function (userData) {
+        // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('Content-Type', 'application/json');
-        return this.http.get(this.apiUrl + "/facebook", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        console.log(userData);
+        return this.http.post(this.apiUrl + "/connect", userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*
-    Fonctions de traitement des Promises
+    Fonctions de traitement de Promises
     */
-    // Créer une fonction pour traiter le retour de l'API
-    AuthService.prototype.getData = function (res) {
+    // Traiter le retour de l'API
+    UserService.prototype.getData = function (res) {
         return res.json() || {};
     };
     ;
-    // Créer une fonction pour traiter les erreurs de requête
-    AuthService.prototype.handleError = function (err) {
+    // Traiter les erreurs de requête
+    UserService.prototype.handleError = function (err) {
         return Promise.reject(err);
     };
     ;
-    AuthService = __decorate([
+    UserService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http])
-    ], AuthService);
-    return AuthService;
+    ], UserService);
+    return UserService;
 }());
-exports.AuthService = AuthService;
+exports.UserService = UserService;
 ;
 //  
 
