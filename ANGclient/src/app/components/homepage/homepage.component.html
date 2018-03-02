@@ -1,6 +1,21 @@
 <section id="loginSection">
     <h1>HeyU <span>MEAN social App for fun</span></h1>
+    <form id="loginForm" action="#" (submit)="submitLogUser()">
+
+        <fieldset>
+            <label for="userEmail">Email <em><span>Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidUser}">Utilisateur inconnu</span></em></label>
+            <input type="text" id="userEmail" (focus)="errorMsg.email = false; errorMsg.invalidUser = false" [(ngModel)]="userLoginObject.email" name="email">
+        
+            <label for="userPassword">Mot de passe <em><span [ngClass]="{'open': errorMsg.password}">Champ obligatoire</span><span [ngClass]="{'open': errorMsg.invalidPassword}">Mot de passe non valide</span></em></label>
+            <input type="password" id="userPassword" (focus)="errorMsg.password = false; errorMsg.invalidPassword = false" [(ngModel)]="userLoginObject.password" name="password">
+        
+            <button type="submit">Connexion</button>
+        </fieldset>
+    
+    </form>
+
+    <p><em>Utilisez Facebook Connect pour vous connecter ou créer un compte en un clic</em></p>
     <button (click)="submitFacebookConnect()" >Facebook connect</button>
-    <p><em>Cliquez vous connecter au créer un compte</em></p>
+    
 </section>
 <aside id="loader" [ngClass]="{  open: loaderIsClose, right: loaderIsRight }"></aside>

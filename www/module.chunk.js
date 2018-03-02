@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n    <p><em>Cliquez vous connecter au créer un compte</em></p>\n</section>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
+module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n        <fieldset>\n            <label for=\"userEmail\">Email <em><span>Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidUser}\">Utilisateur inconnu</span></em></label>\n            <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n        \n            <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n            <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n        \n            <button type=\"submit\">Connexion</button>\n        </fieldset>\n    \n    </form>\n\n    <p><em>Utilisez Facebook Connect pour vous connecter ou créer un compte en un clic</em></p>\n    <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n    \n</section>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
 
 /***/ }),
 
@@ -38,9 +38,21 @@ var HomepageComponent = /** @class */ (function () {
         this.userService = userService;
         this.facebookService = facebookService;
         this.router = router;
-        // Loader
+        // Variables : Loader
         this.loaderIsClose = true;
         this.loaderIsRight = false;
+        // Variables : Login
+        this.userLoginObject = {
+            email: null,
+            password: null
+        };
+        this.errorMsg = {
+            errors: 0,
+            email: false,
+            password: false,
+            invalidUser: false,
+            invalidPassword: false
+        };
         // Initialisation de l'objet utilisateur
         this.userObject = {
             name: null,
@@ -96,6 +108,9 @@ var HomepageComponent = /** @class */ (function () {
                 console.error(error);
             });
         };
+        // Function User Login
+        this.submitLogUser = function () {
+        };
         // Configuration du module Facebook
         var initParams = {
             appId: '183483015710927',
@@ -127,7 +142,9 @@ var HomepageComponent = /** @class */ (function () {
         Export du composant
         */
         ,
-        __metadata("design:paramtypes", [user_service_1.UserService, ngx_facebook_1.FacebookService, router_1.Router])
+        __metadata("design:paramtypes", [user_service_1.UserService,
+            ngx_facebook_1.FacebookService,
+            router_1.Router])
     ], HomepageComponent);
     return HomepageComponent;
 }());

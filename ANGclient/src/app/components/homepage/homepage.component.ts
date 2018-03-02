@@ -9,6 +9,8 @@ Configuration du composants
   // Import des modules
   import { UserService } from '../../services/user/user.service';
   import { UserModel } from '../../models/user.model';
+  import { UserLoginModel } from '../../models/user.login';
+  import { LoginFormModel } from '../../models/login.form';
 
   // Définition du composant
   @Component({
@@ -25,9 +27,24 @@ Export du composant
 */
   export class HomepageComponent implements OnInit {
 
-    // Loader
+    // Variables : Loader
     public loaderIsClose: boolean = true;
     public loaderIsRight: boolean = false;
+
+    // Variables : Login
+    public userLoginObject: UserLoginModel = { 
+      email: null, 
+      password: null 
+    };
+
+    public errorMsg: LoginFormModel = { 
+      errors: 0, 
+      email: false, 
+      password: false, 
+      invalidUser: false, 
+      invalidPassword: 
+      false 
+    };
 
     // Initialisation de l'objet utilisateur
     private userObject : UserModel = {
@@ -43,7 +60,11 @@ Export du composant
       }
     }
 
-    constructor( private userService: UserService, private facebookService: FacebookService, private router: Router) {
+    constructor( 
+      private userService: UserService, 
+      private facebookService: FacebookService, 
+      private router: Router) 
+    {
       // Configuration du module Facebook
       const initParams: InitParams = {
         appId: '183483015710927',
@@ -111,6 +132,11 @@ Export du composant
       .catch((error: any) => {
         console.error(error)
       })
+    }
+
+    // Function User Login
+    public submitLogUser = () => {
+
     }
 
     ngOnInit() {
