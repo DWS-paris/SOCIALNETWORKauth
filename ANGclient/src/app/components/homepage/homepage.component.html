@@ -10,12 +10,9 @@
             <input type="password" id="userPassword" (focus)="errorMsg.password = false; errorMsg.invalidPassword = false" [(ngModel)]="userLoginObject.password" name="password">
         
             <button type="submit">Connexion</button>
+            <button (click)="submitFacebookConnect()" >Facebook connect</button>
         </fieldset>
     
     </form>
-
-    <p><em>Utilisez Facebook Connect pour vous connecter ou créer un compte en un clic</em></p>
-    <button (click)="submitFacebookConnect()" >Facebook connect</button>
-    
 </section>
 <aside id="loader" [ngClass]="{  open: loaderIsClose, right: loaderIsRight }"></aside>

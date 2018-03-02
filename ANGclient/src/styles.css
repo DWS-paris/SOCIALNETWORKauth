@@ -56,7 +56,7 @@ Reset
         transition: all .3s;
     }
 
-    button:hover, #loginForm button:hover{
+    button:hover, #loginForm button[type="submit"]:hover{
         color: var(--color-orange-dark);
         background-color: black;
     }
@@ -128,10 +128,11 @@ Style Formulaire
         margin: 2rem auto;
     }
 
-    #loginForm button{
+    #loginForm button[type="submit"]{
         margin-top: 2rem;
         background: #cf403b;
         color: white;
+        margin-bottom: 1rem;
     }
 
     #loginForm label em{
