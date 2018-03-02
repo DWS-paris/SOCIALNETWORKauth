@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n    <p><em>Cliquez vous connecter au créer un compte</em></p>\n</section>"
+module.exports = "<section id=\"loginSection\">\n    <h1>HeyU <span>MEAN social App for fun</span></h1>\n    <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n    <p><em>Cliquez vous connecter au créer un compte</em></p>\n</section>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
 
 /***/ }),
 
@@ -38,6 +38,9 @@ var HomepageComponent = /** @class */ (function () {
         this.userService = userService;
         this.facebookService = facebookService;
         this.router = router;
+        // Loader
+        this.loaderIsClose = true;
+        this.loaderIsRight = false;
         // Initialisation de l'objet utilisateur
         this.userObject = {
             name: null,
@@ -69,12 +72,17 @@ var HomepageComponent = /** @class */ (function () {
                     _this.userObject.gender = response.gender;
                     _this.userObject.password = _this.userObject.facebook.id;
                     _this.userObject.type = "userFB";
+                    // Afficher le loader
+                    _this.loaderIsClose = true;
                     // Appeler la fonction du service pour connecter l'utilisateur
                     _this.userService.userFacebooConnect(_this.userObject)
                         .then(function (data) {
-                        console.log(data);
+                        // Enregistrement du token
                         localStorage.setItem('MEANSOCIALtoken', data.content.token);
-                        _this.router.navigateByUrl("/dashboard");
+                        // Navigation
+                        window.setTimeout(function () {
+                            _this.router.navigateByUrl("/dashboard");
+                        }, 300);
                     })
                         .catch(function (err) {
                         console.error(err);
@@ -97,7 +105,17 @@ var HomepageComponent = /** @class */ (function () {
         // Initialisation du module Facebook
         facebookService.init(initParams);
     }
-    HomepageComponent.prototype.ngOnInit = function () { };
+    HomepageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // Introduction
+        window.setTimeout(function () {
+            _this.loaderIsRight = true;
+            window.setTimeout(function () {
+                _this.loaderIsClose = false;
+                _this.loaderIsRight = false;
+            }, 300);
+        }, 300);
+    };
     HomepageComponent = __decorate([
         core_1.Component({
             selector: 'app-homepage',

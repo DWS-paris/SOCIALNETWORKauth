@@ -3,7 +3,7 @@ webpackJsonp(["module.0"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  dashboard works!\n</p>\n"
+module.exports = "<p>\n  dashboard works!\n</p>\n<aside id=\"loader\" [ngClass]=\"{  open: loaderIsClose, right: loaderIsRight }\"></aside>"
 
 /***/ }),
 
@@ -27,13 +27,33 @@ var user_service_1 = __webpack_require__("../../../../../src/app/services/user/u
 var DashboardComponent = /** @class */ (function () {
     function DashboardComponent(userService) {
         this.userService = userService;
+        // Loader
+        this.loaderIsClose = true;
+        this.loaderIsRight = false;
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
             .then(function (data) {
+            // Introduction
+            window.setTimeout(function () {
+                _this.loaderIsRight = true;
+                window.setTimeout(function () {
+                    _this.loaderIsClose = false;
+                    _this.loaderIsRight = false;
+                }, 300);
+            }, 300);
             console.log(data);
         })
             .catch(function (err) {
+            // Introduction
+            window.setTimeout(function () {
+                _this.loaderIsRight = true;
+                window.setTimeout(function () {
+                    _this.loaderIsClose = false;
+                    _this.loaderIsRight = false;
+                }, 300);
+            }, 300);
             console.error(err);
         });
     };

@@ -7,7 +7,7 @@ import { FacebookModule } from 'ngx-facebook';
 import { AppComponent } from './app.component';
 import { Routing } from './app.routes';
 import { HeaderComponent } from './partials/header/header.component';
-import { FooterComponent } from './partials/footer/footer.component'
+import { FooterComponent } from './partials/footer/footer.component';
 
 
 @NgModule({
@@ -17,9 +17,12 @@ import { FooterComponent } from './partials/footer/footer.component'
     FooterComponent
   ],
   imports: [
-    BrowserModule, HttpModule,FacebookModule.forRoot(), Routing
+    BrowserModule, 
+    HttpModule,
+    FacebookModule.forRoot(), 
+    Routing,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

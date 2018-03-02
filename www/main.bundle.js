@@ -91,7 +91,10 @@ var AppModule = /** @class */ (function () {
                 footer_component_1.FooterComponent
             ],
             imports: [
-                platform_browser_1.BrowserModule, http_1.HttpModule, ngx_facebook_1.FacebookModule.forRoot(), app_routes_1.Routing
+                platform_browser_1.BrowserModule,
+                http_1.HttpModule,
+                ngx_facebook_1.FacebookModule.forRoot(),
+                app_routes_1.Routing,
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]

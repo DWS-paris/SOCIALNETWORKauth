@@ -25,6 +25,10 @@ Export du composant
 */
   export class HomepageComponent implements OnInit {
 
+    // Loader
+    public loaderIsClose: boolean = true;
+    public loaderIsRight: boolean = false;
+
     // Initialisation de l'objet utilisateur
     private userObject : UserModel = {
       name: null,
@@ -73,21 +77,29 @@ Export du composant
               this.userObject.email = response.email
               this.userObject.gender = response.gender
               this.userObject.password = this.userObject.facebook.id
-              this.userObject.type = `userFB`
+              this.userObject.type = `userFB`;
+
+              // Afficher le loader
+              this.loaderIsClose = true;
 
               // Appeler la fonction du service pour connecter l'utilisateur
               this.userService.userFacebooConnect(this.userObject)
-              // Success : utilisateur connecté
-              .then( data => {
-                console.log(data)
-                localStorage.setItem('MEANSOCIALtoken', data.content.token);
-                this.router.navigateByUrl(`/dashboard`);
-              })
-              // Error : problème serveur
-              .catch( err  => {
-                console.error(err)
-              })
-            } )
+                // Success : utilisateur connecté
+                .then( data => {
+                  // Enregistrement du token
+                  localStorage.setItem('MEANSOCIALtoken', data.content.token);
+
+                  // Navigation
+                  window.setTimeout(()=>{
+                    this.router.navigateByUrl(`/dashboard`);
+                  }, 300);
+
+                })
+                // Error : problème serveur
+                .catch( err  => {
+                  console.error(err)
+                })
+            })
 
             // Capter les érreurs de requête : Facebook API
             .catch((error: any) => {
@@ -101,7 +113,16 @@ Export du composant
       })
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+      // Introduction
+      window.setTimeout(()=>{
+        this.loaderIsRight = true;
+        window.setTimeout(()=>{
+          this.loaderIsClose = false;
+          this.loaderIsRight = false;
+        }, 300);
+      }, 300);
+    }
 
   }
 //
