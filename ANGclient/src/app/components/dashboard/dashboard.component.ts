@@ -6,6 +6,7 @@ Configuration du composants
 
   // Modules
   import { UserService } from '../../services/user/user.service';
+  import { FeedService } from '../../services/feed/feed.service';
   import { UserModel } from '../../models/user.model';
   import { LoaderStateModel } from '../../models/loader.state.model';
 
@@ -13,7 +14,7 @@ Configuration du composants
   @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    providers: [ UserService ],
+    providers: [ UserService, FeedService ],
   })
 // 
 
@@ -31,35 +32,55 @@ Export du composant
     public singleUser: UserModel;
     public activeView: string = `/dashboard`;
 
-    constructor(private userService: UserService) { }
+    constructor(
+      private userService: UserService,
+      private feedService: FeedService
+    ) { }
 
     // Fonction Change View
     public changeView = (evt: any) => {
       this.loaderState = evt;
+    };
+
+    // Fonction User Info
+    private getUserInfos = () => {
+      this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
+        .then( data => { // Success getUserInfo()
+
+          // Masquer le loader
+          this.loaderState.isClose = true;
+
+          // Définition de l'objet singleUser
+          this.singleUser = data;
+        })
+        
+        .catch( err  => { // Error getUserInfo()
+          // Introduction
+          this.loaderState.isClose = false;
+          console.error(err)
+        })
+    };
+
+    // Fonction User Feed
+    private getUserFeed = () => {
+      this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
+        .then( data => { // Success getUserInfo()
+
+          console.log(data)
+        })
+        
+        .catch( err  => { // Error getUserInfo()
+          console.error(err)
+        })
     }
 
     ngOnInit() {
+      // Récupérer les informations utilisateur
+      this.getUserInfos();
 
-      // Récupération du token utilisateur
-      const userToken = localStorage.getItem('MEANSOCIALtoken');
-
-      // Récupération des données utilisateur
-      this.userService.getUserInfo(userToken)
-      .then( data => { // Success getUserInfo()
-
-        // Masquer le loader
-        this.loaderState.isClose = true;
-
-        // Définition de l'objet singleUser
-        this.singleUser = data;
-      })
-      
-      .catch( err  => { // Error getUserInfo()
-        // Introduction
-        this.loaderState.isClose = false;
-        console.error(err)
-      })
-    }
+      // Récupérer la liste des feeds
+      this.getUserFeed();
+    };
 
   }
 // 
