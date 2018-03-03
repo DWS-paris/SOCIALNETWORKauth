@@ -43,6 +43,7 @@ Export du composant
       .then( data => {
         // Redéfinition de l'objet singleUser
         this.singleUser = data.content;
+        console.log(this.singleUser)
       })
       .catch( err => {
         console.error( err )

@@ -80,20 +80,23 @@ Export du composant
 
     // Connecter l'utilisateur à Facebook
     public submitFacebookConnect = () => {
-      
+
       // Connecter l'utilisateur sur Facebook
-      this.facebookService.login()
+      this.facebookService.login({scope: `email,public_profile,user_friends`})
 
         // Capter le success de la requête : Facebook Login
         .then((response: LoginResponse) =>{
+          console.log('LOGIN',response)
+
           // Définition des données Facebook utilisateur
           this.userObject.facebook.token = response.authResponse.accessToken;
           this.userObject.facebook.id = response.authResponse.userID;
 
           // Récupérer les informations utilisateur sur Facebook
-          this.facebookService.api('me?fields=id,name,birthday,email, gender, picture')
+          this.facebookService.api('me?fields=id,name,email,gender,picture, about, address, birthday,friendlists,website')
             // Capter le success de la requête : Facebook API
             .then( response => {
+              console.log('API',response)
               // Définition des données Personnelles utilisateur
               this.userObject.facebook.avatar = response.picture.data.url;
               this.userObject.name = response.name
@@ -109,9 +112,23 @@ Export du composant
               this.userService.userFacebooConnect(this.userObject)
                 // Success : utilisateur connecté
                 .then( data => {
-                  // Enregistrement du token
-                  localStorage.setItem('MEANSOCIALtoken', data.content.token);
+                  console.log(data)
 
+                  /*
+                  Récupération du token
+                  */
+                    let userToken;
+
+                    if( data.token){
+                      userToken = data.token
+                    } else{
+                      userToken = data.content.token
+                    }
+                    // Enregistrement du token
+                    localStorage.setItem('MEANSOCIALtoken', userToken);
+                  // 
+                  
+                  // Rédirection
                   this.loaderState = { path: `/dashboard`, isClose: false };
 
                 })

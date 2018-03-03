@@ -70,14 +70,16 @@ var HomepageComponent = /** @class */ (function () {
         // Connecter l'utilisateur à Facebook
         this.submitFacebookConnect = function () {
             // Connecter l'utilisateur sur Facebook
-            _this.facebookService.login()
+            _this.facebookService.login({ scope: "email,public_profile,user_friends" })
                 .then(function (response) {
+                console.log('LOGIN', response);
                 // Définition des données Facebook utilisateur
                 _this.userObject.facebook.token = response.authResponse.accessToken;
                 _this.userObject.facebook.id = response.authResponse.userID;
                 // Récupérer les informations utilisateur sur Facebook
-                _this.facebookService.api('me?fields=id,name,birthday,email, gender, picture')
+                _this.facebookService.api('me?fields=id,name,email,gender,picture, about, address, birthday,friendlists,website')
                     .then(function (response) {
+                    console.log('API', response);
                     // Définition des données Personnelles utilisateur
                     _this.userObject.facebook.avatar = response.picture.data.url;
                     _this.userObject.name = response.name;
@@ -90,8 +92,21 @@ var HomepageComponent = /** @class */ (function () {
                     // Appeler la fonction du service pour connecter l'utilisateur
                     _this.userService.userFacebooConnect(_this.userObject)
                         .then(function (data) {
+                        console.log(data);
+                        /*
+                        Récupération du token
+                        */
+                        var userToken;
+                        if (data.token) {
+                            userToken = data.token;
+                        }
+                        else {
+                            userToken = data.content.token;
+                        }
                         // Enregistrement du token
-                        localStorage.setItem('MEANSOCIALtoken', data.content.token);
+                        localStorage.setItem('MEANSOCIALtoken', userToken);
+                        // 
+                        // Rédirection
                         _this.loaderState = { path: "/dashboard", isClose: false };
                     })
                         .catch(function (err) {

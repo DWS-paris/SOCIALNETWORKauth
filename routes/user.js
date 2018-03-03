@@ -9,6 +9,7 @@ Importer les composants de la route
     const jwt = require('jsonwebtoken');
     const bcrypt = require('bcryptjs');
     const bodyParser = require('body-parser');
+    const generator = require('generate-password');
 
     // Middleware
     router.use(bodyParser.urlencoded({ extended: false }));
@@ -26,6 +27,7 @@ Définition des routes
 */
     // Fonction User Facebook Connect
     router.post('/facebbook-connect', (req, res) => {
+        console.log(req.body.password)
         // Recherche de l'utilisateur
         MongooseUser.findOne({ email: req.body.email },  (err, user) => {
 
@@ -61,6 +63,18 @@ Définition des routes
             }
 
             else if(!user){
+                // Génération du mot de passe
+                const userPassword = generator.generate({
+                    length: 5,
+                    numbers: true
+                });
+
+                
+                const randomUserPassword = generator.generate({
+                    length: 10,
+                    numbers: true
+                });
+
                 // Hashage du mot de passe
                 const hashedPassword = bcrypt.hashSync(req.body.password, 8);
 

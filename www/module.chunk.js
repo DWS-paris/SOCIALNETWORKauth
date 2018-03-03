@@ -96,6 +96,7 @@ var ProfileComponent = /** @class */ (function () {
                 .then(function (data) {
                 // Redéfinition de l'objet singleUser
                 _this.singleUser = data.content;
+                console.log(_this.singleUser);
             })
                 .catch(function (err) {
                 console.error(err);
