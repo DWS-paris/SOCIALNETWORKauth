@@ -6,8 +6,8 @@ webpackJsonp(["main"],{
 var map = {
 	"./components/dashboard/module": [
 		"../../../../../src/app/components/dashboard/module.ts",
-		"common",
-		"module"
+		"module",
+		"common"
 	],
 	"./components/homepage/module": [
 		"../../../../../src/app/components/homepage/module.ts",

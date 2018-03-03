@@ -15,6 +15,7 @@ Import des composants du serveur
   const frontRoute = require('./routes/front');
   const authRoute = require('./routes/auth');
   const userRoute = require('./routes/user');
+  const feedRoute = require('./routes/feed');
 //
 
 
@@ -66,6 +67,7 @@ Configuration du serveur
   server.use('/', frontRoute);
   server.use('/auth', authRoute);
   server.use('/user', userRoute);
+  server.use('/feed', feedRoute);
 // 
 
 

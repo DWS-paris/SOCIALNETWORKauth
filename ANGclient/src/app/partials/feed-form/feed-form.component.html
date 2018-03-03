@@ -1,0 +1,8 @@
+<section>
+
+  <form (submit)="addNewFeed()" id="addFeedForm">
+    <textarea name="content" [(ngModel)]="newFeedObject.content" placeholder="Ajouter un message"></textarea>
+    <button type="submit"><i class="fas fa-check"></i></button>
+  </form>
+
+</section>
