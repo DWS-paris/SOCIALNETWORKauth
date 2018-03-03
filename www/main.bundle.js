@@ -6,18 +6,18 @@ webpackJsonp(["main"],{
 var map = {
 	"./components/dashboard/module": [
 		"../../../../../src/app/components/dashboard/module.ts",
-		"common",
-		"module.1"
+		"module",
+		"common"
 	],
 	"./components/homepage/module": [
 		"../../../../../src/app/components/homepage/module.ts",
 		"common",
-		"module.0"
+		"module.1"
 	],
 	"./components/profile/module": [
 		"../../../../../src/app/components/profile/module.ts",
 		"common",
-		"module"
+		"module.0"
 	]
 };
 function webpackAsyncContext(req) {

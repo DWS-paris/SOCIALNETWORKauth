@@ -11,6 +11,7 @@ Configuration du composants
   import { HeaderModule } from '../../partials/header/module';
   import { LoaderModule } from '../../partials/loader/module';
   import { FeedFormModule } from '../../partials/feed-form/module';
+  import { SingleFeedModule } from '../../partials/single-feed/module';
   
   import { Routing } from './route';
 // 
@@ -20,7 +21,7 @@ Définition et export du module
   // Définition
   @NgModule({
     declarations: [ DashboardComponent ],
-    imports: [ Routing, CommonModule, FormsModule, HeaderModule, LoaderModule, FeedFormModule ]
+    imports: [ Routing, CommonModule, FormsModule, HeaderModule, LoaderModule, FeedFormModule, SingleFeedModule ]
   })
 
   // Export

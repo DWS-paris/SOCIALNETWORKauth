@@ -352,3 +352,44 @@ Style Homepage
         opacity: .5;
     }
 /**/
+
+
+/* 
+Stymle Feed List
+*/
+    .singleFeed {
+        margin: 2rem auto 4rem auto;
+        
+        display: -ms-flex;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .singleFeed .avatar{
+        width: 5%;
+    }
+
+    .singleFeed .contentFeed{
+        width: 95%;
+        padding-left: 2rem;
+    }
+
+    .singleFeed .userName {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        border-bottom: .1rem dotted var(--color-orange-alpha);
+        padding-bottom: .5rem;
+        margin-bottom: 1rem;
+    }
+
+    .singleFeed .userName span {
+        text-transform: none;
+        font-weight: 100;
+    }
+
+    .singleFeed .content {
+        font-size: 2rem;
+    }
+/**/

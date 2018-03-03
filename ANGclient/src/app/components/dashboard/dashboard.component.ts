@@ -8,6 +8,7 @@ Configuration du composants
   import { UserService } from '../../services/user/user.service';
   import { FeedService } from '../../services/feed/feed.service';
   import { UserModel } from '../../models/user.model';
+  import { FeedModel } from '../../models/feed.model';
   import { LoaderStateModel } from '../../models/loader.state.model';
 
   // Définition du composant
@@ -31,6 +32,7 @@ Export du composant
     // Variables
     public singleUser: UserModel;
     public activeView: string = `/dashboard`;
+    public feedCollection: FeedModel[];
 
     constructor(
       private userService: UserService,
@@ -65,7 +67,7 @@ Export du composant
     private getUserFeed = () => {
       this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
         .then( data => { // Success getUserFeed()
-          console.log(data)
+          this.feedCollection = data;
         })
         
         .catch( err  => { // Error getUserFeed()

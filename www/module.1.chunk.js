@@ -1,13 +1,13 @@
 webpackJsonp(["module.1"],{
 
-/***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
+/***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form *ngIf=\"singleUser\" [singleUser]=\"singleUser\" (sendFeedData)=\"addNewFeed($event)\" ></app-feed-form>\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<main class=\"container\">\n    <section id=\"loginSection\">\n        <h1>HeyU <span>MEAN social App for fun</span></h1>\n        <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n            <fieldset>\n                <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n                <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n            \n                <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n                <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n            \n                <button type=\"submit\">Connexion</button>\n                <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n            </fieldset>\n        \n        </form>\n    </section>\n</main>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/dashboard.component.ts":
+/***/ "../../../../../src/app/components/homepage/homepage.component.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27,89 +27,187 @@ Configuration du composants
 */
 // Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
-// Modules
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
+// Import des modules
 var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
-var feed_service_1 = __webpack_require__("../../../../../src/app/services/feed/feed.service.ts");
 // Définition du composant
-var DashboardComponent = /** @class */ (function () {
-    function DashboardComponent(userService, feedService) {
+var HomepageComponent = /** @class */ (function () {
+    function HomepageComponent(userService, facebookService, router) {
         var _this = this;
         this.userService = userService;
-        this.feedService = feedService;
-        // Loader
-        this.loaderState = { path: "/dashboard", isClose: true };
-        this.activeView = "/dashboard";
-        // Fonction Change View
-        this.changeView = function (evt) {
-            _this.loaderState = evt;
+        this.facebookService = facebookService;
+        this.router = router;
+        // Variables : Loader
+        this.loaderState = { path: "/", isClose: false };
+        this.loaderIsClose = true;
+        this.loaderIsRight = false;
+        // Variables : Login
+        this.userLoginObject = {
+            email: null,
+            password: null
         };
-        // Fonction User Info
-        this.getUserInfos = function () {
+        this.errorMsg = {
+            errors: 0,
+            email: false,
+            password: false,
+            invalidUser: false,
+            invalidPassword: false
+        };
+        // Initialisation de l'objet utilisateur
+        this.userObject = {
+            name: null,
+            email: null,
+            password: null,
+            gender: null,
+            type: null,
+            facebook: {
+                token: null,
+                id: null,
+                avatar: null
+            }
+        };
+        // Connecter l'utilisateur à Facebook
+        this.submitFacebookConnect = function () {
+            // Connecter l'utilisateur sur Facebook
+            _this.facebookService.login({ scope: "email,public_profile,user_friends" })
+                .then(function (response) {
+                console.log('LOGIN', response);
+                // Définition des données Facebook utilisateur
+                _this.userObject.facebook.token = response.authResponse.accessToken;
+                _this.userObject.facebook.id = response.authResponse.userID;
+                // Récupérer les informations utilisateur sur Facebook
+                _this.facebookService.api('me?fields=id,name,email,gender,picture, about, address, birthday,friendlists,website')
+                    .then(function (response) {
+                    console.log('API', response);
+                    // Définition des données Personnelles utilisateur
+                    _this.userObject.facebook.avatar = response.picture.data.url;
+                    _this.userObject.name = response.name;
+                    _this.userObject.email = response.email;
+                    _this.userObject.gender = response.gender;
+                    _this.userObject.password = _this.userObject.facebook.id;
+                    _this.userObject.type = "userFB";
+                    // Afficher le loader
+                    _this.loaderState = { path: "/facebook-connect", isClose: false };
+                    // Appeler la fonction du service pour connecter l'utilisateur
+                    _this.userService.userFacebooConnect(_this.userObject)
+                        .then(function (data) {
+                        console.log(data);
+                        /*
+                        Récupération du token
+                        */
+                        var userToken;
+                        if (data.token) {
+                            userToken = data.token;
+                        }
+                        else {
+                            userToken = data.content.token;
+                        }
+                        // Enregistrement du token
+                        localStorage.setItem('MEANSOCIALtoken', userToken);
+                        // 
+                        // Rédirection
+                        _this.loaderState = { path: "/dashboard", isClose: false };
+                    })
+                        .catch(function (err) {
+                        console.error(err);
+                    });
+                })
+                    .catch(function (error) {
+                    console.error(error);
+                });
+            })
+                .catch(function (error) {
+                console.error(error);
+            });
+        };
+        // Function User Login
+        this.submitLogUser = function () {
+            // Vider les erreurs
+            _this.errorMsg.errors = 0;
+            // Vérification des informations saisies
+            if (_this.userLoginObject.email == null || _this.userLoginObject.email.length == 0) {
+                // Email manquant
+                _this.errorMsg.email = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.userLoginObject.password == null || _this.userLoginObject.password.length == 0) {
+                // Password manquant
+                _this.errorMsg.password = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.errorMsg.errors === 0) {
+                // => Formulaire validé
+                // Afficher le loader
+                _this.loaderState.isClose = false;
+                _this.userService.userLogin(_this.userLoginObject).then(function (user) {
+                    // Enregistrement du token
+                    localStorage.setItem('MEANSOCIALtoken', user.token);
+                    _this.loaderState = { path: "/dashboard", isClose: false };
+                }).catch(function (error) {
+                    if (error.status === 404) {
+                        // Utilisateur inconnu
+                        _this.errorMsg.invalidUser = true;
+                    }
+                    else if (error.status === 401) {
+                        // Mot de passe invalide
+                        _this.errorMsg.invalidPassword = true;
+                    }
+                });
+            }
+        };
+        // Fonction User Me
+        this.checkUser = function () {
             _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
                 .then(function (data) {
-                // Masquer le loader
-                _this.loaderState.isClose = true;
-                // Définition de l'objet singleUser
-                _this.singleUser = data;
+                // Afficher le loader
+                _this.loaderState = { path: "/dashboard", isClose: true };
             })
                 .catch(function (err) {
-                // Introduction
-                _this.loaderState.isClose = false;
-                console.error(err);
             });
         };
-        // Fonction User Feed
-        this.getUserFeed = function () {
-            _this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
-                .then(function (data) {
-                console.log(data);
-            })
-                .catch(function (err) {
-                console.error(err);
-            });
+        // Configuration du module Facebook
+        var initParams = {
+            appId: '183483015710927',
+            xfbml: true,
+            version: 'v2.8'
         };
-        // Fonction Add New Feed
-        this.addNewFeed = function (evt) {
-            console.log(evt);
-            _this.feedService.addNewFeed(evt, localStorage.getItem('MEANSOCIALtoken'))
-                .then(function (data) {
-                console.log(data);
-            })
-                .catch(function (err) {
-                console.error(err);
-            });
-        };
+        // Initialisation du module Facebook
+        facebookService.init(initParams);
     }
-    DashboardComponent.prototype.ngOnInit = function () {
-        // Récupérer les informations utilisateur
-        this.getUserInfos();
-        // Récupérer la liste des feeds
-        this.getUserFeed();
+    HomepageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // Masquer le loader
+        window.setTimeout(function () {
+            window.setTimeout(function () {
+                _this.checkUser();
+            }, 500);
+        }, 500);
     };
-    ;
-    DashboardComponent = __decorate([
+    HomepageComponent = __decorate([
         core_1.Component({
-            selector: 'app-dashboard',
-            template: __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.html"),
-            providers: [user_service_1.UserService, feed_service_1.FeedService],
+            selector: 'app-homepage',
+            template: __webpack_require__("../../../../../src/app/components/homepage/homepage.component.html"),
+            providers: [user_service_1.UserService]
         })
-        // 
+        //
         /*
         Export du composant
         */
         ,
         __metadata("design:paramtypes", [user_service_1.UserService,
-            feed_service_1.FeedService])
-    ], DashboardComponent);
-    return DashboardComponent;
+            ngx_facebook_1.FacebookService,
+            router_1.Router])
+    ], HomepageComponent);
+    return HomepageComponent;
 }());
-exports.DashboardComponent = DashboardComponent;
-//  
+exports.HomepageComponent = HomepageComponent;
+// 
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/module.ts":
+/***/ "../../../../../src/app/components/homepage/module.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -129,37 +227,35 @@ var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
-var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
-var module_1 = __webpack_require__("../../../../../src/app/partials/header/module.ts");
-var module_2 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
-var module_3 = __webpack_require__("../../../../../src/app/partials/feed-form/module.ts");
-var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
+var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
+var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
+var route_1 = __webpack_require__("../../../../../src/app/components/homepage/route.ts");
 // 
 /*
 Définition et export du module
 */
 // Définition
-var DashboardModule = /** @class */ (function () {
+var HomepageModule = /** @class */ (function () {
     // Export
-    function DashboardModule() {
+    function HomepageModule() {
     }
-    DashboardModule = __decorate([
+    HomepageModule = __decorate([
         core_1.NgModule({
-            declarations: [dashboard_component_1.DashboardComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.HeaderModule, module_2.LoaderModule, module_3.FeedFormModule]
+            declarations: [homepage_component_1.HomepageComponent],
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
         })
         // Export
-    ], DashboardModule);
-    return DashboardModule;
+    ], HomepageModule);
+    return HomepageModule;
 }());
-exports.DashboardModule = DashboardModule;
+exports.HomepageModule = HomepageModule;
 ;
 //  
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/route.ts":
+/***/ "../../../../../src/app/components/homepage/route.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -167,221 +263,16 @@ exports.DashboardModule = DashboardModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 // Importer les composants à utiliser dans les routes
-var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
+var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
 // Créer une constante pour définir le comportement des routes
 var appRoutes = [
     {
         path: '',
-        component: dashboard_component_1.DashboardComponent
+        component: homepage_component_1.HomepageComponent
     }
 ];
 // Exporter une autre constante pour utiliser les routes
 exports.Routing = router_1.RouterModule.forChild(appRoutes);
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/feed-form/feed-form.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<section>\n\n  <form (submit)=\"addNewFeed()\" id=\"addFeedForm\">\n    <textarea name=\"content\" [(ngModel)]=\"newFeedObject.content\" placeholder=\"Ajouter un message\"></textarea>\n    <button type=\"submit\"><i class=\"fas fa-check\"></i></button>\n  </form>\n\n</section>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/feed-form/feed-form.component.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Configuration du composants
-*/
-// Import des interfaces
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-// Définition du composant
-var FeedFormComponent = /** @class */ (function () {
-    function FeedFormComponent() {
-        var _this = this;
-        this.sendFeedData = new core_1.EventEmitter;
-        // Fonction Add Feed
-        this.addNewFeed = function () {
-            if (_this.newFeedObject.content === null || _this.newFeedObject.content.length === 0) {
-            }
-            else {
-                _this.sendFeedData.emit(_this.newFeedObject);
-            }
-        };
-    }
-    FeedFormComponent.prototype.ngOnInit = function () {
-        // Configuration de l'objet newFeedObject
-        this.newFeedObject = {
-            content: null,
-            author: {
-                _id: this.singleUser._id,
-                name: this.singleUser.name,
-                avatar: this.singleUser.facebook.avatar
-            }
-        };
-    };
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], FeedFormComponent.prototype, "sendFeedData", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Object)
-    ], FeedFormComponent.prototype, "singleUser", void 0);
-    FeedFormComponent = __decorate([
-        core_1.Component({
-            selector: 'app-feed-form',
-            template: __webpack_require__("../../../../../src/app/partials/feed-form/feed-form.component.html")
-        })
-        // 
-        /*
-        Export du composant
-        */
-        ,
-        __metadata("design:paramtypes", [])
-    ], FeedFormComponent);
-    return FeedFormComponent;
-}());
-exports.FeedFormComponent = FeedFormComponent;
-// 
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/partials/feed-form/module.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Configuration du composants
-*/
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var common_1 = __webpack_require__("../../../common/esm5/common.js");
-var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
-var feed_form_component_1 = __webpack_require__("../../../../../src/app/partials/feed-form/feed-form.component.ts");
-// Configuration du module
-var FeedFormModule = /** @class */ (function () {
-    //
-    /*
-    Export de la class du module
-    */
-    function FeedFormModule() {
-    }
-    FeedFormModule = __decorate([
-        core_1.NgModule({
-            declarations: [
-                feed_form_component_1.FeedFormComponent,
-            ],
-            imports: [common_1.CommonModule, forms_1.FormsModule],
-            exports: [
-                feed_form_component_1.FeedFormComponent
-            ]
-        })
-        //
-        /*
-        Export de la class du module
-        */
-    ], FeedFormModule);
-    return FeedFormModule;
-}());
-exports.FeedFormModule = FeedFormModule;
-// 
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/services/feed/feed.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Import des composants du service
-*/
-// Import des interfaces
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var http_1 = __webpack_require__("../../../http/esm5/http.js");
-var http_2 = __webpack_require__("../../../http/esm5/http.js");
-__webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
-// 
-/*
-Définition et export du service
-*/
-var FeedService = /** @class */ (function () {
-    function FeedService(http) {
-        this.http = http;
-        this.apiUrl = '/feed';
-    }
-    ;
-    // Fonction Get All Feed
-    FeedService.prototype.getFeeds = function (token) {
-        // Définition du header de la requête
-        var myHeader = new http_2.Headers();
-        myHeader.append('x-access-token', token);
-        return this.http.get(this.apiUrl + "/all", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
-    };
-    ;
-    // Fonction Add New Feed
-    FeedService.prototype.addNewFeed = function (newFeed, token) {
-        // Définition du header de la requête
-        var myHeader = new http_2.Headers();
-        myHeader.append('x-access-token', token);
-        return this.http.post(this.apiUrl + "/add", newFeed, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
-    };
-    ;
-    /*
-    Fonctions de traitement de Promises
-    */
-    // Traiter le retour de l'API
-    FeedService.prototype.getData = function (res) {
-        return res.json() || {};
-    };
-    ;
-    // Traiter les erreurs de requête
-    FeedService.prototype.handleError = function (err) {
-        return Promise.reject(err);
-    };
-    ;
-    FeedService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], FeedService);
-    return FeedService;
-}());
-exports.FeedService = FeedService;
-;
-//  
 
 
 /***/ })

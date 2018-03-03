@@ -1,7 +1,7 @@
 export interface FeedModel {
     _id?: string,
     content: string,
-    date?: Date,
+    date?: any,
     author: {
         _id: string,
         name: string,
