@@ -136,36 +136,35 @@ Définition des routes
 
     // Fonction User Update
     router.put('/:id', VerifyToken,  (req, res) => {
-        const userId = req.params.id;
-        console.log(req.body)
-        // Rechercher et mettre à jour l'utilisateur
-        // MongooseUser.findById(userId, { password: 0 },  (err, user) => {
+        const userIdParam = req.params.id;
+        const userIdToken = req.userId;
 
-        //     // Message d'erreur
-        //     if (err) return res.status(500).send("There was a problem finding the user.");
-        //     if (!user) return res.status(404).send("No user found.");
-            
-        //     // Envoie de la réponse
-        //     res.status(200).send(user);
-        // });
+        // Vérification des paramètres de la requête
+        if( userIdParam === userIdToken ){
+            // // Rechercher et mettre à jour l'utilisateur
+            MongooseUser.findByIdAndUpdate(userIdParam, req.body, {new: true},  (err, user) => {
+                // Message d'erreur
+                if (err) return res.status(500).send({
+                    response: false,
+                    status: 500,
+                    content: `Problème de requête`
+                });
 
-
-        // // Rechercher et mettre à jour l'utilisateur
-        MongooseUser.findByIdAndUpdate(userId, req.body, {new: true},  (err, user) => {
-            // Message d'erreur
-            if (err) return res.status(500).send({
+                // Envoie de la réponse
+                res.status(200).send({
+                    response: true,
+                    status: 200,
+                    content: user
+                });
+            });
+        }
+        else{
+            return res.status(500).send({
                 response: false,
-                status: 500,
-                content: `Problème de requête`
+                status: 404,
+                content: `Accès refusé`
             });
-
-            // Envoie de la réponse
-            res.status(200).send({
-                response: true,
-                status: 200,
-                content: user
-            });
-        });
+        }
     });
 //
 
