@@ -136,7 +136,7 @@ Définition des routes
 
     // Fonction User Update
     router.put('/:id', VerifyToken,  (req, res) => {
-        const userIdParam = req.params.id;
+        const userIdParam = req.params.id; 
         const userIdToken = req.userId;
 
         // Vérification des paramètres de la requête

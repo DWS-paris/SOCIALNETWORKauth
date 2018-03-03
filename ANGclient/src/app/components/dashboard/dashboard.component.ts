@@ -66,8 +66,8 @@ Export du composant
     // Fonction User Feed
     private getUserFeed = () => {
       this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
-        .then( data => { // Success getUserFeed()
-          this.feedCollection = data;
+        .then( dataFeeds => { // Success getUserFeed()
+          this.feedCollection = dataFeeds;
         })
         
         .catch( err  => { // Error getUserFeed()
@@ -79,6 +79,20 @@ Export du composant
     // Fonction Add New Feed
     public addNewFeed = (evt) => {
       this.feedService.addNewFeed( evt, localStorage.getItem('MEANSOCIALtoken'))
+        .then( data => { // Success getUserFeed()
+          // Ajout du feed dans la liste
+          this.getUserFeed()
+        })
+        
+        .catch( err  => { // Error getUserFeed()
+          console.error(err)
+        })
+    };
+
+    // Fonction Add New Feed
+    public deleteFeed = (evt) => {
+
+      this.feedService.deleteFeed( evt, localStorage.getItem('MEANSOCIALtoken'))
         .then( data => { // Success getUserFeed()
           // Ajout du feed dans la liste
           this.getUserFeed()

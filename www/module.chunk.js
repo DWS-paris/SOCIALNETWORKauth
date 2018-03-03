@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form *ngIf=\"singleUser\" [singleUser]=\"singleUser\" (sendFeedData)=\"addNewFeed($event)\" ></app-feed-form>\n\n    <section *ngIf=\"feedCollection\">\n        <app-single-feed *ngFor=\"let item of feedCollection\" [item]=\"item\"></app-single-feed>\n    </section>\n\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form *ngIf=\"singleUser\" [singleUser]=\"singleUser\" (sendFeedData)=\"addNewFeed($event)\" ></app-feed-form>\n\n    <section *ngIf=\"feedCollection\">\n        <app-single-feed *ngFor=\"let item of feedCollection\" [item]=\"item\" (deleteFeed)=\"deleteFeed($event)\"></app-single-feed>\n    </section>\n\n</main>"
 
 /***/ }),
 
@@ -61,8 +61,8 @@ var DashboardComponent = /** @class */ (function () {
         // Fonction User Feed
         this.getUserFeed = function () {
             _this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
-                .then(function (data) {
-                _this.feedCollection = data;
+                .then(function (dataFeeds) {
+                _this.feedCollection = dataFeeds;
             })
                 .catch(function (err) {
                 console.error(err);
@@ -71,6 +71,17 @@ var DashboardComponent = /** @class */ (function () {
         // Fonction Add New Feed
         this.addNewFeed = function (evt) {
             _this.feedService.addNewFeed(evt, localStorage.getItem('MEANSOCIALtoken'))
+                .then(function (data) {
+                // Ajout du feed dans la liste
+                _this.getUserFeed();
+            })
+                .catch(function (err) {
+                console.error(err);
+            });
+        };
+        // Fonction Add New Feed
+        this.deleteFeed = function (evt) {
+            _this.feedService.deleteFeed(evt, localStorage.getItem('MEANSOCIALtoken'))
                 .then(function (data) {
                 // Ajout du feed dans la liste
                 _this.getUserFeed();
@@ -369,7 +380,7 @@ exports.SingleFeedModule = SingleFeedModule;
 /***/ "../../../../../src/app/partials/single-feed/single-feed.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<article class=\"singleFeed\">\n  <div class=\"avatar\">\n    <img src=\"{{singleFeed.author.avatar}}\" alt=\"Photo de {{singleFeed.author.name}}\">\n  </div>\n  <div class=\"contentFeed\">\n    <p class=\"userName\">{{singleFeed.author.name}} <span>{{singleFeed.date}}</span></p>\n    <p class=\"content\">{{singleFeed.content}}</p>\n  </div>\n</article>"
+module.exports = "<article class=\"singleFeed\">\n  <div class=\"avatar\">\n    <img src=\"{{singleFeed.author.avatar}}\" alt=\"Photo de {{singleFeed.author.name}}\">\n  </div>\n  <div class=\"contentFeed\">\n    <p class=\"userName\">\n      <b>{{singleFeed.author.name}}</b>\n      <span>{{singleFeed.date}}</span> \n      <button (click)=\"submitDeleteFeed(item._id)\" ><i class=\"far fa-trash-alt\"></i></button>\n    </p>\n    <p class=\"content\">{{singleFeed.content}}</p>\n  </div>\n</article>"
 
 /***/ }),
 
@@ -396,6 +407,12 @@ var core_1 = __webpack_require__("../../../core/esm5/core.js");
 // Déclaration du composant
 var SingleFeedComponent = /** @class */ (function () {
     function SingleFeedComponent() {
+        var _this = this;
+        this.deleteFeed = new core_1.EventEmitter;
+        // Fonction Submit Delete Feed
+        this.submitDeleteFeed = function (_id) {
+            _this.deleteFeed.emit(_id);
+        };
     }
     SingleFeedComponent.prototype.ngOnInit = function () {
         this.singleFeed = this.item;
@@ -406,6 +423,10 @@ var SingleFeedComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], SingleFeedComponent.prototype, "item", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], SingleFeedComponent.prototype, "deleteFeed", void 0);
     SingleFeedComponent = __decorate([
         core_1.Component({
             selector: 'app-single-feed',
@@ -464,7 +485,8 @@ var FeedService = /** @class */ (function () {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('x-access-token', token);
-        return this.http.get(this.apiUrl + "/all", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        return this.http.get(this.apiUrl + "/all", { headers: myHeader })
+            .toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     // Fonction Add New Feed
@@ -472,7 +494,17 @@ var FeedService = /** @class */ (function () {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('x-access-token', token);
-        return this.http.post(this.apiUrl + "/add", newFeed, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        return this.http.post(this.apiUrl + "/add", newFeed, { headers: myHeader })
+            .toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    // Fonction Delete Feed
+    FeedService.prototype.deleteFeed = function (_id, token) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('x-access-token', token);
+        return this.http.delete(this.apiUrl + "/delete/" + _id, { headers: myHeader })
+            .toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*

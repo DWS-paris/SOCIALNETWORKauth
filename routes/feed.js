@@ -41,7 +41,7 @@ Définition des routes
         });
     });
 
-    // Fonction Get All
+    // Fonction Add Feed
     router.post('/add', VerifyToken, (req, res, next) => {
         
         // Création de l'utilisateur
@@ -67,6 +67,23 @@ Définition des routes
 
             // Envoie de la réponse
             res.status(200).send({ auth: true, token: token });
+        });
+    });
+
+    // Fonction Delete One
+    router.delete('/delete/:id', VerifyToken, (req, res, next) => {
+        const feedIdParam = req.params.id;
+        const userIdToken = req.userId;
+
+        // Recherche de l'utilisateur
+        MongooseFeed.remove( { _id: feedIdParam }, (err, feed) => {
+
+            // Message d'erreur
+            if (err) return res.status(500).send("There was a problem finding the feed.");
+            if (!feed) return res.status(404).send("No feeds found.");
+
+            // Envoie de la réponse
+            res.status(200).send(feed);
         });
     });
 //

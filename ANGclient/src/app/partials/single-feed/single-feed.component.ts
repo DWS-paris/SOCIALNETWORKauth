@@ -2,7 +2,7 @@
 Import des composants
 */
   // Class
-  import { Component, OnInit, Input } from '@angular/core';
+  import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   import { Router } from '@angular/router';
 
   // Module
@@ -21,10 +21,17 @@ Export de la class du composant
 */
   export class SingleFeedComponent implements OnInit {
 
+    constructor() {}
+
+    // Variables du composant
     @Input() item: FeedModel
+    @Output() deleteFeed = new EventEmitter;
     public singleFeed: FeedModel;
 
-    constructor() {}
+    // Fonction Submit Delete Feed
+    public submitDeleteFeed = ( _id: string ) => {
+      this.deleteFeed.emit(_id);
+    }
 
     ngOnInit() {
       this.singleFeed = this.item;

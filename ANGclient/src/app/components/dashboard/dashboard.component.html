@@ -10,7 +10,7 @@
     <app-feed-form *ngIf="singleUser" [singleUser]="singleUser" (sendFeedData)="addNewFeed($event)" ></app-feed-form>
 
     <section *ngIf="feedCollection">
-        <app-single-feed *ngFor="let item of feedCollection" [item]="item"></app-single-feed>
+        <app-single-feed *ngFor="let item of feedCollection" [item]="item" (deleteFeed)="deleteFeed($event)"></app-single-feed>
     </section>
 
 </main>

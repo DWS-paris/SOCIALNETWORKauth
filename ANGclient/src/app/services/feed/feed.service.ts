@@ -26,8 +26,9 @@ Définition et export du service
       // Définition du header de la requête
       let myHeader = new Headers();
       myHeader.append('x-access-token', token);
-      
-      return this.http.get(`${this.apiUrl}/all`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+
+      return this.http.get(`${this.apiUrl}/all`, { headers: myHeader })
+      .toPromise().then(this.getData).catch(this.handleError);
     };
 
     // Fonction Add New Feed
@@ -36,7 +37,18 @@ Définition et export du service
       let myHeader = new Headers();
       myHeader.append('x-access-token', token);
       
-      return this.http.post(`${this.apiUrl}/add`, newFeed, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+      return this.http.post(`${this.apiUrl}/add`, newFeed, { headers: myHeader })
+      .toPromise().then(this.getData).catch(this.handleError);
+    };
+
+    // Fonction Delete Feed
+    public deleteFeed( _id: string, token: string ): Promise<FeedModel[]>{
+      // Définition du header de la requête
+      let myHeader = new Headers();
+      myHeader.append('x-access-token', token);
+      
+      return this.http.delete(`${this.apiUrl}/delete/${_id}`, { headers: myHeader })
+      .toPromise().then(this.getData).catch(this.handleError);
     };
     
 
