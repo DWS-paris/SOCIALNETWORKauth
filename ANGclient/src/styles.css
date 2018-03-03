@@ -2,6 +2,7 @@
 Déclaration des variables
 */
     :root{
+        --color-orange-darker: #ab1b36;
         --color-orange-dark: #c12c48;
         --color-orange-middle: #c93341;
         --color-orange-light: #d24b36;
@@ -133,6 +134,9 @@ Style Formulaire
         background-color: rgba(255, 255, 255, .2);
         padding: 2rem;
         margin: 2rem auto;
+
+        -webkit-box-shadow: 0 0 2rem var(--color-orange-darker);
+        box-shadow: 0 0 2rem var(--color-orange-darker);
     }
 
     #loginForm button[type="submit"], #addFeedForm button[type="submit"]{
@@ -140,6 +144,11 @@ Style Formulaire
         background: #cf403b;
         color: white;
         margin-bottom: 1rem;
+    }
+
+    #loginForm button[type="submit"]{
+        -webkit-box-shadow: 0 0 2rem var(--color-orange-dark);
+        box-shadow: 0 0 2rem var(--color-orange-dark);
     }
 
     #addFeedForm button[type="submit"]{
@@ -264,6 +273,7 @@ Style Header
         font-size: 6rem;
         color: white;
         display: inline;
+        text-shadow: 0 0 2rem var(--color-orange-darker);
     }
 
     h1 span {
@@ -334,6 +344,12 @@ Style Homepage
         background: linear-gradient(to bottom, var(--color-orange-dark) 0%,var(--color-orange-middle) 44%,var(--color-orange-light) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     }
 
+    #textIntro {
+        color: white;
+        font-size: 1.7rem;
+        margin-bottom: 1rem;
+    }
+
     #loginSection{
         max-width: 30rem;
         margin: 10rem auto;
@@ -342,6 +358,10 @@ Style Homepage
     #loginSection button {
         width: 100%;
         margin-bottom: .5rem;
+        text-transform: uppercase;
+        font-size: 1.4rem;
+
+        box-shadow: 0 0 2rem var(--color-orange-darker);
     }
 
     #loginSection em {
