@@ -32,11 +32,12 @@ Export du composant
 
       } else{
         this.sendFeedData.emit(this.newFeedObject)
+        this.resetFeedObject();
       }
     }
 
-    ngOnInit() {
-      // Configuration de l'objet newFeedObject
+    // Fonction resetFeedObject
+    private resetFeedObject = () => {
       this.newFeedObject = {
         content: null,
         author: {
@@ -45,7 +46,11 @@ Export du composant
           avatar: this.singleUser.facebook.avatar
         }
       };
+    }
 
+    ngOnInit() {
+      // Configuration de l'objet newFeedObject
+      this.resetFeedObject();
      }
 
   }

@@ -78,17 +78,16 @@ Export du composant
 
     // Fonction Add New Feed
     public addNewFeed = (evt) => {
-      console.log(evt)
-
       this.feedService.addNewFeed( evt, localStorage.getItem('MEANSOCIALtoken'))
         .then( data => { // Success getUserFeed()
-          console.log(data)
+          // Ajout du feed dans la liste
+          this.getUserFeed()
         })
         
         .catch( err  => { // Error getUserFeed()
           console.error(err)
         })
-    }
+    };
 
     ngOnInit() {
       // Récupérer les informations utilisateur

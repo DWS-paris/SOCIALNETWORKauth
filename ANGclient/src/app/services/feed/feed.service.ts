@@ -31,7 +31,7 @@ Définition et export du service
     };
 
     // Fonction Add New Feed
-    public addNewFeed( newFeed:FeedModel, token: string ): Promise<FeedModel[]>{
+    public addNewFeed( newFeed:FeedModel, token: string ): Promise<FeedModel>{
       // Définition du header de la requête
       let myHeader = new Headers();
       myHeader.append('x-access-token', token);

@@ -70,10 +70,10 @@ var DashboardComponent = /** @class */ (function () {
         };
         // Fonction Add New Feed
         this.addNewFeed = function (evt) {
-            console.log(evt);
             _this.feedService.addNewFeed(evt, localStorage.getItem('MEANSOCIALtoken'))
                 .then(function (data) {
-                console.log(data);
+                // Ajout du feed dans la liste
+                _this.getUserFeed();
             })
                 .catch(function (err) {
                 console.error(err);
@@ -220,19 +220,24 @@ var FeedFormComponent = /** @class */ (function () {
             }
             else {
                 _this.sendFeedData.emit(_this.newFeedObject);
+                _this.resetFeedObject();
             }
+        };
+        // Fonction resetFeedObject
+        this.resetFeedObject = function () {
+            _this.newFeedObject = {
+                content: null,
+                author: {
+                    _id: _this.singleUser._id,
+                    name: _this.singleUser.name,
+                    avatar: _this.singleUser.facebook.avatar
+                }
+            };
         };
     }
     FeedFormComponent.prototype.ngOnInit = function () {
         // Configuration de l'objet newFeedObject
-        this.newFeedObject = {
-            content: null,
-            author: {
-                _id: this.singleUser._id,
-                name: this.singleUser.name,
-                avatar: this.singleUser.facebook.avatar
-            }
-        };
+        this.resetFeedObject();
     };
     __decorate([
         core_1.Output(),
