@@ -1,213 +1,6 @@
 webpackJsonp(["module.0"],{
 
-/***/ "../../../../../src/app/components/homepage/homepage.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<main class=\"container\">\n    <section id=\"loginSection\">\n        <h1>HeyU <span>MEAN social App for fun</span></h1>\n        <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n            <fieldset>\n                <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n                <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n            \n                <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n                <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n            \n                <button type=\"submit\">Connexion</button>\n                <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n            </fieldset>\n        \n        </form>\n    </section>\n</main>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/homepage/homepage.component.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
-Configuration du composants
-*/
-// Import des interfaces
-var core_1 = __webpack_require__("../../../core/esm5/core.js");
-var router_1 = __webpack_require__("../../../router/esm5/router.js");
-var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
-// Import des modules
-var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
-// Définition du composant
-var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(userService, facebookService, router) {
-        var _this = this;
-        this.userService = userService;
-        this.facebookService = facebookService;
-        this.router = router;
-        // Variables : Loader
-        this.loaderState = { path: "/", isClose: false };
-        this.loaderIsClose = true;
-        this.loaderIsRight = false;
-        // Variables : Login
-        this.userLoginObject = {
-            email: null,
-            password: null
-        };
-        this.errorMsg = {
-            errors: 0,
-            email: false,
-            password: false,
-            invalidUser: false,
-            invalidPassword: false
-        };
-        // Initialisation de l'objet utilisateur
-        this.userObject = {
-            name: null,
-            email: null,
-            password: null,
-            gender: null,
-            type: null,
-            facebook: {
-                token: null,
-                id: null,
-                avatar: null
-            }
-        };
-        // Connecter l'utilisateur à Facebook
-        this.submitFacebookConnect = function () {
-            // Connecter l'utilisateur sur Facebook
-            _this.facebookService.login({ scope: "email,public_profile,user_friends" })
-                .then(function (response) {
-                console.log('LOGIN', response);
-                // Définition des données Facebook utilisateur
-                _this.userObject.facebook.token = response.authResponse.accessToken;
-                _this.userObject.facebook.id = response.authResponse.userID;
-                // Récupérer les informations utilisateur sur Facebook
-                _this.facebookService.api('me?fields=id,name,email,gender,picture, about, address, birthday,friendlists,website')
-                    .then(function (response) {
-                    console.log('API', response);
-                    // Définition des données Personnelles utilisateur
-                    _this.userObject.facebook.avatar = response.picture.data.url;
-                    _this.userObject.name = response.name;
-                    _this.userObject.email = response.email;
-                    _this.userObject.gender = response.gender;
-                    _this.userObject.password = _this.userObject.facebook.id;
-                    _this.userObject.type = "userFB";
-                    // Afficher le loader
-                    _this.loaderState = { path: "/facebook-connect", isClose: false };
-                    // Appeler la fonction du service pour connecter l'utilisateur
-                    _this.userService.userFacebooConnect(_this.userObject)
-                        .then(function (data) {
-                        console.log(data);
-                        /*
-                        Récupération du token
-                        */
-                        var userToken;
-                        if (data.token) {
-                            userToken = data.token;
-                        }
-                        else {
-                            userToken = data.content.token;
-                        }
-                        // Enregistrement du token
-                        localStorage.setItem('MEANSOCIALtoken', userToken);
-                        // 
-                        // Rédirection
-                        _this.loaderState = { path: "/dashboard", isClose: false };
-                    })
-                        .catch(function (err) {
-                        console.error(err);
-                    });
-                })
-                    .catch(function (error) {
-                    console.error(error);
-                });
-            })
-                .catch(function (error) {
-                console.error(error);
-            });
-        };
-        // Function User Login
-        this.submitLogUser = function () {
-            // Vider les erreurs
-            _this.errorMsg.errors = 0;
-            // Vérification des informations saisies
-            if (_this.userLoginObject.email == null || _this.userLoginObject.email.length == 0) {
-                // Email manquant
-                _this.errorMsg.email = true;
-                _this.errorMsg.errors++;
-            }
-            if (_this.userLoginObject.password == null || _this.userLoginObject.password.length == 0) {
-                // Password manquant
-                _this.errorMsg.password = true;
-                _this.errorMsg.errors++;
-            }
-            if (_this.errorMsg.errors === 0) {
-                // => Formulaire validé
-                // Afficher le loader
-                _this.loaderState.isClose = false;
-                _this.userService.userLogin(_this.userLoginObject).then(function (user) {
-                    // Enregistrement du token
-                    localStorage.setItem('MEANSOCIALtoken', user.token);
-                    _this.loaderState = { path: "/dashboard", isClose: false };
-                }).catch(function (error) {
-                    if (error.status === 404) {
-                        // Utilisateur inconnu
-                        _this.errorMsg.invalidUser = true;
-                    }
-                    else if (error.status === 401) {
-                        // Mot de passe invalide
-                        _this.errorMsg.invalidPassword = true;
-                    }
-                });
-            }
-        };
-        // Fonction User Me
-        this.checkUser = function () {
-            _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
-                .then(function (data) {
-                // Afficher le loader
-                _this.loaderState = { path: "/dashboard", isClose: true };
-            })
-                .catch(function (err) {
-            });
-        };
-        // Configuration du module Facebook
-        var initParams = {
-            appId: '183483015710927',
-            xfbml: true,
-            version: 'v2.8'
-        };
-        // Initialisation du module Facebook
-        facebookService.init(initParams);
-    }
-    HomepageComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        // Masquer le loader
-        window.setTimeout(function () {
-            window.setTimeout(function () {
-                _this.checkUser();
-            }, 500);
-        }, 500);
-    };
-    HomepageComponent = __decorate([
-        core_1.Component({
-            selector: 'app-homepage',
-            template: __webpack_require__("../../../../../src/app/components/homepage/homepage.component.html"),
-            providers: [user_service_1.UserService]
-        })
-        //
-        /*
-        Export du composant
-        */
-        ,
-        __metadata("design:paramtypes", [user_service_1.UserService,
-            ngx_facebook_1.FacebookService,
-            router_1.Router])
-    ], HomepageComponent);
-    return HomepageComponent;
-}());
-exports.HomepageComponent = HomepageComponent;
-// 
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/homepage/module.ts":
+/***/ "../../../../../src/app/components/profile/module.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,35 +20,123 @@ var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
-var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
+var profile_component_1 = __webpack_require__("../../../../../src/app/components/profile/profile.component.ts");
 var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
-var route_1 = __webpack_require__("../../../../../src/app/components/homepage/route.ts");
-// 
+var module_2 = __webpack_require__("../../../../../src/app/partials/header/module.ts");
+var route_1 = __webpack_require__("../../../../../src/app/components/profile/route.ts");
+//
 /*
 Définition et export du module
 */
 // Définition
-var HomepageModule = /** @class */ (function () {
+var ProfileModule = /** @class */ (function () {
     // Export
-    function HomepageModule() {
+    function ProfileModule() {
     }
-    HomepageModule = __decorate([
+    ProfileModule = __decorate([
         core_1.NgModule({
-            declarations: [homepage_component_1.HomepageComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
+            declarations: [profile_component_1.ProfileComponent],
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule, module_2.HeaderModule]
         })
         // Export
-    ], HomepageModule);
-    return HomepageModule;
+    ], ProfileModule);
+    return ProfileModule;
 }());
-exports.HomepageModule = HomepageModule;
+exports.ProfileModule = ProfileModule;
 ;
 //  
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/homepage/route.ts":
+/***/ "../../../../../src/app/components/profile/profile.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p><strong><a href=\"\"><i class=\"fas fa-tachometer-alt\"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <section *ngIf=\"singleUser\">\n        <h2>Modifier vos informations</h2>\n\n        <form (submit)=\"userUpdate()\" id=\"editUserForm\">\n            <label for=\"pseudo\">Pseudo</label>\n            <input type=\"text\" name=\"pseudo\" [(ngModel)]=\"singleUser.name\">\n\n            <label for=\"email\">Email</label>\n            <input type=\"email\" name=\"email\" [(ngModel)]=\"singleUser.email\">\n\n            <label for=\"password\">Password</label>\n            <input type=\"text\" name=\"password\" disabled [(ngModel)]=\"singleUser.facebook.id\">\n\n            <button type=\"submit\">Modifier</button>\n        </form>\n    </section>\n</main>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/profile/profile.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
+// Définition du composant
+var ProfileComponent = /** @class */ (function () {
+    function ProfileComponent(userService) {
+        var _this = this;
+        this.userService = userService;
+        // Variables
+        this.loaderState = { path: "/profile", isClose: true };
+        this.activeView = "/profile";
+        this.userToken = localStorage.getItem('MEANSOCIALtoken');
+        // Fonction Change View
+        this.changeView = function (evt) {
+            _this.loaderState = evt;
+        };
+        // Fonction User Update
+        this.userUpdate = function () {
+            _this.userService.updateUserInfo(_this.singleUser, _this.userToken)
+                .then(function (data) {
+                // Redéfinition de l'objet singleUser
+                _this.singleUser = data.content;
+                console.log(_this.singleUser);
+            })
+                .catch(function (err) {
+                console.error(err);
+            });
+        };
+    }
+    ProfileComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // Récupération des données utilisateur
+        this.userService.getUserInfo(this.userToken)
+            .then(function (data) {
+            // Masquer le loader
+            _this.loaderState.isClose = true;
+            // Définition de l'objet singleUser
+            _this.singleUser = data;
+            console.log(_this.singleUser);
+        });
+    };
+    ProfileComponent = __decorate([
+        core_1.Component({
+            selector: 'app-profile',
+            template: __webpack_require__("../../../../../src/app/components/profile/profile.component.html"),
+            providers: [user_service_1.UserService]
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
+        __metadata("design:paramtypes", [user_service_1.UserService])
+    ], ProfileComponent);
+    return ProfileComponent;
+}());
+exports.ProfileComponent = ProfileComponent;
+//  
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/profile/route.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -263,12 +144,12 @@ exports.HomepageModule = HomepageModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 // Importer les composants à utiliser dans les routes
-var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
+var profile_component_1 = __webpack_require__("../../../../../src/app/components/profile/profile.component.ts");
 // Créer une constante pour définir le comportement des routes
 var appRoutes = [
     {
         path: '',
-        component: homepage_component_1.HomepageComponent
+        component: profile_component_1.ProfileComponent
     }
 ];
 // Exporter une autre constante pour utiliser les routes
