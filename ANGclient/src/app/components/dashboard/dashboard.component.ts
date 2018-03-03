@@ -64,12 +64,26 @@ Export du composant
     // Fonction User Feed
     private getUserFeed = () => {
       this.feedService.getFeeds(localStorage.getItem('MEANSOCIALtoken'))
-        .then( data => { // Success getUserInfo()
-
+        .then( data => { // Success getUserFeed()
           console.log(data)
         })
         
-        .catch( err  => { // Error getUserInfo()
+        .catch( err  => { // Error getUserFeed()
+          console.error(err)
+        })
+    }
+
+
+    // Fonction Add New Feed
+    public addNewFeed = (evt) => {
+      console.log(evt)
+
+      this.feedService.addNewFeed( evt, localStorage.getItem('MEANSOCIALtoken'))
+        .then( data => { // Success getUserFeed()
+          console.log(data)
+        })
+        
+        .catch( err  => { // Error getUserFeed()
           console.error(err)
         })
     }

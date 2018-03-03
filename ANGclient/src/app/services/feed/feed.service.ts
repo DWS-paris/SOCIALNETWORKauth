@@ -8,7 +8,7 @@ Import des composants du service
   import 'rxjs/add/operator/toPromise';
 
   // Import des modules
-  import { UserModel } from '../../models/user.model';
+  import { FeedModel } from '../../models/feed.model';
 // 
 
 /*
@@ -21,13 +21,22 @@ Définition et export du service
 
     private apiUrl: string = '/feed'
 
-    // Fonction User Me
-    public getFeeds( token: string ): Promise<any>{
+    // Fonction Get All Feed
+    public getFeeds( token: string ): Promise<FeedModel[]>{
       // Définition du header de la requête
       let myHeader = new Headers();
       myHeader.append('x-access-token', token);
       
       return this.http.get(`${this.apiUrl}/all`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+
+    // Fonction Add New Feed
+    public addNewFeed( newFeed:FeedModel, token: string ): Promise<FeedModel[]>{
+      // Définition du header de la requête
+      let myHeader = new Headers();
+      myHeader.append('x-access-token', token);
+      
+      return this.http.post(`${this.apiUrl}/add`, newFeed, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     
 

@@ -5,6 +5,7 @@ Déclaration des variables
         --color-orange-dark: #c12c48;
         --color-orange-middle: #c93341;
         --color-orange-light: #d24b36;
+        --color-orange-alpha: rgba(197, 47, 68, .2);;
     }
 /**/
 /* 
@@ -56,10 +57,11 @@ Reset
         transition: all .3s;
     }
 
-    button:hover, button.active, #loginForm button[type="submit"]:hover{
+    button:hover, button.active, #loginForm button[type="submit"]:hover, #addFeedForm button[type="submit"]:hover{
         color: var(--color-orange-dark);
         background-color: black;
     }
+
 
     button.active{
         color: white;
@@ -133,11 +135,16 @@ Style Formulaire
         margin: 2rem auto;
     }
 
-    #loginForm button[type="submit"]{
+    #loginForm button[type="submit"], #addFeedForm button[type="submit"]{
         margin-top: 2rem;
         background: #cf403b;
         color: white;
         margin-bottom: 1rem;
+    }
+
+    #addFeedForm button[type="submit"]{
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     #loginForm label em{
@@ -191,6 +198,30 @@ Style Formulaire
     #editUserForm [type="submit"]{
         margin-top: 2rem;
         border: .1rem solid var(--color-orange-light);
+    }
+/**/
+
+
+/* 
+Styler Add Feed
+*/
+    #addFeedForm {
+        background-color: var(--color-orange-alpha);
+        padding: 2rem;
+
+        display: -ms-flex;
+        display: -webkit-flex;
+        display: flex;
+    }
+    
+    #addFeedForm textarea {
+        width: 740px;
+        border: none;
+        padding: .5rem 0 0 .5rem;
+        font-size: 1.5rem;
+        font-weight: 100;
+        margin: 0px;
+        min-height: 2rem;
     }
 /**/
 

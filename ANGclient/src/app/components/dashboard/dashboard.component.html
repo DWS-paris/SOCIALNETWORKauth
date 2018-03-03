@@ -6,4 +6,6 @@
     <section *ngIf="singleUser" id="userHeader">
         <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>
     </section>
+
+    <app-feed-form *ngIf="singleUser" [singleUser]="singleUser" (sendFeedData)="addNewFeed($event)" ></app-feed-form>
 </main>

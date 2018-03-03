@@ -3,7 +3,7 @@ webpackJsonp(["module.1"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form *ngIf=\"singleUser\" [singleUser]=\"singleUser\" (sendFeedData)=\"addNewFeed($event)\" ></app-feed-form>\n</main>"
 
 /***/ }),
 
@@ -68,6 +68,17 @@ var DashboardComponent = /** @class */ (function () {
                 console.error(err);
             });
         };
+        // Fonction Add New Feed
+        this.addNewFeed = function (evt) {
+            console.log(evt);
+            _this.feedService.addNewFeed(evt, localStorage.getItem('MEANSOCIALtoken'))
+                .then(function (data) {
+                console.log(data);
+            })
+                .catch(function (err) {
+                console.error(err);
+            });
+        };
     }
     DashboardComponent.prototype.ngOnInit = function () {
         // Récupérer les informations utilisateur
@@ -121,6 +132,7 @@ var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
 var module_1 = __webpack_require__("../../../../../src/app/partials/header/module.ts");
 var module_2 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
+var module_3 = __webpack_require__("../../../../../src/app/partials/feed-form/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
 // 
 /*
@@ -134,7 +146,7 @@ var DashboardModule = /** @class */ (function () {
     DashboardModule = __decorate([
         core_1.NgModule({
             declarations: [dashboard_component_1.DashboardComponent],
-            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.HeaderModule, module_2.LoaderModule]
+            imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.HeaderModule, module_2.LoaderModule, module_3.FeedFormModule]
         })
         // Export
     ], DashboardModule);
@@ -165,6 +177,135 @@ var appRoutes = [
 ];
 // Exporter une autre constante pour utiliser les routes
 exports.Routing = router_1.RouterModule.forChild(appRoutes);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/feed-form/feed-form.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section>\n\n  <form (submit)=\"addNewFeed()\" id=\"addFeedForm\">\n    <textarea name=\"content\" [(ngModel)]=\"newFeedObject.content\" placeholder=\"Ajouter un message\"></textarea>\n    <button type=\"submit\"><i class=\"fas fa-check\"></i></button>\n  </form>\n\n</section>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/feed-form/feed-form.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+// Définition du composant
+var FeedFormComponent = /** @class */ (function () {
+    function FeedFormComponent() {
+        var _this = this;
+        this.sendFeedData = new core_1.EventEmitter;
+        // Fonction Add Feed
+        this.addNewFeed = function () {
+            if (_this.newFeedObject.content === null || _this.newFeedObject.content.length === 0) {
+            }
+            else {
+                _this.sendFeedData.emit(_this.newFeedObject);
+            }
+        };
+    }
+    FeedFormComponent.prototype.ngOnInit = function () {
+        // Configuration de l'objet newFeedObject
+        this.newFeedObject = {
+            content: null,
+            author: {
+                _id: this.singleUser._id,
+                name: this.singleUser.name
+            }
+        };
+    };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], FeedFormComponent.prototype, "sendFeedData", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FeedFormComponent.prototype, "singleUser", void 0);
+    FeedFormComponent = __decorate([
+        core_1.Component({
+            selector: 'app-feed-form',
+            template: __webpack_require__("../../../../../src/app/partials/feed-form/feed-form.component.html")
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
+        __metadata("design:paramtypes", [])
+    ], FeedFormComponent);
+    return FeedFormComponent;
+}());
+exports.FeedFormComponent = FeedFormComponent;
+// 
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/feed-form/module.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var common_1 = __webpack_require__("../../../common/esm5/common.js");
+var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
+var feed_form_component_1 = __webpack_require__("../../../../../src/app/partials/feed-form/feed-form.component.ts");
+// Configuration du module
+var FeedFormModule = /** @class */ (function () {
+    //
+    /*
+    Export de la class du module
+    */
+    function FeedFormModule() {
+    }
+    FeedFormModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                feed_form_component_1.FeedFormComponent,
+            ],
+            imports: [common_1.CommonModule, forms_1.FormsModule],
+            exports: [
+                feed_form_component_1.FeedFormComponent
+            ]
+        })
+        //
+        /*
+        Export de la class du module
+        */
+    ], FeedFormModule);
+    return FeedFormModule;
+}());
+exports.FeedFormModule = FeedFormModule;
+// 
 
 
 /***/ }),
@@ -202,12 +343,20 @@ var FeedService = /** @class */ (function () {
         this.apiUrl = '/feed';
     }
     ;
-    // Fonction User Me
+    // Fonction Get All Feed
     FeedService.prototype.getFeeds = function (token) {
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('x-access-token', token);
         return this.http.get(this.apiUrl + "/all", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    // Fonction Add New Feed
+    FeedService.prototype.addNewFeed = function (newFeed, token) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('x-access-token', token);
+        return this.http.post(this.apiUrl + "/add", newFeed, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*
