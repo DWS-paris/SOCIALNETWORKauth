@@ -342,11 +342,10 @@ var UserService = /** @class */ (function () {
     ;
     // Fonction User Update
     UserService.prototype.updateUserInfo = function (userData, token) {
-        console.log(userData._id);
         // Définition du header de la requête
         var myHeader = new http_2.Headers();
         myHeader.append('x-access-token', token);
-        return this.http.put(this.apiUrl + "/" + userData._id, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+        return this.http.put(this.apiUrl + "/" + userData._id, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*

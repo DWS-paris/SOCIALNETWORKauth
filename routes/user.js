@@ -134,12 +134,23 @@ Définition des routes
         });
     });
 
-    // Fonction IUser Update
-    router.put('/:id',  (req, res) => {
-        console.log(req.params.id)
-        console.log(req.body)
+    // Fonction User Update
+    router.put('/:id', VerifyToken,  (req, res) => {
         const userId = req.params.id;
+        console.log(req.body)
         // Rechercher et mettre à jour l'utilisateur
+        // MongooseUser.findById(userId, { password: 0 },  (err, user) => {
+
+        //     // Message d'erreur
+        //     if (err) return res.status(500).send("There was a problem finding the user.");
+        //     if (!user) return res.status(404).send("No user found.");
+            
+        //     // Envoie de la réponse
+        //     res.status(200).send(user);
+        // });
+
+
+        // // Rechercher et mettre à jour l'utilisateur
         MongooseUser.findByIdAndUpdate(userId, req.body, {new: true},  (err, user) => {
             // Message d'erreur
             if (err) return res.status(500).send({

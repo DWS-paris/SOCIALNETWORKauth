@@ -27,7 +27,7 @@ Export du composant
     public loaderState: LoaderStateModel = { path: `/profile`, isClose: true }
     public activeView: string = `/profile`;
     public singleUser: UserModel;
-    private userToken: string;
+    private userToken: string = localStorage.getItem('MEANSOCIALtoken');
 
     constructor(private userService: UserService) { }
 
@@ -38,11 +38,11 @@ Export du composant
 
     // Fonction User Update
     public userUpdate = () => {
-      console.log(this.singleUser)
+
       this.userService.updateUserInfo(this.singleUser, this.userToken)
       .then( data => {
-        // Définition de l'objet singleUser
-        this.singleUser = data;
+        // Redéfinition de l'objet singleUser
+        this.singleUser = data.content;
       })
       .catch( err => {
         console.error( err )
@@ -50,9 +50,6 @@ Export du composant
     };
 
     ngOnInit() {
-      // Récupération du token utilisateur
-      this.userToken = localStorage.getItem('MEANSOCIALtoken');
-
       // Récupération des données utilisateur
       this.userService.getUserInfo(this.userToken)
       .then( data => { // Success getUserInfo()

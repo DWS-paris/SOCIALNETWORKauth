@@ -50,12 +50,11 @@ Définition et export du service
 
     // Fonction User Update
     public updateUserInfo( userData: UserModel, token: string ): Promise<any>{
-      console.log(userData._id)
       // Définition du header de la requête
       let myHeader = new Headers();
       myHeader.append('x-access-token', token);
       
-      return this.http.put(`${this.apiUrl}/${userData._id}`, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+      return this.http.put(`${this.apiUrl}/${userData._id}`, userData, { headers: myHeader}).toPromise().then(this.getData).catch(this.handleError);
     };
 
 
