@@ -32,7 +32,10 @@ Définition des routes
             // Message d'erreur
             if (err) return res.status(500).send("There was a problem finding the feeds.");
             if (!feeds) return res.status(404).send("No feeds found.");
-            
+
+        })
+        // Trier par date
+        .sort('-date').exec(function(err, feeds) { 
             // Envoie de la réponse
             res.status(200).send(feeds);
         });
