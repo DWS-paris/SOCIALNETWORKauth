@@ -10,12 +10,12 @@ const appRoutes: Routes = [
     */
     {
         path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
+        loadChildren: './components/homepage/module#HomepageModule'
     },
     {
         path: 'login',
-        loadChildren: './components/homepage/module#HomepageModule'
+        redirectTo: '',
+        pathMatch: 'full'
     },
     {
         path: 'dashboard',
