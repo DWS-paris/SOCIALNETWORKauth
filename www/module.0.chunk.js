@@ -1,13 +1,13 @@
 webpackJsonp(["module.0"],{
 
-/***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
+/***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [hideLoader]=\"hideLoader\"></app-loader>\n\n<section *ngIf=\"singleUser\" id=\"userHeader\">\n    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n</section>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<main class=\"container\">\n    <section id=\"loginSection\">\n        <h1>HeyU <span>MEAN social App for fun</span></h1>\n        <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n            <fieldset>\n                <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n                <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n            \n                <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n                <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n            \n                <button type=\"submit\">Connexion</button>\n                <button (click)=\"submitFacebookConnect()\" >Facebook connect</button>\n            </fieldset>\n        \n        </form>\n    </section>\n</main>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/dashboard.component.ts":
+/***/ "../../../../../src/app/components/homepage/homepage.component.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27,63 +27,187 @@ Configuration du composants
 */
 // Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
-// Modules
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
+// Import des modules
 var user_service_1 = __webpack_require__("../../../../../src/app/services/user/user.service.ts");
 // Définition du composant
-var DashboardComponent = /** @class */ (function () {
-    function DashboardComponent(userService) {
+var HomepageComponent = /** @class */ (function () {
+    function HomepageComponent(userService, facebookService, router) {
+        var _this = this;
         this.userService = userService;
-        // Loader
-        this.hideLoader = false;
+        this.facebookService = facebookService;
+        this.router = router;
+        // Variables : Loader
+        this.loaderState = { path: "/", isClose: false };
         this.loaderIsClose = true;
         this.loaderIsRight = false;
-        this.sendUserData = new core_1.EventEmitter;
+        // Variables : Login
+        this.userLoginObject = {
+            email: null,
+            password: null
+        };
+        this.errorMsg = {
+            errors: 0,
+            email: false,
+            password: false,
+            invalidUser: false,
+            invalidPassword: false
+        };
+        // Initialisation de l'objet utilisateur
+        this.userObject = {
+            name: null,
+            email: null,
+            password: null,
+            gender: null,
+            type: null,
+            facebook: {
+                token: null,
+                id: null,
+                avatar: null
+            }
+        };
+        // Connecter l'utilisateur à Facebook
+        this.submitFacebookConnect = function () {
+            // Connecter l'utilisateur sur Facebook
+            _this.facebookService.login({ scope: "email,public_profile,user_friends" })
+                .then(function (response) {
+                console.log('LOGIN', response);
+                // Définition des données Facebook utilisateur
+                _this.userObject.facebook.token = response.authResponse.accessToken;
+                _this.userObject.facebook.id = response.authResponse.userID;
+                // Récupérer les informations utilisateur sur Facebook
+                _this.facebookService.api('me?fields=id,name,email,gender,picture, about, address, birthday,friendlists,website')
+                    .then(function (response) {
+                    console.log('API', response);
+                    // Définition des données Personnelles utilisateur
+                    _this.userObject.facebook.avatar = response.picture.data.url;
+                    _this.userObject.name = response.name;
+                    _this.userObject.email = response.email;
+                    _this.userObject.gender = response.gender;
+                    _this.userObject.password = _this.userObject.facebook.id;
+                    _this.userObject.type = "userFB";
+                    // Afficher le loader
+                    _this.loaderState = { path: "/facebook-connect", isClose: false };
+                    // Appeler la fonction du service pour connecter l'utilisateur
+                    _this.userService.userFacebooConnect(_this.userObject)
+                        .then(function (data) {
+                        console.log(data);
+                        /*
+                        Récupération du token
+                        */
+                        var userToken;
+                        if (data.token) {
+                            userToken = data.token;
+                        }
+                        else {
+                            userToken = data.content.token;
+                        }
+                        // Enregistrement du token
+                        localStorage.setItem('MEANSOCIALtoken', userToken);
+                        // 
+                        // Rédirection
+                        _this.loaderState = { path: "/dashboard", isClose: false };
+                    })
+                        .catch(function (err) {
+                        console.error(err);
+                    });
+                })
+                    .catch(function (error) {
+                    console.error(error);
+                });
+            })
+                .catch(function (error) {
+                console.error(error);
+            });
+        };
+        // Function User Login
+        this.submitLogUser = function () {
+            // Vider les erreurs
+            _this.errorMsg.errors = 0;
+            // Vérification des informations saisies
+            if (_this.userLoginObject.email == null || _this.userLoginObject.email.length == 0) {
+                // Email manquant
+                _this.errorMsg.email = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.userLoginObject.password == null || _this.userLoginObject.password.length == 0) {
+                // Password manquant
+                _this.errorMsg.password = true;
+                _this.errorMsg.errors++;
+            }
+            if (_this.errorMsg.errors === 0) {
+                // => Formulaire validé
+                // Afficher le loader
+                _this.loaderState.isClose = false;
+                _this.userService.userLogin(_this.userLoginObject).then(function (user) {
+                    // Enregistrement du token
+                    localStorage.setItem('MEANSOCIALtoken', user.token);
+                    _this.loaderState = { path: "/dashboard", isClose: false };
+                }).catch(function (error) {
+                    if (error.status === 404) {
+                        // Utilisateur inconnu
+                        _this.errorMsg.invalidUser = true;
+                    }
+                    else if (error.status === 401) {
+                        // Mot de passe invalide
+                        _this.errorMsg.invalidPassword = true;
+                    }
+                });
+            }
+        };
+        // Fonction User Me
+        this.checkUser = function () {
+            _this.userService.getUserInfo(localStorage.getItem('MEANSOCIALtoken'))
+                .then(function (data) {
+                // Afficher le loader
+                _this.loaderState = { path: "/dashboard", isClose: true };
+            })
+                .catch(function (err) {
+            });
+        };
+        // Configuration du module Facebook
+        var initParams = {
+            appId: '183483015710927',
+            xfbml: true,
+            version: 'v2.8'
+        };
+        // Initialisation du module Facebook
+        facebookService.init(initParams);
     }
-    DashboardComponent.prototype.ngOnInit = function () {
+    HomepageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // Récupération du token utilisateur
-        var userToken = localStorage.getItem('MEANSOCIALtoken');
-        // Récupération des données utilisateur
-        this.userService.getUserInfo(userToken)
-            .then(function (data) {
-            // Masquer le loader
-            _this.hideLoader = true;
-            // Définition de l'objet singleUser
-            _this.singleUser = data;
-            _this.sendUserData.emit(_this.singleUser);
-        })
-            .catch(function (err) {
-            // Introduction
-            _this.hideLoader = false;
-            console.error(err);
-        });
+        // Masquer le loader
+        window.setTimeout(function () {
+            window.setTimeout(function () {
+                _this.checkUser();
+            }, 500);
+        }, 500);
     };
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], DashboardComponent.prototype, "sendUserData", void 0);
-    DashboardComponent = __decorate([
+    HomepageComponent = __decorate([
         core_1.Component({
-            selector: 'app-dashboard',
-            template: __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.html"),
-            providers: [user_service_1.UserService],
+            selector: 'app-homepage',
+            template: __webpack_require__("../../../../../src/app/components/homepage/homepage.component.html"),
+            providers: [user_service_1.UserService]
         })
-        // 
+        //
         /*
         Export du composant
         */
         ,
-        __metadata("design:paramtypes", [user_service_1.UserService])
-    ], DashboardComponent);
-    return DashboardComponent;
+        __metadata("design:paramtypes", [user_service_1.UserService,
+            ngx_facebook_1.FacebookService,
+            router_1.Router])
+    ], HomepageComponent);
+    return HomepageComponent;
 }());
-exports.DashboardComponent = DashboardComponent;
-//  
+exports.HomepageComponent = HomepageComponent;
+// 
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/module.ts":
+/***/ "../../../../../src/app/components/homepage/module.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103,35 +227,35 @@ var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 // Importer les composants
-var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
+var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
 var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
-var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
+var route_1 = __webpack_require__("../../../../../src/app/components/homepage/route.ts");
 // 
 /*
 Définition et export du module
 */
 // Définition
-var DashboardModule = /** @class */ (function () {
+var HomepageModule = /** @class */ (function () {
     // Export
-    function DashboardModule() {
+    function HomepageModule() {
     }
-    DashboardModule = __decorate([
+    HomepageModule = __decorate([
         core_1.NgModule({
-            declarations: [dashboard_component_1.DashboardComponent],
+            declarations: [homepage_component_1.HomepageComponent],
             imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
         })
         // Export
-    ], DashboardModule);
-    return DashboardModule;
+    ], HomepageModule);
+    return HomepageModule;
 }());
-exports.DashboardModule = DashboardModule;
+exports.HomepageModule = HomepageModule;
 ;
 //  
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/dashboard/route.ts":
+/***/ "../../../../../src/app/components/homepage/route.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -139,12 +263,12 @@ exports.DashboardModule = DashboardModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 // Importer les composants à utiliser dans les routes
-var dashboard_component_1 = __webpack_require__("../../../../../src/app/components/dashboard/dashboard.component.ts");
+var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
 // Créer une constante pour définir le comportement des routes
 var appRoutes = [
     {
         path: '',
-        component: dashboard_component_1.DashboardComponent
+        component: homepage_component_1.HomepageComponent
     }
 ];
 // Exporter une autre constante pour utiliser les routes

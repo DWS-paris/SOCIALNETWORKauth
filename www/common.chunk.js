@@ -1,5 +1,146 @@
 webpackJsonp(["common"],{
 
+/***/ "../../../../../src/app/partials/header/header.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li>\n                <button *ngIf=\"activeNav.dashboard\" class=\"active\"><i class=\"fas fa-tachometer-alt\"></i></button>\n                <button *ngIf=\"!activeNav.dashboard\" (click)=\"navTransition('/dashboard'); activeNav.profile = !activeNav.dashboard\"><i class=\"fas fa-tachometer-alt\"></i></button>\n            </li>\n\n            <li>\n                <button  *ngIf=\"activeNav.profile\" class=\"active\"><i class=\"fas fa-user\"></i></button>\n                <button  *ngIf=\"!activeNav.profile\" (click)=\"navTransition('/profile'); activeNav.dashboard = !activeNav.dashboard\"><i class=\"fas fa-user\"></i></button>\n            </li>\n\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/header.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+// Définition du composant
+var HeaderComponent = /** @class */ (function () {
+    function HeaderComponent(router) {
+        var _this = this;
+        this.router = router;
+        // Evenement Change View
+        this.changeView = new core_1.EventEmitter;
+        // Variables
+        this.activeNav = {
+            dashboard: false,
+            profile: false
+        };
+        // Fonction Navigation transition
+        this.navTransition = function (path) {
+            // Emettre l'événement
+            _this.changeView.emit({ viewPath: path, loderIsClose: false });
+            window.setTimeout(function () {
+                // Vérification du path
+                if (path === "/") {
+                    localStorage.removeItem("MEANSOCIALtoken");
+                }
+                // Changer la vue
+                _this.router.navigateByUrl(path);
+            }, 100);
+        };
+    }
+    HeaderComponent.prototype.ngOnInit = function () {
+        console.log(this.activeView);
+        // Vérification de la vue active
+        if (this.activeView === "/dashboard") {
+            this.activeNav.dashboard = true;
+        }
+        else if (this.activeView === "/profile") {
+            this.activeNav.profile = true;
+        }
+    };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], HeaderComponent.prototype, "changeView", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], HeaderComponent.prototype, "activeView", void 0);
+    HeaderComponent = __decorate([
+        core_1.Component({
+            selector: 'app-header',
+            template: __webpack_require__("../../../../../src/app/partials/header/header.component.html")
+        })
+        // 
+        /*
+        Export du composant
+        */
+        ,
+        __metadata("design:paramtypes", [router_1.Router])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+exports.HeaderComponent = HeaderComponent;
+//  
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/partials/header/module.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var common_1 = __webpack_require__("../../../common/esm5/common.js");
+var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
+// Configuration du module
+var HeaderModule = /** @class */ (function () {
+    //
+    /*
+    Export de la class du module
+    */
+    function HeaderModule() {
+    }
+    HeaderModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                header_component_1.HeaderComponent,
+            ],
+            imports: [common_1.CommonModule],
+            exports: [
+                header_component_1.HeaderComponent
+            ]
+        })
+        //
+        /*
+        Export de la class du module
+        */
+    ], HeaderModule);
+    return HeaderModule;
+}());
+exports.HeaderModule = HeaderModule;
+// 
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/partials/loader/loader.component.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20,40 +161,70 @@ Import des composants
 */
 // Class
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
 // Module
 // Déclaration du composant
 var LoaderComponent = /** @class */ (function () {
-    function LoaderComponent() {
+    function LoaderComponent(router) {
+        var _this = this;
+        this.router = router;
+        // Fonction CHeck View State
+        this.checkState = function () {
+            // Afficher le loader
+            _this.loaderIsOpen = true;
+            /*
+            Vérification des vues
+            */
+            // Path /
+            if (_this.loaderState.path === "/") {
+                // Masquer le header
+                window.setTimeout(function () {
+                    _this.loaderIsOpen = false;
+                }, 300);
+            }
+            // Path dashboard || profile
+            if (_this.loaderState.path === "/dashboard" || _this.loaderState.path === "/profile") {
+                // Changer de vue
+                window.setTimeout(function () {
+                    _this.router.navigateByUrl(_this.loaderState.path);
+                    // Masquer le header à l'ouverure
+                    if (_this.loaderState.isClose === true) {
+                        _this.loaderIsOpen = false;
+                    }
+                }, 150);
+            }
+            // 
+        };
+        // Fonction App Intro
+        this.appIntro = function () {
+            // Afficher le loader
+            _this.loaderIsOpen = true;
+            window.setTimeout(function () {
+                // Masquer le loader
+                _this.loaderIsOpen = false;
+            }, 300);
+        };
     }
-    LoaderComponent.prototype.ngOnInit = function () {
-        this.loaderIsClose = true;
-        this.loaderIsRight = false;
-    };
+    LoaderComponent.prototype.ngOnInit = function () { };
     LoaderComponent.prototype.ngOnChanges = function (changes) {
-        if (this.hideLoader) {
-            this.loaderIsClose = false;
-            this.loaderIsRight = true;
-        }
-        else {
-            this.loaderIsClose = true;
-            this.loaderIsRight = false;
-        }
+        // Vérifier l'état de la vue
+        this.checkState();
     };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
-    ], LoaderComponent.prototype, "hideLoader", void 0);
+    ], LoaderComponent.prototype, "loaderState", void 0);
     LoaderComponent = __decorate([
         core_1.Component({
             selector: 'app-loader',
-            template: "\n      <aside id=\"loader\" [ngClass]=\"{ open: loaderIsClose, right: loaderIsRight }\"></aside>\n    "
+            template: "\n      <aside id=\"loader\" [ngClass]=\"{ open: loaderIsOpen, right: loaderIsRight }\"></aside>\n    "
         })
         // 
         /*
         Export de la class du composant
         */
         ,
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [router_1.Router])
     ], LoaderComponent);
     return LoaderComponent;
 }());
@@ -75,10 +246,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var loader_component_1 = __webpack_require__("../../../../../src/app/partials/loader/loader.component.ts");
+// Configuration du module
 var LoaderModule = /** @class */ (function () {
+    //
+    /*
+    Export de la class du module
+    */
     function LoaderModule() {
     }
     LoaderModule = __decorate([
@@ -91,10 +270,15 @@ var LoaderModule = /** @class */ (function () {
                 loader_component_1.LoaderComponent
             ]
         })
+        //
+        /*
+        Export de la class du module
+        */
     ], LoaderModule);
     return LoaderModule;
 }());
 exports.LoaderModule = LoaderModule;
+// 
 
 
 /***/ }),
@@ -154,6 +338,14 @@ var UserService = /** @class */ (function () {
         var myHeader = new http_2.Headers();
         myHeader.append('x-access-token', token);
         return this.http.get(this.apiUrl + "/me", { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
+    };
+    ;
+    // Fonction User Update
+    UserService.prototype.updateUserInfo = function (userData, token) {
+        // Définition du header de la requête
+        var myHeader = new http_2.Headers();
+        myHeader.append('x-access-token', token);
+        return this.http.put(this.apiUrl + "/" + userData._id, userData, { headers: myHeader }).toPromise().then(this.getData).catch(this.handleError);
     };
     ;
     /*
