@@ -47,7 +47,8 @@ Définition des routes
             date: new Date(),
             author: {
                 _id: req.body.author._id,
-                name: req.body.author.name
+                name: req.body.author.name,
+                avatar: req.body.author.avatar
             }
         },
 

@@ -4,6 +4,7 @@ export interface FeedModel {
     date?: Date,
     author: {
         _id: string,
-        name: string
+        name: string,
+        avatar: string
     }    
 };

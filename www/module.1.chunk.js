@@ -228,7 +228,8 @@ var FeedFormComponent = /** @class */ (function () {
             content: null,
             author: {
                 _id: this.singleUser._id,
-                name: this.singleUser.name
+                name: this.singleUser.name,
+                avatar: this.singleUser.facebook.avatar
             }
         };
     };

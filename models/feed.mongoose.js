@@ -15,7 +15,8 @@ Création du model
     date: Date,
     author: {
         _id: String,
-        name: String
+        name: String,
+        avatar: String
     }
   });
 
