@@ -133,6 +133,39 @@ Définition des routes
             res.status(200).send(user);
         });
     });
+
+    // Fonction User Update
+    router.put('/:id', VerifyToken,  (req, res) => {
+        const userIdParam = req.params.id;
+        const userIdToken = req.userId;
+
+        // Vérification des paramètres de la requête
+        if( userIdParam === userIdToken ){
+            // // Rechercher et mettre à jour l'utilisateur
+            MongooseUser.findByIdAndUpdate(userIdParam, req.body, {new: true},  (err, user) => {
+                // Message d'erreur
+                if (err) return res.status(500).send({
+                    response: false,
+                    status: 500,
+                    content: `Problème de requête`
+                });
+
+                // Envoie de la réponse
+                res.status(200).send({
+                    response: true,
+                    status: 200,
+                    content: user
+                });
+            });
+        }
+        else{
+            return res.status(500).send({
+                response: false,
+                status: 404,
+                content: `Accès refusé`
+            });
+        }
+    });
 //
 
 /*

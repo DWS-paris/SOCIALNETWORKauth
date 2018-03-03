@@ -9,7 +9,7 @@ Importer les composants de la route
 /*
 Définition des routes
 */
-    router.get( '/', (req, res) => {
+    router.get( ['/', '/login', '/profile'], (req, res) => {
         // Envoyer la vue index
         res.render('index');
     });
@@ -17,11 +17,6 @@ Définition des routes
     router.get( '/dashboard', ensureLoggedIn, (req, res) => {
         // Envoyer la vue index
         res.render('index');
-    });
-
-    router.get( '/login', (req, res) => {
-        // Envoyer la vue index
-        res.redirect('/');
     });
 //
 

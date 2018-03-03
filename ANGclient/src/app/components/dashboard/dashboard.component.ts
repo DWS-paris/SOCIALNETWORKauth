@@ -2,11 +2,12 @@
 Configuration du composants
 */
   // Import des interfaces
-  import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
   // Modules
   import { UserService } from '../../services/user/user.service';
   import { UserModel } from '../../models/user.model';
+  import { LoaderStateModel } from '../../models/loader.state.model';
 
   // Définition du composant
   @Component({
@@ -24,15 +25,18 @@ Export du composant
   export class DashboardComponent implements OnInit {
 
     // Loader
-    public hideLoader: boolean = false;
-    public loaderIsClose: boolean = true;
-    public loaderIsRight: boolean = false;
+    public loaderState: LoaderStateModel = { path: `/dashboard`, isClose: true };
 
     // Variables
     public singleUser: UserModel;
-    @Output() sendUserData = new EventEmitter;
+    public activeView: string = `/dashboard`;
 
     constructor(private userService: UserService) { }
+
+    // Fonction Change View
+    public changeView = (evt: any) => {
+      this.loaderState = evt;
+    }
 
     ngOnInit() {
 
@@ -44,20 +48,17 @@ Export du composant
       .then( data => { // Success getUserInfo()
 
         // Masquer le loader
-        this.hideLoader = true;
+        this.loaderState.isClose = true;
 
         // Définition de l'objet singleUser
         this.singleUser = data;
-        this.sendUserData.emit(this.singleUser)
       })
       
       .catch( err  => { // Error getUserInfo()
         // Introduction
-        this.hideLoader = false;
-        
+        this.loaderState.isClose = false;
         console.error(err)
       })
-
     }
 
   }

@@ -7,21 +7,21 @@ Configuration du composants
   import { FormsModule } from '@angular/forms';
 
   // Importer les composants
-  import { DashboardComponent } from './dashboard.component';
-  import { HeaderModule } from '../../partials/header/module';
+  import { ProfileComponent } from './profile.component';
   import { LoaderModule } from '../../partials/loader/module';
-  
+  import { HeaderModule } from '../../partials/header/module';
   import { Routing } from './route';
-// 
+//
+
 /*
 Définition et export du module
 */
   // Définition
   @NgModule({
-    declarations: [ DashboardComponent ],
-    imports: [ Routing, CommonModule, FormsModule, HeaderModule, LoaderModule ]
+    declarations: [ ProfileComponent ],
+    imports: [ Routing, CommonModule, FormsModule, LoaderModule, HeaderModule ]
   })
 
   // Export
-  export class DashboardModule { };
+  export class ProfileModule { };
 // 

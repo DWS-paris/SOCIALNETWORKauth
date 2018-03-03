@@ -125,6 +125,11 @@ var appRoutes = [
     */
     {
         path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
         loadChildren: './components/homepage/module#HomepageModule'
     },
     {

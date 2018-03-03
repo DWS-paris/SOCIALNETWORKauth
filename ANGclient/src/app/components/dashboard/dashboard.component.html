@@ -1,5 +1,9 @@
-<app-loader [hideLoader]="hideLoader"></app-loader>
-
-<section *ngIf="singleUser" id="userHeader">
-    <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>
-</section>
+<app-loader [loaderState]="loaderState"></app-loader>
+<header>
+    <app-header [activeView]="activeView" (changeView)="changeView($event)"></app-header>
+</header>
+<main class="container">
+    <section *ngIf="singleUser" id="userHeader">
+        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>
+    </section>
+</main>

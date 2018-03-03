@@ -1,5 +1,18 @@
-<header>
-    <section>
-        <h1>HeyU</h1>
-    </section>
-</header>
+<section>
+    <h1>HeyU</h1>
+    <nav>
+        <ul>
+            <li>
+                <button *ngIf="activeNav.dashboard" class="active"><i class="fas fa-tachometer-alt"></i></button>
+                <button *ngIf="!activeNav.dashboard" (click)="navTransition('/dashboard'); activeNav.profile = !activeNav.dashboard"><i class="fas fa-tachometer-alt"></i></button>
+            </li>
+
+            <li>
+                <button  *ngIf="activeNav.profile" class="active"><i class="fas fa-user"></i></button>
+                <button  *ngIf="!activeNav.profile" (click)="navTransition('/profile'); activeNav.dashboard = !activeNav.dashboard"><i class="fas fa-user"></i></button>
+            </li>
+
+            <li><button (click)="navTransition('/')"><i class="fas fa-sign-out-alt"></i></button></li>
+        </ul>
+    </nav>
+</section>

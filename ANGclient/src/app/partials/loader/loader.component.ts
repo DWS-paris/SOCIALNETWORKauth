@@ -3,6 +3,7 @@ Import des composants
 */
   // Class
   import { Component, OnInit, OnChanges, Input } from '@angular/core';
+  import { Router } from '@angular/router';
 
   // Module
 
@@ -10,7 +11,7 @@ Import des composants
   @Component({
     selector: 'app-loader',
     template: `
-      <aside id="loader" [ngClass]="{ open: loaderIsClose, right: loaderIsRight }"></aside>
+      <aside id="loader" [ngClass]="{ open: loaderIsOpen, right: loaderIsRight }"></aside>
     `
   })
 // 
@@ -22,27 +23,60 @@ Export de la class du composant
 
     
     // Variables
-    public loaderIsClose: boolean;
+    public loaderIsOpen: boolean;
     public loaderIsRight: boolean;
-    @Input() hideLoader;
+    @Input() loaderState;
 
-    constructor() { }
+    constructor( private router: Router ) { }
 
-    ngOnInit() {
-      this.loaderIsClose = true;
-      this.loaderIsRight = false;
+    // Fonction CHeck View State
+    private checkState = () => {
+      // Afficher le loader
+      this.loaderIsOpen = true; 
+
+      /*
+      Vérification des vues
+      */
+        // Path /
+        if( this.loaderState.path === `/` ){
+          // Masquer le header
+          window.setTimeout(() => {
+            this.loaderIsOpen = false 
+          }, 300)
+        }
+
+        // Path dashboard || profile
+        if( this.loaderState.path === `/dashboard` || this.loaderState.path === `/profile`){
+          // Changer de vue
+          window.setTimeout(()=>{
+            this.router.navigateByUrl(this.loaderState.path)
+
+            // Masquer le header à l'ouverure
+            if(this.loaderState.isClose === true){
+              this.loaderIsOpen = false 
+            }
+          }, 150);
+        
+        }
+      // 
     }
 
-    ngOnChanges(changes: any): void {
-      
-      if(this.hideLoader){
-        this.loaderIsClose = false;
-        this.loaderIsRight = true;
+    // Fonction App Intro
+    private appIntro = () => {
+      // Afficher le loader
+      this.loaderIsOpen = true;
 
-      } else{
-        this.loaderIsClose = true;
-        this.loaderIsRight = false;
-      }
+      window.setTimeout(()=>{
+        // Masquer le loader
+        this.loaderIsOpen = false;
+      }, 300)
+    }
+
+    ngOnInit() { }
+
+    ngOnChanges(changes: any): void {
+      // Vérifier l'état de la vue
+      this.checkState()
     }
 
   }

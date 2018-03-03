@@ -10,11 +10,20 @@ const appRoutes: Routes = [
     */
     {
         path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
         loadChildren: './components/homepage/module#HomepageModule'
     },
     {
         path: 'dashboard',
         loadChildren: './components/dashboard/module#DashboardModule'
+    },
+    {
+        path: 'profile',
+        loadChildren: './components/profile/module#ProfileModule'
     }
 ]
 
