@@ -3,7 +3,7 @@ webpackJsonp(["module.1"],{
 /***/ "../../../../../src/app/components/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<main class=\"container\">\n    <section id=\"loginSection\">\n        <h1>HeyU <span>MEAN authApp with Facebook</span></h1>\n        <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n            <fieldset>\n                <!-- <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n                <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n            \n                <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n                <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n            \n                <button type=\"submit\">Connexion</button> -->\n                <p id=\"textIntro\">One button to connect them all...</p>\n                <button (click)=\"submitFacebookConnect()\" >Click & connect</button>\n            </fieldset>\n        \n        </form>\n    </section>\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n\n<main class=\"container\">\n    <section id=\"loginSection\">\n        <h1>HeyU <span>MEAN authApp with Facebook</span></h1>\n        <form id=\"loginForm\" action=\"#\" (submit)=\"submitLogUser()\">\n\n            <fieldset>\n                <!-- <label for=\"userEmail\">Email <em><span [ngClass]=\"{'open': errorMsg.email}\">Champ obligatoire</span></em></label>\n                <input type=\"text\" id=\"userEmail\" (focus)=\"errorMsg.email = false; errorMsg.invalidUser = false\" [(ngModel)]=\"userLoginObject.email\" name=\"email\">\n            \n                <label for=\"userPassword\">Mot de passe <em><span [ngClass]=\"{'open': errorMsg.password}\">Champ obligatoire</span><span [ngClass]=\"{'open': errorMsg.invalidPassword}\">Mot de passe non valide</span></em></label>\n                <input type=\"password\" id=\"userPassword\" (focus)=\"errorMsg.password = false; errorMsg.invalidPassword = false\" [(ngModel)]=\"userLoginObject.password\" name=\"password\">\n            \n                <button type=\"submit\">Connexion</button> -->\n                <p id=\"textIntro\">One button to connect them all...</p>\n                <button (click)=\"submitFacebookConnect()\" >Click & connect</button>\n            </fieldset>\n        \n        </form>\n    </section>\n</main>"
 
 /***/ }),
 
@@ -220,9 +220,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+HomepageModule
 */
-// Import des interfaces
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
@@ -230,13 +230,11 @@ var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 var homepage_component_1 = __webpack_require__("../../../../../src/app/components/homepage/homepage.component.ts");
 var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/homepage/route.ts");
-// 
-/*
-Définition et export du module
-*/
-// Définition
+// Configuration du HomepageModule
 var HomepageModule = /** @class */ (function () {
-    // Export
+    /*
+    Export de HomepageModule
+    */
     function HomepageModule() {
     }
     HomepageModule = __decorate([
@@ -244,7 +242,9 @@ var HomepageModule = /** @class */ (function () {
             declarations: [homepage_component_1.HomepageComponent],
             imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule]
         })
-        // Export
+        /*
+        Export de HomepageModule
+        */
     ], HomepageModule);
     return HomepageModule;
 }());

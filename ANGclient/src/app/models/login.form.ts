@@ -1,4 +1,4 @@
-// Exporter une interface pour typer un objet
+// Model pour le login
 export interface LoginFormModel {
     errors: number,
     email: boolean,

@@ -1,4 +1,4 @@
-// Exporter une interface pour typer un objet
+// Model pour l'objet Utilisateur'
 export interface UserModel {
     _id?: string,
     name: string,

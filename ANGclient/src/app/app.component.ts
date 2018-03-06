@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+/*
+Configuration du composants
+*/
+  // Import des interfaces
+  import { Component } from '@angular/core';
 
-@Component({
-  selector: 'app-root',
-  template: `
-    
-    <router-outlet></router-outlet>
-    
-    <app-footer></app-footer>
-  `,
-})
-export class AppComponent implements OnInit { 
+  // Définition du composant
+  @Component({
+    selector: 'app-root',
+    template: `
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    `,
+  })
+//
 
-  ngOnInit(): void { }
-}
+
+/*
+Export du composant
+*/
+  export class AppComponent{};
+//

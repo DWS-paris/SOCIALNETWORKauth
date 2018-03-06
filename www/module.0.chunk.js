@@ -13,9 +13,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+ProfileModule
 */
-// Import des interfaces
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
@@ -24,13 +24,12 @@ var profile_component_1 = __webpack_require__("../../../../../src/app/components
 var module_1 = __webpack_require__("../../../../../src/app/partials/loader/module.ts");
 var module_2 = __webpack_require__("../../../../../src/app/partials/header/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/profile/route.ts");
-//
-/*
-Définition et export du module
-*/
-// Définition
+// Configuration du ProfileModule
 var ProfileModule = /** @class */ (function () {
-    // Export
+    // 
+    /*
+    Export de ProfileModule
+    */
     function ProfileModule() {
     }
     ProfileModule = __decorate([
@@ -38,7 +37,10 @@ var ProfileModule = /** @class */ (function () {
             declarations: [profile_component_1.ProfileComponent],
             imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.LoaderModule, module_2.HeaderModule]
         })
-        // Export
+        // 
+        /*
+        Export de ProfileModule
+        */
     ], ProfileModule);
     return ProfileModule;
 }());
@@ -52,7 +54,7 @@ exports.ProfileModule = ProfileModule;
 /***/ "../../../../../src/app/components/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p><strong><a href=\"\"><i class=\"fas fa-tachometer-alt\"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <section *ngIf=\"singleUser\">\n        <h2>Modifier vos informations</h2>\n\n        <form (submit)=\"userUpdate()\" id=\"editUserForm\">\n            <label for=\"pseudo\">Pseudo</label>\n            <input type=\"text\" name=\"pseudo\" [(ngModel)]=\"singleUser.name\">\n\n            <label for=\"email\">Email</label>\n            <input type=\"email\" name=\"email\" [(ngModel)]=\"singleUser.email\">\n\n            <label for=\"password\">Password</label>\n            <input type=\"text\" name=\"password\" disabled [(ngModel)]=\"singleUser.facebook.id\">\n\n            <button type=\"submit\">Modifier</button>\n        </form>\n    </section>\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n\n<header>\n    <app-header \n        [activeView]=\"activeView\" \n        (changeView)=\"changeView($event)\"\n    ></app-header>\n</header>\n\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p><strong><a href=\"\"><i class=\"fas fa-tachometer-alt\"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <section *ngIf=\"singleUser\">\n        <h2>Modifier vos informations</h2>\n\n        <form (submit)=\"userUpdate()\" id=\"editUserForm\">\n            <label for=\"pseudo\">Pseudo</label>\n            <input type=\"text\" name=\"pseudo\" [(ngModel)]=\"singleUser.name\">\n\n            <label for=\"email\">Email</label>\n            <input type=\"email\" name=\"email\" [(ngModel)]=\"singleUser.email\">\n\n            <label for=\"password\">Password</label>\n            <input type=\"text\" name=\"password\" disabled [(ngModel)]=\"singleUser.facebook.id\">\n\n            <button type=\"submit\">Modifier</button>\n        </form>\n    </section>\n</main>"
 
 /***/ }),
 

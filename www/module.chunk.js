@@ -3,7 +3,7 @@ webpackJsonp(["module"],{
 /***/ "../../../../../src/app/components/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n<header>\n    <app-header [activeView]=\"activeView\" (changeView)=\"changeView($event)\"></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form *ngIf=\"singleUser\" [singleUser]=\"singleUser\" (sendFeedData)=\"addNewFeed($event)\" ></app-feed-form>\n\n    <section *ngIf=\"feedCollection\">\n        <app-single-feed *ngFor=\"let item of feedCollection\" [item]=\"item\" (deleteFeed)=\"deleteFeed($event)\"></app-single-feed>\n    </section>\n\n</main>"
+module.exports = "<app-loader [loaderState]=\"loaderState\"></app-loader>\n\n<header>\n    <app-header \n        [activeView]=\"activeView\" \n        (changeView)=\"changeView($event)\"\n    ></app-header>\n</header>\n<main class=\"container\">\n    <section *ngIf=\"singleUser\" id=\"userHeader\">\n        <p>Bienvenue sur votre tableau de bord <strong>{{singleUser.name}}</strong></p>\n    </section>\n\n    <app-feed-form \n        *ngIf=\"singleUser\" \n        [singleUser]=\"singleUser\" \n        (sendFeedData)=\"addNewFeed($event)\"\n    ></app-feed-form>\n\n    <section *ngIf=\"feedCollection\">\n        <app-single-feed \n            *ngFor=\"let item of feedCollection\" \n            [item]=\"item\" \n            (deleteFeed)=\"deleteFeed($event)\"\n        ></app-single-feed>\n    </section>\n\n</main>"
 
 /***/ }),
 
@@ -133,9 +133,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+DashboardModule
 */
-// Import des interfaces
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
 var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
@@ -146,13 +146,12 @@ var module_2 = __webpack_require__("../../../../../src/app/partials/loader/modul
 var module_3 = __webpack_require__("../../../../../src/app/partials/feed-form/module.ts");
 var module_4 = __webpack_require__("../../../../../src/app/partials/single-feed/module.ts");
 var route_1 = __webpack_require__("../../../../../src/app/components/dashboard/route.ts");
-// 
-/*
-Définition et export du module
-*/
-// Définition
+// Configuration du DashboardModule
 var DashboardModule = /** @class */ (function () {
-    // Export
+    //
+    /*
+    Export de DashboardModule
+    */
     function DashboardModule() {
     }
     DashboardModule = __decorate([
@@ -160,7 +159,10 @@ var DashboardModule = /** @class */ (function () {
             declarations: [dashboard_component_1.DashboardComponent],
             imports: [route_1.Routing, common_1.CommonModule, forms_1.FormsModule, module_1.HeaderModule, module_2.LoaderModule, module_3.FeedFormModule, module_4.SingleFeedModule]
         })
-        // Export
+        //
+        /*
+        Export de DashboardModule
+        */
     ], DashboardModule);
     return DashboardModule;
 }());
@@ -341,16 +343,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+SingleFeedModule
 */
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
+// Imports des composants
 var single_feed_component_1 = __webpack_require__("../../../../../src/app/partials/single-feed/single-feed.component.ts");
-// Configuration du module
+// Configuration du SingleFeedModule
 var SingleFeedModule = /** @class */ (function () {
     //
     /*
-    Export de la class du module
+    Export de SingleFeedModule
     */
     function SingleFeedModule() {
     }
@@ -366,7 +370,7 @@ var SingleFeedModule = /** @class */ (function () {
         })
         //
         /*
-        Export de la class du module
+        Export de SingleFeedModule
         */
     ], SingleFeedModule);
     return SingleFeedModule;

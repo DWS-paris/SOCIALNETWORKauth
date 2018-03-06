@@ -1,7 +1,7 @@
 /*
-Configuration du composants
+HomepageModule
 */
-  // Import des interfaces
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { FormsModule } from '@angular/forms';
@@ -10,16 +10,18 @@ Configuration du composants
   import { HomepageComponent } from './homepage.component';
   import { LoaderModule } from '../../partials/loader/module';
   import { Routing } from './route';
-// 
-/*
-Définition et export du module
-*/
-  // Définition
+
+  
+  // Configuration du HomepageModule
   @NgModule({
     declarations: [ HomepageComponent ],
     imports: [ Routing, CommonModule, FormsModule, LoaderModule ]
   })
 
-  // Export
+
+  
+/*
+Export de HomepageModule
+*/
   export class HomepageModule { };
 // 

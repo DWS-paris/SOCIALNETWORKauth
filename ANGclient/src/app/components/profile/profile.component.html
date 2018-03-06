@@ -1,7 +1,12 @@
 <app-loader [loaderState]="loaderState"></app-loader>
+
 <header>
-    <app-header [activeView]="activeView" (changeView)="changeView($event)"></app-header>
+    <app-header 
+        [activeView]="activeView" 
+        (changeView)="changeView($event)"
+    ></app-header>
 </header>
+
 <main class="container">
     <section *ngIf="singleUser" id="userHeader">
         <p><strong><a href=""><i class="fas fa-tachometer-alt"></i></a> ></strong> Profil <strong>{{singleUser.name}}</strong></p>

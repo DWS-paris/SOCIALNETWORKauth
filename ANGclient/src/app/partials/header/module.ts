@@ -1,11 +1,15 @@
 /*
-Configuration du composants
+HeaderModule
 */
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
+
+  // Imports des composants
   import { HeaderComponent } from './header.component';
 
-  // Configuration du module
+  
+  // Configuration du HeaderModule
   @NgModule({
     declarations: [
       HeaderComponent,
@@ -17,8 +21,9 @@ Configuration du composants
   })
 //
 
+  
 /*
-Export de la class du module
+Export de HeaderModule
 */
   export class HeaderModule {}
 //

@@ -1,3 +1,4 @@
+// Model pour le flux d'actualité
 export interface FeedModel {
     _id?: string,
     content: string,

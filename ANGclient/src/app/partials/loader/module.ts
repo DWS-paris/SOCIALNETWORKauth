@@ -1,11 +1,15 @@
 /*
-Configuration du composants
+LoaderModule
 */
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
+
+  // Imports des composants
   import { LoaderComponent } from './loader.component';
 
-  // Configuration du module
+  
+  // Configuration du LoaderModule
   @NgModule({
     declarations: [
       LoaderComponent,
@@ -17,8 +21,9 @@ Configuration du composants
   })
 //
 
+
 /*
-Export de la class du module
+Export de LoaderModule
 */
   export class LoaderModule {}
 //

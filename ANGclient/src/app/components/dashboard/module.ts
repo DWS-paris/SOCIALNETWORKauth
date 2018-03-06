@@ -1,7 +1,7 @@
 /*
-Configuration du composants
+DashboardModule
 */
-  // Import des interfaces
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { FormsModule } from '@angular/forms';
@@ -14,16 +14,18 @@ Configuration du composants
   import { SingleFeedModule } from '../../partials/single-feed/module';
   
   import { Routing } from './route';
-// 
-/*
-Définition et export du module
-*/
-  // Définition
+
+  
+  // Configuration du DashboardModule
   @NgModule({
     declarations: [ DashboardComponent ],
     imports: [ Routing, CommonModule, FormsModule, HeaderModule, LoaderModule, FeedFormModule, SingleFeedModule ]
   })
+//
 
-  // Export
+
+/*
+Export de DashboardModule
+*/
   export class DashboardModule { };
 // 

@@ -48,20 +48,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+Configuration du composants
+*/
+// Import des interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+// Définition du composant
 var AppComponent = /** @class */ (function () {
+    //
+    /*
+    Export du composant
+    */
     function AppComponent() {
     }
-    AppComponent.prototype.ngOnInit = function () { };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
-            template: "\n    \n    <router-outlet></router-outlet>\n    \n    <app-footer></app-footer>\n  ",
+            template: "\n      <router-outlet></router-outlet>\n      <app-footer></app-footer>\n    ",
         })
+        //
+        /*
+        Export du composant
+        */
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
+;
+//
 
 
 /***/ }),
@@ -78,14 +92,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+AppModule
+*/
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var platform_browser_1 = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 var http_1 = __webpack_require__("../../../http/esm5/http.js");
 var ngx_facebook_1 = __webpack_require__("../../../../ngx-facebook/dist/esm/index.js");
+// Import des composants
 var app_component_1 = __webpack_require__("../../../../../src/app/app.component.ts");
 var app_routes_1 = __webpack_require__("../../../../../src/app/app.routes.ts");
 var footer_component_1 = __webpack_require__("../../../../../src/app/partials/footer/footer.component.ts");
+// Configuration du AppModule
 var AppModule = /** @class */ (function () {
+    // 
+    /*
+    Export de AppModule
+    */
     function AppModule() {
     }
     AppModule = __decorate([
@@ -103,10 +127,15 @@ var AppModule = /** @class */ (function () {
             providers: [],
             bootstrap: [app_component_1.AppComponent]
         })
+        // 
+        /*
+        Export de AppModule
+        */
     ], AppModule);
     return AppModule;
 }());
 exports.AppModule = AppModule;
+//  
 
 
 /***/ }),
@@ -141,8 +170,12 @@ var appRoutes = [
         loadChildren: './components/profile/module#ProfileModule'
     }
 ];
-// Exporter une autre constante pour utiliser les routes
+//
+/*
+Export de la route
+*/
 exports.Routing = router_1.RouterModule.forRoot(appRoutes);
+// 
 
 
 /***/ }),

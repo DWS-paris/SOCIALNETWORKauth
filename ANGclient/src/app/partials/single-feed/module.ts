@@ -1,11 +1,15 @@
 /*
-Configuration du composants
+SingleFeedModule
 */
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
+
+  // Imports des composants
   import { SingleFeedComponent } from './single-feed.component';
 
-  // Configuration du module
+  
+  // Configuration du SingleFeedModule
   @NgModule({
     declarations: [
       SingleFeedComponent,
@@ -17,8 +21,9 @@ Configuration du composants
   })
 //
 
+
 /*
-Export de la class du module
+Export de SingleFeedModule
 */
   export class SingleFeedModule {}
 //

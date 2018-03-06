@@ -3,7 +3,7 @@ webpackJsonp(["common"],{
 /***/ "../../../../../src/app/partials/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li>\n                <button *ngIf=\"activeNav.dashboard\" class=\"active\"><i class=\"fas fa-tachometer-alt\"></i></button>\n                <button *ngIf=\"!activeNav.dashboard\" (click)=\"navTransition('/dashboard'); activeNav.profile = !activeNav.dashboard\"><i class=\"fas fa-tachometer-alt\"></i></button>\n            </li>\n\n            <li>\n                <button  *ngIf=\"activeNav.profile\" class=\"active\"><i class=\"fas fa-user\"></i></button>\n                <button  *ngIf=\"!activeNav.profile\" (click)=\"navTransition('/profile'); activeNav.dashboard = !activeNav.dashboard\"><i class=\"fas fa-user\"></i></button>\n            </li>\n\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
+module.exports = "<section>\n    <h1>HeyU</h1>\n    <nav>\n        <ul>\n            <li>\n                <button \n                    *ngIf=\"!activeNav.dashboard\" \n                    (click)=\"navTransition('/dashboard'); activeNav.profile = !activeNav.dashboard\"\n                ><i class=\"fas fa-tachometer-alt\"></i></button>\n\n                <button *ngIf=\"activeNav.dashboard\" class=\"active\"><i class=\"fas fa-tachometer-alt\"></i></button>\n            </li>\n\n            <li>\n                <button  \n                    *ngIf=\"!activeNav.profile\" \n                    (click)=\"navTransition('/profile'); activeNav.dashboard = !activeNav.dashboard\"\n                ><i class=\"fas fa-user\"></i></button>\n                \n                <button  *ngIf=\"activeNav.profile\" class=\"active\"><i class=\"fas fa-user\"></i></button>\n            </li>\n\n            <li><button (click)=\"navTransition('/')\"><i class=\"fas fa-sign-out-alt\"></i></button></li>\n        </ul>\n    </nav>\n</section>"
 
 /***/ }),
 
@@ -105,16 +105,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+HeaderModule
 */
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
+// Imports des composants
 var header_component_1 = __webpack_require__("../../../../../src/app/partials/header/header.component.ts");
-// Configuration du module
+// Configuration du HeaderModule
 var HeaderModule = /** @class */ (function () {
     //
     /*
-    Export de la class du module
+    Export de HeaderModule
     */
     function HeaderModule() {
     }
@@ -130,7 +132,7 @@ var HeaderModule = /** @class */ (function () {
         })
         //
         /*
-        Export de la class du module
+        Export de HeaderModule
         */
     ], HeaderModule);
     return HeaderModule;
@@ -247,16 +249,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
-Configuration du composants
+LoaderModule
 */
+// Imports des Interfaces
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var common_1 = __webpack_require__("../../../common/esm5/common.js");
+// Imports des composants
 var loader_component_1 = __webpack_require__("../../../../../src/app/partials/loader/loader.component.ts");
-// Configuration du module
+// Configuration du LoaderModule
 var LoaderModule = /** @class */ (function () {
     //
     /*
-    Export de la class du module
+    Export de LoaderModule
     */
     function LoaderModule() {
     }
@@ -272,7 +276,7 @@ var LoaderModule = /** @class */ (function () {
         })
         //
         /*
-        Export de la class du module
+        Export de LoaderModule
         */
     ], LoaderModule);
     return LoaderModule;

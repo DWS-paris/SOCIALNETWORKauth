@@ -1,7 +1,7 @@
 /*
-Configuration du composants
+ProfileModule
 */
-  // Import des interfaces
+  // Imports des Interfaces
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { FormsModule } from '@angular/forms';
@@ -11,17 +11,18 @@ Configuration du composants
   import { LoaderModule } from '../../partials/loader/module';
   import { HeaderModule } from '../../partials/header/module';
   import { Routing } from './route';
-//
 
-/*
-Définition et export du module
-*/
-  // Définition
-  @NgModule({
+
+  // Configuration du ProfileModule
+    @NgModule({
     declarations: [ ProfileComponent ],
     imports: [ Routing, CommonModule, FormsModule, LoaderModule, HeaderModule ]
   })
+// 
 
-  // Export
+  
+/*
+Export de ProfileModule
+*/
   export class ProfileModule { };
 // 
